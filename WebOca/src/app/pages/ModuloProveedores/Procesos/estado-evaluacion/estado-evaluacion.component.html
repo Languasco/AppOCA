@@ -1,0 +1,58 @@
+<div class="card border-left-warning  shadow  mt-2 ">
+    <div class="card-header">
+        <h5 class="headerTitle"> ESTADO DE EVALUACION </h5>
+    </div>
+    <div class="card-body">
+        <div class="formPrincipal">
+
+
+            <!-- <div class="row mb-2">
+                <div class="col-md-12">
+                    <input type="text" class="form-control form-control-sm " placeholder="Auto Busquedas" maxlength="50" [(ngModel)]="filtrarCab">
+                </div>
+            </div> -->
+
+            <div class="search-results tableFixHead" style="height: 300px;">
+                <table class="table  table-bordered table-hover table-sm ">
+                    <thead class="theadTable thead-dark">
+                        <tr style="height: 40px !important;">
+                            <th scope="col">#</th>
+                            <th> Estado </th>
+                            <th> TP </th>
+                            <th> RUC</th>
+
+                            <th> RAZON SOCIAL</th>
+                            <th> DIRECCION</th>
+                            <th> PAIS</th>
+                            <th> DEPARTAMENTO</th>
+
+                            <th> FECHA REGISTRO</th>
+                            <th> FECHA APROBACION</th>
+                            <th> FECHA RECHAZO</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of estadoProveedoresCab  |  filter: filtrarCab  ; index as j">
+                            <td scope="row"> {{j + 1}} </td>
+                            <td>{{item.descripcionEstado}}</td>
+                            <td>{{item.tp}}</td>
+                            <td>{{item.ruc}}</td>
+
+                            <td>{{item.razonSocial}}</td>
+                            <td>{{item.direccion}}</td>
+                            <td>{{item.pais}}</td>
+                            <td>{{item.departamento}}</td>
+
+                            <td>{{item.fechaRegistro}}</td>
+                            <td>{{item.fechaAprobacion}}</td>
+                            <td>{{item.fechaRechazo}}</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+        </div>
+    </div>
+</div>

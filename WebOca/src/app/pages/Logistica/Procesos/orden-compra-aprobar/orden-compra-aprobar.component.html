@@ -1,0 +1,194 @@
+<div class="card border-left-warning  shadow  mt-2 ">
+    <div class="card-header">
+        <h5 class="headerTitle"> APROBAR LAS ORDENES DE COMPRA</h5>
+    </div>
+    <div class="card-body">
+
+        <form [formGroup]="formParamsFiltro" style="margin-top: -10px !important;">
+            <div class="row">
+                <div class="col-sm-12 col-md-10">
+                    <div class="form-row">
+                        <div class="col-xs-12 col-sm-6 col-md-3">
+                            <label class="control-label"> Nro OC</label>
+                            <input type="text" class="form-control" formControlName="nroOc">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-2">
+                    <div class="d-flex justify-content-center p-3">
+                        <div>
+                            <button class="btn   btn-outline-primary btn-block" (click)="mostrarInformacion()" title="Mostrar la informacion">
+                              <i class="fas fa-search"> Mostrar</i> 
+                             </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <!-- <hr style="margin-top: 3px;"> -->
+
+        <div class="row mb-2">
+            <div class="col-md-12">
+                <input type="text" class="form-control form-control-sm " placeholder="Auto Busquedas" maxlength="50" [(ngModel)]="filtrarOrdenCompra">
+            </div>
+        </div>
+
+        <div class="search-results tableFixHead" style="height: 300px;">
+            <table class="table  table-bordered table-hover table-sm ">
+                <thead class="theadTable thead-dark">
+                    <tr style="height: 40px !important;">
+                        <th scope="col">#</th>
+                        <th scope="col">Tipo OC</th>
+                        <th scope="col">Nro OC</th>
+                        <th scope="col">Fecha Emision</th>
+                        <th scope="col">MO</th>
+
+                        <th class="text-center">Sub Total</th>
+                        <th class="text-center">Tot IGV</th>
+                        <th class="text-center">Total</th>
+
+                        <th scope="col">Forma Pago</th>
+                        <th> Proveedor </th>
+                        <th>Aprobado por jefe Area</th>
+                        <th>Solicitante</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of ordenesCompraCab  |  filter: filtrarOrdenCompra  ; index as j" (click)="getMostrandoDetalle(item);">
+                        <td scope="row"> {{j + 1}} </td>
+                        <td>{{item.tipoOc}}</td>
+                        <td>{{item.nroOC}}</td>
+                        <td>
+                            <div style="width: 140px; ">
+                                {{item.fechaEmision}}
+                            </div>
+                        </td>
+                        <td>{{item.moneda}}</td>
+
+                        <td class="text-right">{{item.subTotal | number:'0.1-5'}}</td>
+                        <td class="text-right">{{item.igv | number:'0.1-5'}}</td>
+                        <td class="text-right">{{item.total | number:'0.1-5' }}</td>
+
+                        <td>
+                            <div style="width: 120px; ">
+                                {{item.formaPago}}
+                            </div>
+                        </td>
+                        <td>
+                            <div style="width: 300px; ">
+                                {{item.proveedor}}
+                            </div>
+                        </td>
+                        <td>
+                            <div style="width: 250px; ">
+                                {{item.aprobadorJefe}}
+                            </div>
+                        </td>
+                        <td>
+                            <div style="width: 250px; ">
+                                {{item.solicitante}}
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <hr style="  margin-top: 3px;">
+        <div class="row">
+            <div class="col-md-12">
+                <label> Detalle de la Operacion : Nro </label> <b> {{NroOcGlobal}}</b>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
+                <div class="search-results tableFixHead" style="height: 300px;">
+                    <table class="table  table-bordered table-hover table-sm   ">
+                        <thead class="theadTable thead-dark">
+                            <tr style="height: 40px !important;">
+                                <th scope="col">#</th>
+                                <th scope="col">TM</th>
+                                <th scope="col">Matricula</th>
+                                <th scope="col">Descripcion</th>
+                                <th scope="col">UM</th>
+                                <th class="text-right">Precio</th>
+                                <th class="text-right">Cantidad</th>
+                                <th class="text-right">Importe</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of ordenesCompraDet ; index as j">
+                                <th scope="row"> {{j + 1}} </th>
+                                <td>{{item.tm}}</td>
+                                <td>{{item.matricula}}</td>
+                                <td>{{item.descripcion}}</td>
+                                <td>{{item.um}}</td>
+                                <td class="text-right">{{item.precio | number:'0.1-5'}}</td>
+                                <td class="text-right">{{item.cantidad | number:'0.1-5'}}</td>
+                                <td class="text-right">{{item.importe | number:'0.1-5' }}</td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="text-center" *ngIf="idOrdenCompra_Global.length>0">
+                    <div class="shadow p-3 mb-3 bg-white rounded">
+                        <button class="btn btn-outline-success btn-block" (click)="aprobarRechazarOrdenCompra('A')" title="Aprobar la orden compra">
+                            <i class="fas fa-check-circle"> Aprobar</i> 
+                        </button>
+                    </div>
+
+                    <div class="shadow p-3 mb-3 bg-white rounded">
+                        <button class="btn btn-outline-danger btn-block" (click)="abrirModal_Aprobar()" title="rechazar la orden de compra">
+                            <i class="fas fa-ban"> Rechazar</i> 
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+
+<div class="modal fade " id="modalRechazar" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel  " aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="p-3 card ">
+                <div class="d-flex justify-content-between flotante">
+                    <div class=" bd-highlight">
+                        <i class="fas fa-arrow-circle-left  fa-2x puntero" title="Retornar" (click)="cerrarModal_Aprobar()">  </i>
+                    </div>
+                    <div class=" bd-highlight">
+                        <h5 class="headerTitle"> Observacion de Rechazo</h5>
+                    </div>
+                    <div class=" bd-highlight">
+                        <i class="far fa-times-circle fa-2x puntero" title="Retornar" (click)="cerrarModal_Aprobar()">  </i>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" maxlength="250" [(ngModel)]="observacionOrdenCompra"></textarea>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-12 text-center">
+                        <button class="btn btn-danger " (click)="aprobarRechazarOrdenCompra('R')" title="rechazar la orden de compra">
+                            <i class="fas fa-ban"> Rechazar</i> 
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="cerrarModal_Aprobar()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

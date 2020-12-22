@@ -1,0 +1,214 @@
+<div class="card border-left-warning  shadow  mt-2 ">
+    <div class="card-header">
+        <h5 class="headerTitle"> ADJUNTAR ARCHIVOS A LAS ORDENES DE COMPRA</h5>
+    </div>
+    <div class="card-body">
+
+        <form [formGroup]="formParamsFiltro" style="margin-top: -10px !important;">
+            <div class="row">
+                <div class="col-sm-12 col-md-10">
+                    <div class="form-row">
+                        <div class="col-xs-12 col-sm-6 col-md-3">
+                            <label> Tipo OC</label>
+                            <select class="form-control comboBox" formControlName="tipoOc">
+                                <option value="0"> [ --TODOS-- ]</option>
+                                <option [value]="oc.log_grud_codigo" *ngFor="let oc of tiposOrdenCompra">{{oc.Log_GruD_Descripcion}}</option> 
+                            </select>
+                        </div>
+                        <div class="col-xs-12 col-md-4">
+                            <label class="control-label"> Rango Fecha </label>
+                            <div class="input-group">
+                                <input class="form-control mx-sm-2" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fecha_ini" [bsConfig]="datepiekerConfig">
+                                <span class="input-group-addon">-</span>
+                                <input class="form-control mx-sm-2" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fecha_fin" [bsConfig]="datepiekerConfig">
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-3">
+                            <label> Estado</label>
+                            <select class="form-control comboBox" formControlName="estado">
+                                <option value="0"> [ -- TODOS-- ]</option>
+                                <option [value]="est.Pub_Esta_Codigo" *ngFor="let est of estados">{{est.Pub_Esta_Nombre}}</option> 
+                            </select>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-2">
+                            <label class="control-label"> Nro OC</label>
+                            <input type="text" class="form-control" formControlName="nroOc">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-2">
+                    <div class="d-flex justify-content-center p-3">
+                        <div>
+                            <button class="btn  btn-sm  btn-primary" (click)="mostrarInformacion()" title="Mostrar la informacion">
+                              <i class="fas fa-search"> Mostrar</i> 
+                             </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <hr style="  margin-top: 3px;">
+        <div class="search-results tableFixHead">
+            <table class="table  table-bordered table-hover table-sm">
+                <thead class="theadTable thead-dark">
+                    <tr style="height: 40px !important;">
+                        <th scope="col">#</th>
+                        <th scope="col">Tipo OC</th>
+                        <th scope="col">Nro OC</th>
+                        <th scope="col">Fecha Emision</th>
+                        <th class="text-center">Centro Costo</th>
+                        <th> Proveedor / Razon social</th>
+                        <th scope="col">Forma Pago</th>
+                        <th scope="col">M</th>
+
+                        <th class="text-right">Sub Total</th>
+                        <th class="text-right">IGV</th>
+                        <th class="text-right">Total</th>
+                        <th scope="col">Nro Pedido</th>
+                        <th style="text-align: center !important ">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of ordenesCompraCab ; index as j">
+                        <th scope="row"> {{j + 1}} </th>
+                        <td>{{item.tipoOc}}</td>
+                        <td>{{item.nroOC}}</td>
+                        <td>{{item.fechaEmision}}</td>
+                        <td>
+                            {{item.centroCosto}}
+                        </td>
+                        <td>
+                            <div style="width: 300px; ">
+                                {{item.proveedor}}
+                            </div>
+                        </td>
+                        <td>
+                            <div style="width: 120px; ">
+                                {{item.formaPago}}
+                            </div>
+                        </td>
+                        <td>{{item.moneda}}</td>
+                        <td class="text-right">{{item.subTotal | number:'0.1-5'}}</td>
+                        <td class="text-right">{{item.igv | number:'0.1-5'}}</td>
+                        <td class="text-right">{{item.total | number:'0.1-5' }}</td>
+                        <td class="text-right">{{item.nroPedido}}</td>
+                        <td style="text-align: center !important ">
+                            <div style="width: 210px; ">
+                                <span class="badge badge-primary puntero" style="padding: 5px;" (click)="abrirModal_Adjuntar(item,'cotizacion')">Agregar Cotizacion</span> |
+                                <span class="badge badge-info puntero" style="padding: 5px;" (click)="abrirModal_Adjuntar(item,'documento')"> Agregar Documentos</span>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade " id="modal_adjuntar" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel  " aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="p-3 card ">
+                <div class="d-flex justify-content-between flotante">
+                    <div class=" bd-highlight">
+                        <i class="fas fa-arrow-circle-left  fa-2x puntero" title="Retornar" (click)="cerrarModal_adjuntar()">  </i>
+                    </div>
+                    <div class=" bd-highlight">
+                        <h5 class="headerTitle"> {{tituloModal}}</h5>
+                    </div>
+                    <div class=" bd-highlight">
+                        <i class="far fa-times-circle fa-2x puntero" title="Retornar" (click)="cerrarModal_adjuntar()">  </i>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form [formGroup]="formParamsFile">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label> Nro Orden Compra</label>
+                                    <input type="text" class="form-control disabledForm" style="width: 120px !important;" formControlName="nroOc">
+                                </div>
+                            </div>
+
+                            <div *ngIf="opcionModal ==='documento' ">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <label> Tipo de Documento</label>
+                                        <select class="form-control comboBox" formControlName="tipoDoc">
+                                                <option value="0"> [ -- SELECCIONE -- ]</option>
+                                                 <option [value]="item.pub_tido_codigo" *ngFor="let item of tiposDocumentos">{{item.pub_tido_descripcion}}</option> 
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label> Nro de Documento</label>
+                                        <input type="text" class="form-control " formControlName="nroDoc">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label> Fecha</label>
+                                        <input class="form-control" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fecha" [bsConfig]="datepiekerConfig">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label> Importe Total</label>
+                                        <input type="number" class="form-control " formControlName="importe">
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="botonFile">
+                                        <input type="file" class="form-control-file btn" formControlName="file" (change)="onFileChange($event)" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4 pt-1 text-center">
+                                    <button class="btn btn-sm btn-success" (click)="subirArchivo()">  <i class="fas fa-eye"> Grabar</i> </button>
+                                    <button class="btn btn-sm btn-warning ml-2" (click)="blank()">  <i class="fa fa-plus-circle"> Nuevo</i> </button>
+                                </div>
+                            </div>
+                        </form>
+                        <hr>
+                        <div class=" tableFixHead table-responsive">
+                            <table class="table table-hover table-sm">
+                                <thead class="theadTableModal">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Tipo Documento</th>
+                                        <th scope="col">Nombre Archivos</th>
+                                        <th class="text-center" *ngIf="opcionModal ==='documento' ">Editar</th>
+                                        <th class="text-center">Eliminar</th>
+                                        <th class="text-center">Descargar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of  ordenesCompraFile; index as i">
+                                        <th scope="row"> {{i + 1}} </th>
+                                        <td>{{item.tipoDocumento}}</td>
+                                        <td>{{item.Log_OCom_Nombre}}</td>
+                                        <td class="text-center" *ngIf="opcionModal ==='documento' ">
+                                            <a class="puntero linkOpcion" (click)=" editarFileSeleccionado(item) " title="quitar el registro"> Editar</a>
+                                        </td>
+                                        <td class="text-center">
+                                            <a class="puntero linkOpcion" (click)=" eliminarFileSeleccionado(item) " title="quitar el registro"> Eliminar</a>
+                                        </td>
+                                        <td class="text-center">
+                                            <a class="puntero linkOpcion" (click)=" descargarArchivoSeleccionado(item.id_Log_OCom_Documento) " title="descargar"> Descargar</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="cerrarModal_adjuntar()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

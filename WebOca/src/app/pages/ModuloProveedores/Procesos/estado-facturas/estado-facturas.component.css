@@ -1,0 +1,128 @@
+.text-warning {
+    font-weight: 600;
+}
+
+.containerDetalle {
+    overflow-y: auto;
+    height: 700px;
+}
+
+
+/* configuracion de tabla con cabecera estatica */
+
+.tableFixHead {
+    overflow-y: auto;
+    max-height: 400px;
+}
+
+.tableFixHead thead th {
+    position: sticky;
+    top: 0;
+}
+
+
+/** tab control*/
+
+.nav {
+    padding: 5px;
+    font-family: Montserrat;
+    font-size: 15px;
+}
+
+.TabControl {
+    cursor: pointer;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show>.nav-link {
+    color: black !important;
+    background-color: cyan !important;
+}
+
+
+/** fin de tab control*/
+
+fieldset {
+    border: 1px solid #ddd !important;
+    margin: 0;
+    min-width: 0;
+    padding: 10px;
+    position: relative;
+    border-radius: 4px;
+    padding-left: 10px!important;
+}
+
+.containerDetalle legend {
+    font-size: 14px;
+    font-weight: 700;
+    font-family: Montserrat, sans-serif;
+    margin-bottom: 0;
+    width: 60%;
+    border-radius: 4px;
+    padding: 5px 5px 5px 10px;
+    background-color: #fff;
+    color: #003575;
+}
+
+.fa-times-circle {
+    color: gray;
+}
+
+.fa-arrow-circle-left {
+    color: gray;
+}
+
+.styleBancaria fieldset {
+    background-color: #dee2e6!important;
+}
+
+.styleBancaria label {
+    color: #003575!important;
+}
+
+.styleBancaria legend {
+    border-bottom: 0.5px solid;
+    background-color: #dee2e6;
+}
+
+.styleEmpresa fieldset {
+    background-color: #92d382 !important;
+}
+
+.styleEmpresa label {
+    color: black!important;
+}
+
+.styleEmpresa legend {
+    border-bottom: 0.5px solid white;
+    background-color: #92d382 !important;
+    color: black !important;
+}
+
+.styleTesoreria fieldset {
+    background-color: #ffc107 !important;
+}
+
+.styleTesoreria label {
+    color: #003575!important;
+}
+
+.styleTesoreria legend {
+    border-bottom: 0.5px solid white;
+    ;
+    background-color: #ffc107 !important;
+}
+
+.styleContacto fieldset {
+    background-color: #7fbfff !important;
+}
+
+.styleContacto label {
+    color: #003575!important;
+}
+
+.styleContacto legend {
+    border-bottom: 0.5px solid white;
+    ;
+    background-color: #7fbfff !important;
+}

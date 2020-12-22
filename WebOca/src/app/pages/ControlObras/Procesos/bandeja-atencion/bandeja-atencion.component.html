@@ -1,0 +1,527 @@
+<div class="card border-left-warning  shadow  mt-2 ">
+    <div class="card-header">
+        <h5 class="headerTitle"> BANDEJA DE RECEPCION PARTE DIARIO</h5>
+    </div>
+    <div class="card-body">
+
+        <form [formGroup]="formParamsFiltro" style="margin-top: -10px !important;">
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <div class="form-row">
+                        <div class="col-xs-12 col-sm-4 col-md-4">
+                            <label class="control-label"> Local/Sede</label>
+                            <select class="form-control comboBox" formControlName="idLocal">
+                                 <option [value]="item.Codigo" *ngFor="let item of locales">{{item.Nombre}}</option> 
+                            </select>
+                        </div>
+                        <div class="col-xs-12 col-sm-4 col-md-4">
+                            <label class="control-label"> Nro Obra/TD</label>
+                            <input type="text" class="form-control" formControlName="nroObra">
+                        </div>
+                        <div class="col-xs-12 col-sm-4 col-md-4">
+                            <label class="control-label"> Centro Costo</label>
+                            <select class="form-control comboBox" formControlName="idCentroCosto" (change)="changeCentroCosto($event)">
+                                <option value="0"> [ -- SELECCIONE -- ]</option>
+                                 <option [value]="item.Ges_OrdT_Codigo" *ngFor="let item of centroCostos">{{item.Ges_OrdT_Descripcion}}</option> 
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <div class="form-row">
+                        <div class="col-xs-12 col-sm-4 col-md-4">
+                            <label class="control-label"> Jefe Cuadrilla </label>
+                            <select class="form-control comboBox" formControlName="idCuadrilla">
+                                <option value="0"> [ -- SELECCIONE -- ]</option>
+                                <option [value]="item.Ges_Cuad_Codigo" *ngFor="let item of jefeCuadrillas">{{item.Ges_Cuad_Descripcion}}</option> 
+                            </select>
+                        </div>
+                        <div class="col-xs-12 col-sm-4 col-md-4">
+                            <label class="control-label"> Estado</label>
+                            <select class="form-control comboBox" formControlName="idEstado">
+                                <option value="0"> [ -- SELECCIONE -- ]</option>
+                                <option [value]="item.Pub_Esta_Codigo" *ngFor="let item of estados">{{item.Pub_Esta_Nombre}}</option> 
+                            </select>
+                        </div>
+                        <div class="col-xs-12 col-sm-4 col-md-4">
+
+                            <div class="text-center mt-3">
+                                <button class="btn   btn-outline-primary btn-block" (click)="mostrarInformacion_cabecera()" title="Mostrar la informacion">
+                                <i class="fas fa-search"> Mostrar</i> 
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <hr style="margin-top: 3px;">
+        <div class="search-results tableFixHead" style="height: 300px;">
+            <table class="table  table-bordered table-hover table-sm ">
+                <thead class="theadTable thead-dark">
+                    <tr style="height: 40px !important;">
+                        <th scope="col">#</th>
+                        <th scope="col">Nro Parte Diario</th>
+                        <th scope="col">Nro Obra</th>
+                        <th scope="col">Fecha </th>
+
+                        <th scope="col">Centro Costo </th>
+                        <th scope="col">Jefe Cuadrilla </th>
+                        <th scope="col">Suministro </th>
+
+                        <th scope="col">Nro Acta </th>
+                        <th scope="col">Ubicacion </th>
+                        <th scope="col">Estado </th>
+                        <th scope="col">Accion </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of bandejaAtencionCab  |  filter: filtrarBandejaCab  ; index as j">
+                        <td scope="row"> {{j + 1}} </td>
+                        <td>{{item.Id_ParteDiario}}</td>
+                        <td>{{item.ParteDiario_ObraTD}}</td>
+                        <td>{{item.ParteDiario_Fecha}}</td>
+
+                        <td>{{item.CC}}</td>
+                        <td>{{item.Cuadrilla}}</td>
+                        <td>{{item.ParteDiario_Suministro}}</td>
+
+                        <td>{{item.NroActa}}</td>
+                        <td *ngIf="item.ParteDiario_Latitud.length ==0 " class="text-center puntero"> </td>
+                        <td *ngIf="item.ParteDiario_Latitud.length > 0 " class="text-center puntero" (click)="abrirModalMapa(item.ParteDiario_Latitud, item.ParteDiario_Longitud )"> <i title="ver mapa" class="fas fa-map-marker-alt fa-2x">  </i> </td>
+
+                        <td>{{item.Estado}}</td>
+                        <td>
+                            <span class="badge badge-primary puntero" style="padding: 5px;" (click)="abrirModal_ParteDiario(item)">  Ver Parte Diario </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+
+<div class="modal fade " id="modalMapa" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel  " aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Ubicacion Google Maps</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 modal_body_map">
+                        <div class="location-map" id="location-map">
+                            <div style="width: 600px; height: 400px;" #mapa id="id_mapa"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade " id="modal_parteDiario" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel  " aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="p-3 card ">
+                <div class="d-flex justify-content-between flotante">
+                    <div class=" bd-highlight">
+                        <i class="fas fa-arrow-circle-left  fa-2x puntero" title="Retornar" (click)="cerrarModal_parteDiario()">  </i>
+                    </div>
+                    <div class=" bd-highlight">
+                        <h5 class="headerTitle"> PARTE DIARIO </h5>
+                    </div>
+                    <div class=" bd-highlight">
+                        <i class="far fa-times-circle fa-2x puntero" title="Retornar" (click)="cerrarModal_parteDiario()">  </i>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+
+                <div class="row p-3 " style=" margin-top: -15px;">
+                    <div class="col-md-3">
+                        <label> Nro Parte Diario</label>
+                        <input type="text" class="form-control disabledForm" [(ngModel)]="idObraParteDiario_Global">
+                    </div>
+                    <div class="col-md-3">
+                        <label> Nro Obra</label>
+                        <input type="text" class="form-control disabledForm" [(ngModel)]="nroObraParteDiario_Global">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist" style="background-color: #d30500;">
+                            <li class="nav-item TabControl" *ngFor="let nameTab of tabControlDetalle; let first = first;">
+                                <a class="nav-link active" style="color:white" (click)="selectedTabControlDetalle = nameTab" data-toggle="pill" [class.active]="selectedTabControlDetalle===nameTab" role="tab" aria-controls="pills-home" aria-selected="true">{{nameTab}}</a>
+                            </li>
+                        </ul>
+
+                        <div class="containerDetalle">
+                            <div class="tab-content" id="pills-tabContent">
+
+                                <!-- Datos Generales -->
+                                <div *ngIf="selectedTabControlDetalle === tabControlDetalle[0]" role="tabpanel" class="tab-pane active">
+
+                                    <div class="card border-danger  ">
+                                        <div class="card-body   ">
+
+                                            <form [formGroup]="formParamsDatosG" style=" margin-top: -15px;">
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <label> Fecha Ejecucion</label>
+                                                        <div>
+                                                            <input class="form-control disabledForm " #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fechaEjecucion" [bsConfig]="datepiekerConfig">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label> Hora Inicio</label>
+                                                        <input type="text" class="form-control disabledForm " formControlName="horaInicio">
+                                                        <!-- 
+                                                        <label for=""> Hora Inicio </label>
+                                                        <div style="margin-top: -2px;">
+                                                            <timepicker formControlName="horaInicio" [showMeridian]="false"></timepicker>
+                                                        </div> -->
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <label> Inspector del Cliente</label>
+                                                        <select class="form-control comboBox " formControlName="inspector">
+                                                            <option value="0"> [ -- SELECCIONE -- ]</option>
+                                                            <option [value]="item.pub_usua_codigo" *ngFor="let item of inspectores">{{item.NombreCoordinador}}</option> 
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <label> Supervisor</label>
+                                                        <select class="form-control comboBox " formControlName="supervisor">
+                                                            <option value="0"> [ -- SELECCIONE -- ]</option>
+                                                            <option [value]="item.Obr_Insp_Codigo" *ngFor="let item of supervisores">{{item.Obr_Insp_ApellidosNombres}}</option> 
+                                                            </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <label> Observacion</label>
+                                                        <input type="text" class="form-control " formControlName="observacion">
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <label> Fecha Liquidacion</label>
+                                                        <input class="form-control" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fechaLiquidacion" [bsConfig]="datepiekerConfig">
+                                                    </div>
+                                                </div>
+
+                                            </form>
+
+                                            <hr>
+
+                                            <div class="row">
+                                                <div class="col-md-12 text-center">
+                                                    <button class="btn  btn-sm  btn-primary" (click)="guardar_liquidacionCab()" title="Guardar Cambios">
+                                                        <i class="fas fa-save"> Guardar</i> 
+                                                    </button>
+
+                                                    <button class="btn  btn-sm  btn-danger ml-2" (click)="cerrar_liquidacionCab()" title="Cerrar Liquidacion">
+                                                        <i class="fas fa-ban"> Cerrar Liquidacion</i> 
+                                                    </button>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                                <!-- Actividades -->
+                                <div *ngIf="selectedTabControlDetalle === tabControlDetalle[1]" role="tabpanel" class="tab-pane active">
+
+                                    <div class="card border-danger ">
+                                        <div class="card-body ">
+                                            <form [formGroup]="formParamsActividadesDet" style=" margin-top: -15px;">
+
+                                                <div *ngIf="idObraParteDiario_Global.length > 0">
+
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <label class="control-label"> Actividad </label>
+                                                            <select class="form-control comboBox" formControlName="idActividad">
+                                                                <option value="0"> [ -- SELECCIONE -- ]</option>
+                                                                <option [value]="item.id_actividad" *ngFor="let item of actividades">{{item.descripcion_actividad}}</option> 
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-10">
+                                                            <label for=""> Baremo</label>
+                                                            <select id="idBaremo" class="form-control comboBox" formControlName="idBaremo" (change)="changeBaremos($event)">
+                                                                <option value="0"> [ --SELECCIONE-- ]</option>
+                                                                <option [value]="per.idBaremo" *ngFor="let per of listBaremos ">{{per.codigoBaremo}}  : {{per.descripcion_Baremo}}   </option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <label for=""> UM</label>
+                                                            <input type="text" class="form-control disabledForm" formControlName="unidadBaremo">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-8">
+                                                            <div class="row">
+                                                                <div class="col-4">
+                                                                    <label for=""> Precio</label>
+                                                                    <input type="text" class="form-control disabledForm" formControlName="precioBaremo">
+                                                                </div>
+
+                                                                <div class="col-4">
+                                                                    <label for=""> Cantidad Movil </label>
+                                                                    <input type="text" class="form-control text-right disabledForm" formControlName="cantidadMovil">
+                                                                </div>
+
+                                                                <div class="col-4">
+                                                                    <label for=""> Cantidad Aprobada</label>
+                                                                    <input type="number" #_cant style="background-color: beige;" class="form-control text-right" (input)="onBlurMethod($event)" formControlName="cantidadAprobada">
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="text-center mt-3">
+                                                                <button class="btn btn-sm btn-success" (click)="guardarDet()">  <i class="fas fa-save"> Grabar</i> </button>
+                                                                <button class="btn btn-sm btn-warning ml-2" (click)="blank_Detalle()">  <i class="fa fa-plus-circle"> Nuevo</i> </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </form>
+                                            <br>
+                                            <div class=" table-responsive">
+                                                <table class="table table-hover table-sm">
+                                                    <thead class="theadTable thead-dark">
+                                                        <tr>
+                                                            <th scope="col">#</th>
+                                                            <!-- <th scope="col">Codigo</th> -->
+                                                            <th scope="col">Codigo Descripcion</th>
+                                                            <th scope="col" class="text-right">U.M</th>
+                                                            <th scope="col" class="text-center">Cantidad Movil</th>
+                                                            <th scope="col" class="text-right">Cantidad</th>
+                                                            <th scope="col" class="text-right">Precio</th>
+                                                            <th scope="col" class="text-right">Total</th>
+                                                            <th colspan="2" class="text-center">Acciones</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let item of  ActividadesDetalle; index as i">
+                                                            <th scope="row"> {{i + 1}} </th>
+                                                            <!-- <td>{{item.codigoBaremo}}</td> -->
+                                                            <td>
+                                                                <div style="width: 450px;">
+                                                                    <strong> {{item.codigoBaremo}} </strong> | {{item.descripcionBaremo}}
+                                                                </div>
+                                                            </td>
+                                                            <td class="text-right">{{item.unidadBaremo}}</td>
+                                                            <td class="text-right">{{item.cantidadMovil }}</td>
+                                                            <td class="text-right">{{item.cantidad }}</td>
+                                                            <td class="text-right">{{item.precio | number}}</td>
+                                                            <td class="text-right">{{item.importe | number:'0.1-5'}}</td>
+                                                            <td class="text-center">
+                                                                <i class="puntero linkOpcion" title="Modificar" (click)="modificar_actividadDetalle(item)"> Modificar</i>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <i class="puntero linkOpcion" title="Quitar" (click)="eliminar_actividadDetalle(item)"> Quitar</i>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <!-- Material de campo -->
+                                <div *ngIf="selectedTabControlDetalle === tabControlDetalle[2]" role="tabpanel" class="tab-pane active">
+
+                                    <div class="card border-danger ">
+                                        <div class="card-body">
+                                            <form [formGroup]="formParamsMaterialDet" style=" margin-top: -15px;">
+
+                                                <div *ngIf="idObraParteDiario_Global.length > 0">
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <label class="control-label"> Almacen </label>
+                                                            <select class="form-control comboBox disabledForm" formControlName="idAlmacen">
+                                                                <option value="0"> [ -- SELECCIONE -- ]</option>
+                                                                <option [value]="item.Alm_Alma_Codigo" *ngFor="let item of almacenes">{{item.Alm_Alma_Descripcion}}</option> 
+                                                        </select>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <label class="control-label  "> Folio </label>
+                                                            <input type="text" class="form-control disabledForm" formControlName="folio">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-10">
+                                                            <label for=""> Material</label>
+                                                            <input type="text" class="form-control disabledForm" formControlName="material">
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <label for=""> UM</label>
+                                                            <input type="text" class="form-control disabledForm" formControlName="unidadMedida">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-8">
+                                                            <div class="row">
+                                                                <div class="col-3">
+                                                                    <label for=""> Guia Ingreso</label>
+                                                                    <input type="text" class="form-control disabledForm" formControlName="guiaIngreso">
+                                                                </div>
+
+                                                                <div class="col-3">
+                                                                    <label for=""> Guia Salida </label>
+                                                                    <input type="text" class="form-control text-right disabledForm" formControlName="guiaSalida">
+                                                                </div>
+
+                                                                <div class="col-3">
+                                                                    <label for=""> Cant Movil </label>
+                                                                    <input type="text" class="form-control text-right disabledForm" formControlName="cantidadMovil">
+                                                                </div>
+
+                                                                <div class="col-3">
+                                                                    <label for=""> Cant Aprobada</label>
+                                                                    <input type="number" #_cantMat style="background-color: beige;" class="form-control text-right" formControlName="cantidadAprobada">
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="text-center mt-3">
+                                                                <button class="btn btn-sm btn-success" (click)="guardarDet_material()">  <i class="fas fa-save"> Grabar</i> </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </form>
+                                            <br>
+                                            <div class=" table-responsive">
+                                                <table class="table table-hover table-sm">
+                                                    <thead class="theadTable thead-dark">
+                                                        <tr>
+                                                            <th scope="col">#</th>
+                                                            <!-- <th scope="col">Codigo</th> -->
+                                                            <th scope="col">Codigo Descripcion</th>
+                                                            <th scope="col" class="text-right">U.M</th>
+                                                            <th scope="col" class="text-center">Guia Ingreso</th>
+                                                            <th scope="col" class="text-right">Guia Salida</th>
+                                                            <th scope="col" class="text-right">Cant Movil</th>
+                                                            <th scope="col" class="text-right">Cantidad</th>
+                                                            <th colspan="2" class="text-center">Acciones</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let item of  MaterialDetalle; index as i">
+                                                            <th scope="row"> {{i + 1}} </th>
+                                                            <!-- <td>{{item.codigoBaremo}}</td> -->
+                                                            <td>
+                                                                <div style="width: 450px;">
+                                                                    {{item.material}}
+                                                                </div>
+                                                            </td>
+                                                            <td class="text-right">{{item.unidadMedida}}</td>
+                                                            <td class="text-right">{{item.guiaIngreso }}</td>
+                                                            <td class="text-right">{{item.guiaSalida }}</td>
+                                                            <td class="text-right">{{item.cantidadMovil | number}}</td>
+                                                            <td class="text-right">{{item.cantidadAprobada | number}}</td>
+                                                            <td class="text-center">
+                                                                <i class="puntero linkOpcion" title="Modificar" (click)="modificar_materialesDetalle(item)"> Modificar</i>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <i class="puntero linkOpcion" title="Quitar" (click)="eliminar_materialDetalle(item)"> Quitar</i>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <!-- Fotos -->
+                                <div *ngIf="selectedTabControlDetalle === tabControlDetalle[3]" role="tabpanel" class="tab-pane active">
+
+                                    <div class="card border-danger ">
+                                        <div class="card-body">
+
+                                            <div *ngIf="idObraParteDiario_Global.length > 0">
+
+                                                <div class="d-flex justify-content-between mb-1" *ngIf="this.detallefotos.length > 0">
+                                                    <div class="">
+                                                        <div class="custom-control custom-checkbox custom-control-inline">
+                                                            <input type="checkbox" [id]="99" [(ngModel)]="checkeadoAll" (click)="marcarTodos()" class="custom-control-input">
+                                                            <label class="custom-control-label" [for]="99"> Marcar Todo </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class=""></div>
+                                                    <div class="">
+
+                                                        <i class="fas fa-file-archive fa-2x puntero" title="Descargar fotos Zip" style="color: red;" (click)="descargarFotosZip()">  </i>
+                                                    </div>
+                                                </div>
+
+                                                <div class="card-columns animated fadeIn">
+                                                    <div class="card shadow  border-cards " *ngFor="let foto of detallefotos ">
+                                                        <a>
+                                                            <img [src]="foto.urlFoto" class="card-img-top img_anuncio puntero" alt="...">
+                                                        </a>
+                                                        <div class="card-body ">
+                                                            <div class="text-center " style="margin-top: -15px !important; margin-bottom: -5px;">
+                                                                <input type="checkbox" [id]="foto.idFoto" [(ngModel)]="foto.checkeado">
+                                                            </div>
+                                                            <!-- <label class="card-text "> SED : {{foto.nroSed}}</label>
+                                                        <br>
+                                                        <label class="card-text ">  FECHA REGISTRO :   {{foto.fechaRegistro}}   </label> -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="cerrarModal_parteDiario()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

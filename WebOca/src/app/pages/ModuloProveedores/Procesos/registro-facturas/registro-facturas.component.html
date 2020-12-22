@@ -1,0 +1,692 @@
+<div class="card border-left-warning  shadow  mt-2 ">
+    <div class="card-header">
+        <h5 class="headerTitle"> REGISTRO DE FACTURAS </h5>
+    </div>
+    <div class="card-body">
+        <div class="formPrincipal">
+
+            <form [formGroup]="formParamsFiltro">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="control-label"> Rango Fechas </label>
+                        <div class="input-group">
+                            <input class="form-control" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fecha_ini" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY'  }">
+                            <span class="input-group-addon">-</span>
+                            <input class="form-control" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fecha_fin" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
+                        </div>
+                    </div>
+                    <div class="col-md-4 ">
+                        <label for=""> Estado</label>
+                        <select class="form-control comboBox" formControlName="idEstado">
+                            <option value="0"> [ -- TODOS -- ]</option>
+                            <option [value]="item.Pub_Esta_Codigo" *ngFor="let item of estados">{{item.Pub_Esta_Nombre}}</option> 
+                        </select>
+                    </div>
+                    <div class="col-md-4 ">
+                        <div class="text-center mt-3">
+                            <button class="btn   btn-outline-primary btn-block" data-toggle="tooltip" (click)="mostrarInformacion_ordenCompra()" title="Mostrar la informacion">
+                            <i class="fas fa-search"> </i> Mostrar </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <hr>
+
+            <div class="row mb-2">
+
+                <div class="col-md-3">
+                    <label for=""> * Click en el documento, para ver el detalle</label>
+                </div>
+
+                <div class="col-md-6">
+                    <input type="text" class="form-control form-control-sm " placeholder="Auto Busquedas" maxlength="50" [(ngModel)]="filtrarCab">
+                </div>
+
+                <div class="col-md-3">
+
+                </div>
+            </div>
+
+            <div class="search-results tableFixHead" style="height: 300px;">
+                <table class="table  table-bordered table-hover table-sm ">
+                    <thead class="theadTable thead-dark">
+                        <tr style="height: 40px !important;">
+                            <th scope="col">#</th>
+                            <th> ESTADO </th>
+                            <th> TIPO OC </th>
+                            <th> NRO OC</th>
+
+                            <th> FECHA OC</th>
+                            <th> MO</th>
+
+                            <th class="text-center"> SUB. TOTAL</th>
+                            <th class="text-center"> IGV</th>
+                            <th class="text-center"> TOTAL </th>
+
+                            <th> FORMA PAGO </th>
+
+                            <th class="text-center"> SUB TOTAL FACTURA </th>
+                            <th class="text-center"> IGV FACTURA</th>
+                            <th class="text-center"> TOTAL FACTURA</th>
+                            <th class="text-center"> REGISTRAR </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of registroOrdenCompras  |  filter: filtrarCab  ; index as j" (click)="mostrarInformacion_documentosCab(item.idOrdenCompraCab) ">
+                            <td scope="row"> {{j + 1}} </td>
+
+                            <td>{{item.descripcionEstado}}</td>
+                            <td>{{item.tipoOc}}</td>
+                            <td>
+                                <div style="width: 110px;">
+                                    {{item.nroOc}}
+                                </div>
+                            </td>
+
+                            <td>{{item.fechaOC}}</td>
+                            <td>{{item.moneda}}</td>
+
+                            <td class="text-right">{{item.subtotal }}</td>
+                            <td class="text-right">{{item.igv }}</td>
+                            <td class="text-right">{{item.total }}</td>
+
+                            <td>{{item.formaPago}}</td>
+
+                            <td class="text-right">{{item.subTotalFactura }}</td>
+                            <td class="text-center">{{item.igvFactura }}</td>
+                            <td class="text-right">{{item.TotalFactura }}</td>
+                            <td class="text-center">
+                                <span class="badge badge-primary puntero btn-block" style="padding: 5px;" (click)="abrirModal_documentos(item)">  Registrar </span>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <hr>
+            <h5 style="font-size: 14px;font-weight: bold; font-family: 'Montserrat', sans-serif; color: #003575!important;"> LISTA DE FACTURAS</h5>
+
+            <div class="search-results tableFixHead" style="height: 300px;">
+                <table class="table  table-bordered table-hover table-sm ">
+                    <thead class="theadTable thead-dark">
+                        <tr style="height: 40px !important;">
+                            <th scope="col">#</th>
+                            <th> SERIE FACTURA </th>
+                            <th> NRO FACTURA </th>
+                            <th> NRO GUIA </th>
+                            <th class="text-center"> SUB TOTAL </th>
+
+                            <th class="text-center"> IGV </th>
+                            <th class="text-center"> TOTAL </th>
+                            <th> ESTADO </th>
+                            <th> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of documentosCab ; index as j">
+                            <td scope="row"> {{j + 1}} </td>
+                            <td>{{item.serieFactura}}</td>
+                            <td>{{item.nroFactura}}</td>
+                            <td>{{item.nroGuia}}</td>
+                            <td class="text-right">{{item.subTotal }}</td>
+
+                            <td class="text-center">{{item.igv }}</td>
+                            <td class="text-right">{{item.total }}</td>
+                            <td>{{item.descripcionEstado}}</td>
+
+                            <td class="text-center">
+                                <span class="badge badge-primary puntero" (click)="editar_documentosCab(item)" style="padding: 5px;">  Editar </span>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="modal fade " id="modal_documentos" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel  " aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable " role="document">
+        <div class="modal-content">
+            <div class="p-3 card ">
+                <div class="d-flex justify-content-between flotante">
+                    <div class=" bd-highlight">
+                        <i class="fas fa-arrow-circle-left  fa-2x puntero" title="Retornar" (click)="cerrarModal_documentos()">  </i>
+                    </div>
+                    <div class=" bd-highlight">
+                        <h5 class="headerTitleModal"> REGISTRO DE DOCUMENTOS </h5>
+                    </div>
+                    <div class=" bd-highlight">
+                        <i class="far fa-times-circle fa-2x puntero" title="Retornar" (click)="cerrarModal_documentos()">  </i>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+
+                <div class="row" style="margin-top: -10px;">
+                    <div class="col-md-12">
+                        <fieldset class="shadow">
+                            <legend>DATOS ORDEN DE COMPRA</legend>
+                            <div class="panel panel-default ">
+                                <div class="panel-body">
+
+                                    <div class="row" *ngIf="objOrdenCompra_Global.idOrdenCompraCab" style="margin-top: -15px;">
+                                        <div class="col-md-4">
+                                            <label> Nro OC </label>
+                                            <input type="text" class="form-control disabledForm" [value]="objOrdenCompra_Global.nroOc">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label> Tipo OC </label>
+                                            <input type="text" class="form-control disabledForm" [value]="objOrdenCompra_Global.tipoOc">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label> Fecha OC </label>
+                                            <input type="text" class="form-control disabledForm" [value]="objOrdenCompra_Global.fechaOC ">
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="objOrdenCompra_Global.idOrdenCompraCab">
+                                        <div class="col-md-3">
+                                            <label> Moneda </label>
+                                            <input type="text" class="form-control disabledForm" style="background-color: yellow;" [value]="objOrdenCompra_Global.moneda">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label> Sub Total </label>
+                                            <input type="text" class="form-control disabledForm text-right" [value]="objOrdenCompra_Global.subtotal">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label> IGV </label>
+                                            <input type="text" class="form-control disabledForm text-right" [value]="objOrdenCompra_Global.igv">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label> Total </label>
+                                            <input type="text" class="form-control disabledForm text-right " style="background-color: yellow;" [value]="objOrdenCompra_Global.total">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-12">
+                        <fieldset class="shadow">
+                            <legend> LISTA DE FACTURAS INGRESADAS </legend>
+                            <div class="panel panel-default ">
+                                <div class="panel-body">
+
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label> Sub Total </label>
+                                            <input type="text" class="form-control disabledForm text-right" [value]="objOrdenCompra_Global.subTotalFactura">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label> IGV </label>
+                                            <input type="text" class="form-control disabledForm text-right" [value]="objOrdenCompra_Global.igvFactura">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label> Total </label>
+                                            <input type="text" class="form-control disabledForm text-right " style="background-color: greenyellow;" [value]="objOrdenCompra_Global.TotalFactura">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="mt-3">
+                                                <button class="btn  btn-warning btn-block" (click)="abrirModal_files()"> <i class="far fa-file-alt"> </i>  Registrar Documentos </button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+                                    <label for=""> * Click en el documento, para ver el detalle</label>
+
+                                    <div class=" tableFixHead" style="height: 160px;">
+                                        <table class="table  table-bordered table-hover table-sm ">
+                                            <thead class="theadTable thead-dark">
+                                                <tr style="height: 40px !important;">
+                                                    <th scope="col">#</th>
+                                                    <th> SERIE FACTURA </th>
+                                                    <th> NRO FACTURA </th>
+                                                    <th> NRO GUIA </th>
+                                                    <th class="text-center"> SUB TOTAL </th>
+
+                                                    <th class="text-center"> IGV </th>
+                                                    <th class="text-center"> TOTAL </th>
+                                                    <th> ESTADO </th>
+                                                    <th> </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of documentosCab ; index as j" (click)="mostrarInformacion_documentosDet(item.id_Documento, item.serieFactura, item.nroFactura) ">
+                                                    <td scope="row"> {{j + 1}} </td>
+
+                                                    <td>{{item.serieFactura}}</td>
+                                                    <td>{{item.nroFactura}}</td>
+                                                    <td>{{item.nroGuia}}</td>
+                                                    <td class="text-right">{{item.subTotal }}</td>
+
+                                                    <td class="text-center">{{item.igv }}</td>
+                                                    <td class="text-right">{{item.total }}</td>
+                                                    <td>{{item.descripcionEstado}}</td>
+
+                                                    <td class="text-center">
+                                                        <span class="badge badge-primary puntero" style="padding: 5px;" (click)="editar_documentosCab(item)">  Editar </span>
+                                                    </td>
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+
+                </div>
+
+
+                <div class="row mt-2">
+                    <div class="col-md-12">
+                        <fieldset class="shadow">
+                            <legend> DETALLE DE LA FACTURA : <b style="color: red;"> {{nroDocSeleccionado}}  </b> </legend>
+                            <div class="panel panel-default ">
+                                <div class="panel-body">
+
+                                    <div class=" tableFixHead">
+                                        <table class="table  table-bordered table-hover table-sm ">
+                                            <thead class="thead-light">
+                                                <tr style="height: 40px !important;">
+                                                    <th scope="col">#</th>
+                                                    <th> CODIGO </th>
+                                                    <th> DESCRIPCION </th>
+                                                    <th class="text-center"> CANTIDAD OC </th>
+                                                    <th class="text-center"> CANTIDAD ING ALM </th>
+
+                                                    <th class="text-center"> CANTIDAD ING APROBADA </th>
+                                                    <th class="text-center"> PRECIO </th>
+                                                    <th class="text-center"> SUB-TOTAL </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of documentosDet ; index as j">
+                                                    <td scope="row"> {{j + 1}} </td>
+                                                    <td>{{item.codigo}}</td>
+                                                    <td>{{item.descripcion}}</td>
+                                                    <td class="text-right">{{item.cantidadOc }}</td>
+                                                    <td class="text-right">{{item.cantidadIngresoAlmacen }}</td>
+
+                                                    <td class="text-right">{{item.cantidadIngresoAprobada }}</td>
+                                                    <td class="text-right">{{item.precio }}</td>
+                                                    <td class="text-right">{{item.subTotal }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade " id="modal_files" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel  " aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable " role="document">
+        <div class="modal-content" style="  border: green solid;">
+            <div class="p-3 card ">
+                <div class="d-flex justify-content-between flotante">
+                    <div class=" bd-highlight">
+                        <i class="fas fa-arrow-circle-left  fa-2x puntero" title="Retornar" (click)="cerrarModal_files()">  </i>
+                    </div>
+                    <div class=" bd-highlight">
+                        <h5 class="headerTitleModal"> LISTA FACTURAS INGRESADAS </h5>
+                    </div>
+                    <div class=" bd-highlight">
+                        <i class="far fa-times-circle fa-2x puntero" title="Retornar" (click)="cerrarModal_files()">  </i>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body" style="    border: 1px green solid;">
+
+                <div class="row" style="margin-top: -10px;">
+                    <div class="col-md-12">
+                        <fieldset class="shadow">
+                            <legend>DOCUMENTO</legend>
+                            <div class="panel panel-default ">
+                                <div class="panel-body">
+
+                                    <form [formGroup]="formParams">
+                                        <div class="row" style="    margin-top: -15px;">
+                                            <div class="col-md-3">
+                                                <label> Nro Serie</label>
+                                                <input type="text" class="form-control  " formControlName="serieFactura">
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <label> Nro Factura</label>
+                                                <input type="text" class="form-control  " formControlName="nroFactura">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label> Fecha Documento</label>
+                                                <input class="form-control" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fechaDoc" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY'  }">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="mt-3 text-right" *ngIf="idDocumentoCab_Global > 0">
+                                                    <button class="btn   btn-info ml-2" (click)="enviarAprobar()" title="Enviar a aprobar"> 
+                                                            <i class="fas fa-share-square"> </i> Enviar Aprobar </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-6 mt-2">
+                                                <div class="botonFile">
+                                                    <input type="file" class="form-control-file btn" formControlName="file" (change)="onFileChange($event)" />
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 col-md-6">
+                                                <div class="mt-3 text-center">
+                                                    <button class="btn btn-sm btn-primary " id="btnRegistrar" (click)="registrarFactura()" title="Mostrar la informacion"> <i class="fas fa-save"> </i>  Registra Factura </button>
+                                                    <button class="btn btn-sm btn-danger ml-2 " (click)="this.flagExpandirComprimir = (this.flagExpandirComprimir)?false:true;">  <i class="fas fa-compress-arrows-alt" > </i>  Visualizar Documentos Adjuntos </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div *ngFor="let fil of filesDoc; let i=index">
+                            <div class="alert alert-danger text-center" *ngIf="fil.status === 'error'">
+                                <h5>Sistemas</h5>
+                                <hr>
+                                <p><small>{{fil.message}}</small></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-2" *ngIf="flagExpandirComprimir">
+                    <div class="col-md-12">
+                        <fieldset class="shadow">
+                            <legend>LISTA DE DOCUMENTOS ADJUNTOS </legend>
+                            <div class="panel panel-default ">
+                                <div class="panel-body" *ngIf="idDocumentoCab_Global > 0">
+
+                                    <form [formGroup]="formParamsFile">
+                                        <div class="row" style="    margin-top: -15px;">
+                                            <div class="col-md-3">
+                                                <label> Tipo Documento</label>
+                                                <select class="form-control comboBox" formControlName="tipoDoc">
+                                                    <option value="0"> [ -- SELECCIONE -- ]</option>
+                                                    <option [value]="doc.id_TipoDocFile" *ngFor="let doc of tiposDocumentosFiles">{{doc.nombreFile}}</option> 
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <label> Nro Serie</label>
+                                                <input type="text" class="form-control  " formControlName="serieDoc">
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <label> Nro Documento</label>
+                                                <input type="text" class="form-control  " formControlName="nroDoc">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label> Fecha Documento</label>
+                                                <input class="form-control" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fechaDoc" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY'  }">
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-8 mt-2">
+                                                <div class="botonFile ">
+                                                    <input type="file" class="form-control-file btn" formControlName="file" (change)="onFileChange($event)" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="mt-2 text-left">
+                                                    <button class="btn btn-outline-info " (click)="guardar_archivosAdicionales()" title="guardar">  <i class="fas fa-save"> </i>  Cargar </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                    <div class="card border-left-warning shadow  mt-3" *ngIf="flagExpandirComprimir">
+                                        <div class=" tableFixHead" style="height: 200px;">
+                                            <table class="table  table-bordered table-hover table-sm ">
+                                                <thead class="theadTable">
+                                                    <tr>
+                                                        <th scope="col">#</th>
+                                                        <th scope="col">TIPO DOCUMENTO</th>
+                                                        <th scope="col">NRO DOCUMENTO</th>
+                                                        <th scope="col">FECHA</th>
+                                                        <th scope="col">NOMBRE ARCHIVOS</th>
+                                                        <th scope="col">Eliminar</th>
+                                                        <th scope="col">Descargar</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let item of archivosImportados; index as j">
+                                                        <th scope="row"> {{j + 1}} </th>
+                                                        <td>{{item.tipoDocumento}}</td>
+                                                        <td>{{item.nroDocumento}}</td>
+                                                        <td>{{item.fechaDocumento}}</td>
+                                                        <td>{{item.nombreArchivo}}</td>
+                                                        <td class="text-center">
+                                                            <a class="puntero linkOpcion" (click)=" eliminarArchivoSeleccionado(item) " title="quitar el registro"> Eliminar</a>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <a class="puntero linkOpcion" (click)=" downloadFileExport(item.id_Documento_Archivo) " title="descargar"> Descargar</a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-12">
+                        <fieldset class="shadow">
+                            <legend> LISTA DE FACTURAS INGRESOS </legend>
+                            <div class="panel panel-default ">
+                                <div class="panel-body" *ngIf="idDocumentoCab_Global > 0">
+
+                                    <div class="row " style=" margin-top: -10px !important; margin-bottom: 10px;">
+                                        <div class="col-md-12">
+                                            <button class="btn btn-warning " (click)="abrirModal_agregarDetalle()" title="Agregar el detalle">  <i class="fas fa-check-double"> </i>  Ingresar Detalle </button>
+                                        </div>
+                                    </div>
+
+                                    <div class=" tableFixHead">
+                                        <table class="table  table-bordered table-hover table-sm ">
+                                            <thead class="theadTable">
+                                                <tr style="height: 40px !important;">
+                                                    <th scope="col">#</th>
+                                                    <th> CODIGO </th>
+                                                    <th> DESCRIPCION </th>
+                                                    <th class="text-center"> CANTIDAD OC </th>
+                                                    <th class="text-center"> CANTIDAD ING ALM </th>
+                                                    <th class="text-center"> CANTIDAD FACTURADA </th>
+
+                                                    <th class="text-center"> CANTIDAD ING APROBADA </th>
+                                                    <th class="text-center"> PRECIO </th>
+                                                    <th class="text-center"> SUB-TOTAL </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of detalleDocumentosDet ; index as j">
+                                                    <td scope="row"> {{j + 1}} </td>
+                                                    <td>{{item.codigo}}</td>
+                                                    <td>{{item.descripcion}}</td>
+                                                    <td class="text-right">{{item.cantidadOc }}</td>
+                                                    <td class="text-right">{{item.cantidadIngresoAlmacen }}</td>
+                                                    <td class="text-right">{{item.cantidadFacturada }}</td>
+                                                    <td class="text-right">
+                                                        <input type="number" style="background-color: beige; color: brown; font-weight: 700; text-align: right;" class="form-control" [(ngModel)]="item.cantidadIngresoAprobada" (keydown.enter)="actualizarDetalleDocumento($event.target.value,item )">
+                                                    </td>
+                                                    <td class="text-right">{{item.precio }}</td>
+                                                    <td class="text-right">{{item.subTotal }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div class="d-flex justify-content-end">
+                                        <div class="p-2 "> <b>  Sub Total Factura </b></div>
+                                        <div class="p-2 ">
+                                            <label for=""> {{subTotalFactura   }} </label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- ------ DETALLE DE FACTURA  -->
+
+<div class="modal fade" id="modal_detalleFactura" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="p-3 card ">
+                <div class="d-flex justify-content-between flotante">
+                    <div class=" bd-highlight">
+                        <i class="fas fa-arrow-circle-left  fa-2x puntero" title="Retornar" (click)="cerrarModal_detalle()">  </i>
+                    </div>
+                    <div class=" bd-highlight">
+                        <h5 class="headerTitleModal"> DETALLE DE FACTURA </h5>
+                    </div>
+                    <div class=" bd-highlight">
+                        <i class="far fa-times-circle fa-2x puntero" title="Retornar" (click)="cerrarModal_detalle()">  </i>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <fieldset class="shadow">
+                            <legend>DOCUMENTOS</legend>
+                            <div class="panel panel-default ">
+                                <div class="panel-body">
+
+                                    <div class="d-flex justify-content-between" style=" margin-top: -25px;">
+                                        <div class="p-2 bd-highlight"> </div>
+                                        <div class="p-2 bd-highlight" style="width: 50%;">
+
+                                        </div>
+                                        <div class="p-2 bd-highlight">
+                                            <button class="btn btn-outline-success" title="Guardar Items seleccionados" (click)="guardarProductosItems()"> <i class="fas fa-save">  </i>  Guardar Items </button>
+                                        </div>
+                                    </div>
+
+
+                                    <div class=" tableFixHead" style="height: 400px;">
+                                        <table class="table  table-bordered table-hover table-sm ">
+                                            <thead class="thead-light">
+                                                <tr style="height: 40px !important;">
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">check</th>
+                                                    <th> CODIGO </th>
+                                                    <th> DESCRIPCION </th>
+                                                    <th class="text-center"> CANTIDAD OC </th>
+                                                    <th class="text-center"> CANTIDAD ING ALM </th>
+                                                    <th class="text-center"> CANTIDAD FACTURADA </th>
+
+                                                    <th class="text-center"> CANTIDAD ING APROBADA </th>
+                                                    <th class="text-center"> PRECIO </th>
+                                                    <th class="text-center"> SUB-TOTAL </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of detalleDocumentosOC ; index as j">
+                                                    <td scope="row"> {{j + 1}} </td>
+                                                    <td>
+                                                        <div class="custom-control custom-checkbox custom-control-inline ">
+                                                            <input type="checkbox" [id]="item.id" [(ngModel)]="item.checkeado" class="custom-control-input">
+                                                            <label class="custom-control-label" [for]="item.id"> </label>
+                                                        </div>
+                                                    </td>
+                                                    <td>{{item.codigo}}</td>
+                                                    <td>{{item.descripcion}}</td>
+                                                    <td class="text-right">{{item.cantidadOc}}</td>
+                                                    <td class="text-right">{{item.cantidadIngresoAlmacen}}</td>
+
+                                                    <td class="text-right">{{item.cantidadFacturada }}</td>
+                                                    <td class="text-right">
+                                                        <input type="number" style="background-color: beige; color: brown; font-weight: 700; text-align: right;" class="form-control" [(ngModel)]="item.cantidadIngresoAprobada" (keydown.enter)="actualizarDetalleDocumentoOC($event.target.value,item )">
+                                                    </td>
+
+                                                    <td class="text-right">{{item.precio }}</td>
+                                                    <td class="text-right">{{item.subTotal }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div class="d-flex justify-content-end">
+                                        <div class="p-2 "> <b>  Sub Total Factura </b></div>
+                                        <div class="p-2 ">
+                                            <label for=""> {{subTotalOC   }} </label>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+</div>

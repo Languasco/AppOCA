@@ -1,0 +1,176 @@
+<div class="card border-left-warning  shadow   ">
+    <div class="card-header">
+        <h5 class="headerTitle"> INCIDENCIAS DE PROVEEDORES </h5>
+    </div>
+    <div class="card-body">
+
+        <form [formGroup]="formParamsFiltro">
+            <div class="row" style="margin-top: -10px;">
+
+                <!-- <div class="col-md-3 ">
+                    <label for=""> Centro Costo</label>
+                    <select class="form-control comboBox" formControlName="idCentroCostro">
+                            <option value="0"> [ -- TODOS -- ]</option>
+                            <option [value]="item.codigo" *ngFor="let item of centroCostro">{{item.descripcion}}</option> 
+                        </select>
+                </div> -->
+
+                <div class="col-md-3 ">
+                    <label class="control-label"> Rango Fechas </label>
+                    <div class="input-group">
+                        <input class="form-control" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fecha_ini" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY'  }">
+                        <span class="input-group-addon">-</span>
+                        <input class="form-control" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fecha_fin" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
+                    </div>
+                </div>
+
+                <div class="col-md-6 text-center">
+                    <br>
+                    <div class="text-center">
+                        <button class="btn btn-primary " (click)="mostrarInformacion()" style="font-size: 13px;">  <i class="fas fa-search"> Mostrar</i> </button>
+                        <button class="btn btn-success ml-2 " (click)="descargarIncidencias()" style="font-size: 13px;">  <i class="fas fa-file-download"> Descargar </i> </button>
+                        <button class="btn btn-warning ml-2 " (click)="nuevo()" style="font-size: 13px;">  <i class="fa fa-plus-circle"> Nuevo</i> </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <hr>
+
+        <div class="d-flex justify-content-between" style=" margin-top: -15px;">
+            <div class="p-2 bd-highlight"> </div>
+            <div class="p-2 bd-highlight" style="width: 50%;">
+                <input type="text" class="form-control form-control-sm " placeholder="Buscar" maxlength="50" [(ngModel)]="filtrarCab">
+            </div>
+            <div class="p-2 bd-highlight"> </div>
+        </div>
+
+        <div class="search-results tableFixHead">
+            <table class="table  table-hover table-sm">
+                <thead class="theadTable">
+
+                    <tr style="height: 40px !important;">
+                        <th scope="col">#</th>
+                        <th scope="col">ID</th>
+                        <th scope="col">Ruc</th>
+                        <th scope="col">RAzon social</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Observaciones</th>
+                        <th scope="col">Estado</th>
+                        <th class="text-center">Editar</th>
+                        <th class="text-center">Anular</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of incidenciasCab |  filter: filtrarCab  ; index as j" [ngStyle]="item.Estado == '221' && {'color': 'red'}">
+                        <th scope="row"> {{j + 1}} </th>
+                        <td>{{item.id_Incidencia}}</td>
+                        <td>{{item.ruc}} </td>
+                        <td>{{item.razonSocial}} </td>
+                        <td>{{item.fechaIngreso_Incidencia | date:"dd/MM/yyyy" }}</td>
+                        <td>{{item.observaciones_Incidencia}}</td>
+                        <td>{{item.descripcionEstado}}</td>
+                        <td class="text-center">
+                            <span class="badge badge-primary puntero" style="padding: 5px;" (click)="editar(item)">  Editar </span>
+                        </td>
+                        <td class="text-center">
+                            <span class="badge badge-danger puntero" *ngIf="item.Estado == '220' " style="padding: 5px;" (click)="anular(item)">  Anular </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade " id="modal_mantenimiento" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel  " aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content" style="width: 500px;">
+            <div class="modal-body">
+                <div class="p-3 card ">
+                    <div class="d-flex justify-content-between flotante">
+                        <div class=" bd-highlight">
+
+                        </div>
+                        <div class=" bd-highlight">
+                            <h5 class="headerTitleModal"> REGISTRO DE INCIDENCIAS </h5>
+                        </div>
+                        <div class=" bd-highlight">
+                            <i class="far fa-times-circle fa-2x puntero" title="Retornar" (click)="cerrarModal()">  </i>
+                        </div>
+                    </div>
+                </div>
+                <hr style="background-color: white;">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <form [formGroup]="formParams" style=" margin-top: -15px;">
+
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label> ID </label>
+                                        <input type="text" class="form-control form-control-sm disabledForm " formControlName="id_Incidencia">
+                                    </div>
+                                </div>
+
+                                <!-- <div class="row ">
+                                    <div class="col-12">
+                                        <label> Centro Costo </label>
+                                        <select class="form-control comboBox" formControlName="Ges_Ordt_Codigo">
+                                            <option value="0"> [ -- SELECCIONE -- ]</option>
+                                            <option [value]="item.codigo" *ngFor="let item of centroCostro">{{item.descripcion}}</option> 
+                                        </select>
+                                    </div>
+                                </div> -->
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label> Ruc </label>
+                                        <div class="input-group" id="txtBuscar">
+                                            <input type="text" class="form-control " style="height: 37px;" formControlName='nro_RUC' (keydown.enter)="buscarRuc($event.target.value )">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-info" type="button" (click)="buscarRuc(formParams.value.nro_RUC)"> Buscar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label> Proveedor </label>
+                                        <input type="text" class="form-control disabledForm" formControlName='razonSocial'>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label> Fecha de registro </label>
+                                        <input class="form-control" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fechaIngreso_Incidencia" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY'  }">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label> Observacion  </label>
+                                        <input type="text" class="form-control " maxlength="250" formControlName="observaciones_Incidencia">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </form>
+                    </div>
+
+                </div>
+
+                <div class="d-flex justify-content-center">
+                    <div class="p-2 bd-highlight">
+                        <button class="btn btn-success" (click)="saveUpdate()" title="Guardar la informacion"> <i class="fas fa-save"> Grabar</i></button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

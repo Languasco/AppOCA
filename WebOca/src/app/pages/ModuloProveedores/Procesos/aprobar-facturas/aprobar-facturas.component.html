@@ -1,0 +1,445 @@
+<div class="card border-left-warning  shadow   ">
+    <div class="card-header">
+        <h5 class="headerTitle"> APROBACION DE FACTURAS </h5>
+    </div>
+    <div class="card-body">
+
+        <form [formGroup]="formParamsFiltro">
+            <div class="row" style="margin-top: -10px;">
+
+                <div class="col-sm-12 col-md-12 col-lg-7">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label> Nro Factura  </label>
+                            <input type="text" class="form-control " maxlength="30" formControlName="nroFactura">
+                        </div>
+                        <div class="col-md-3">
+                            <label> Nro OC  </label>
+                            <input type="text" class="form-control " maxlength="30" formControlName="nroOC">
+                        </div>
+                        <div class="col-md-3">
+                            <label> Proveedor  </label>
+                            <input type="text" class="form-control " maxlength="250" formControlName="Proveedor">
+                        </div>
+                        <div class="col-md-3">
+                            <label for=""> Forma Pago</label>
+                            <select class="form-control comboBox" formControlName="idFormaPago">
+                                <option value="0"> [ -- TODOS -- ]</option>
+                                <option [value]="item.Pub_FoPa_Codigo" *ngFor="let item of formaPagos">{{item.Pub_FoPa_Descripcion}}</option> 
+                        </select>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-sm-12 col-md-12 col-lg-5">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <label for=""> Estado</label>
+                            <select class="form-control comboBox" formControlName="idEstado">
+                                <option value="0"> [ -- TODOS -- ]</option>
+                                <option [value]="item.Pub_Esta_Codigo" *ngFor="let item of estados">{{item.Pub_Esta_Nombre}}</option> 
+                        </select>
+                        </div>
+
+                        <div class="col-md-7">
+                            <br>
+                            <button class="btn btn-primary " (click)="mostrarInformacion()" style="font-size: 13px;">  <i class="fas fa-search"> Mostrar</i> </button>
+                            <button class="btn btn-success ml-1" style="font-size: 13px;" (click)="aprobarMasivo()">  <i class="fas fa-vote-yea"> </i> Aprobar </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <hr>
+
+        <div class="d-flex justify-content-between" style=" margin-top: -15px;">
+            <div class="p-2 bd-highlight">
+                <div class="custom-control custom-checkbox custom-control-inline">
+                    <input type="checkbox" [id]="99" [(ngModel)]="checkeadoAll" (click)="marcarTodos()" class="custom-control-input">
+                    <label class="custom-control-label" [for]="99"> Marcar Todo </label>
+                </div>
+            </div>
+            <div class="p-2 bd-highlight" style="width: 50%;">
+                <input type="text" class="form-control form-control-sm " placeholder="Buscar" maxlength="50" [(ngModel)]="filtrarCab">
+            </div>
+            <div class="p-2 bd-highlight"> </div>
+        </div>
+
+        <div class="search-results tableFixHead">
+            <table class="table  table-hover table-sm">
+                <thead class="theadTable">
+
+                    <tr style=" height: 40px !important; text-align: center;">
+                        <th scope="col">check</th>
+                        <th scope="col">nro. factura</th>
+                        <th scope="col">fecha</th>
+                        <th scope="col">accion</th>
+                        <th scope="col">proveedor</th>
+
+                        <th scope="col">sub total</th>
+                        <th scope="col">igv</th>
+                        <th class="text-center">total</th>
+                        <th class="text-center">Nro Orden C.</th>
+
+                        <th scope="col">tipo OC</th>
+                        <th scope="col">forma Pago</th>
+                        <th scope="col">fecha Aproximada pago</th>
+
+                        <th scope="col">estado</th>
+                        <th scope="col">usuario aprobador 1</th>
+                        <th scope="col">fecha aprobacion 1</th>
+
+
+                        <th scope="col">usuario aprobador 2</th>
+                        <th scope="col">fecha aprobacion 2</th>
+
+                        <th scope="col">usuario devuelve</th>
+                        <th scope="col">fecha devuelve</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of documentosCab |  filter: filtrarCab  ; index as j">
+                        <th scope="row">
+                            <div class="custom-control custom-checkbox custom-control-inline ">
+                                <input type="checkbox" [id]="item.idFacturaCab" [(ngModel)]="item.checkeado" class="custom-control-input">
+                                <label class="custom-control-label" [for]="item.idFacturaCab"> </label>
+                            </div>
+                        </th>
+
+                        <td>{{item.nroFactura}} </td>
+                        <td>
+                            <div style="width: 120px;">
+                                {{item.fecha}}
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <span class="badge badge-primary puntero" style="padding: 5px;" (click)="nuevo(item)">  Ver factura </span>
+                        </td>
+                        <td>{{item.proveedor}} </td>
+
+                        <td>{{item.subTotal}} </td>
+                        <td>{{item.igv}} </td>
+                        <td>{{item.total}} </td>
+                        <td>
+                            <div style="width: 120px;">
+                                {{item.nroOC}}
+                            </div>
+                        </td>
+
+                        <td>{{item.tipoOC}} </td>
+                        <td>
+                            <div style="width: 150px;">
+                                {{item.formaPago}}
+                            </div>
+                        </td>
+                        <td>
+                            <div style="width: 120px;">
+                                {{item.fechaAproxPago}}
+                            </div>
+                        </td>
+
+                        <td>{{item.descripcionEstado}} </td>
+                        <td>{{item.usuarioAprobador1}} </td>
+                        <td>{{item.fechaAprobacion1}} </td>
+
+                        <td>{{item.usuarioAprobador2}} </td>
+                        <td>{{item.fechaAprobacion2}} </td>
+
+                        <td>{{item.usuarioDevuelve}} </td>
+                        <td>{{item.fechaDevuelve}} </td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+
+<div class="modal fade " id="modal_aprobacion" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel  " aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable " role="document">
+        <div class="modal-content">
+            <div class="p-3 card ">
+                <div class="d-flex justify-content-between flotante">
+                    <div class=" bd-highlight">
+                        <i class="fas fa-arrow-circle-left  fa-2x puntero" title="Retornar" (click)="cerrarModal()">  </i>
+                    </div>
+                    <div class=" bd-highlight">
+                        <h5 class="headerTitleModal"> APROBACION DE FACTURAS </h5>
+                    </div>
+                    <div class=" bd-highlight">
+                        <i class="far fa-times-circle fa-2x puntero" title="Retornar" (click)="cerrarModal()">  </i>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body ">
+
+                <fieldset class="shadow" style="margin-top: -15px; ">
+                    <legend> DATOS DE LA ORDEN DE COMPRA </legend>
+                    <div class="panel panel-default ">
+                        <div class="panel-body">
+
+                            <div class="row" style="margin-top: -15px;">
+                                <div class="col-md-4">
+                                    <label> Nro OC </label>
+                                    <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.nroOc">
+                                </div>
+                                <div class="col-md-4">
+                                    <label> Tipo OC </label>
+                                    <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.tipoOc">
+                                </div>
+                                <div class="col-md-4">
+                                    <label> Fecha OC </label>
+                                    <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.fechaOC ">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label> Centro Costo </label>
+                                    <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.nroOc">
+                                </div>
+                                <div class="col-md-6">
+                                    <label> Proveedor </label>
+                                    <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.tipoOc">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label> Forma Pago </label>
+                                    <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.nroOc">
+                                </div>
+                                <div class="col-md-6">
+                                    <label> Moneda </label>
+                                    <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.tipoOc">
+                                </div>
+                            </div>
+
+
+                            <div class="row mt-1">
+                                <div class="col-md-4">
+                                    <label> Sub Total </label>
+                                    <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.nroOc">
+                                </div>
+                                <div class="col-md-4">
+                                    <label> IGV </label>
+                                    <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.tipoOc">
+                                </div>
+                                <div class="col-md-4">
+                                    <label> Total </label>
+                                    <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.fechaOC ">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </fieldset>
+
+                <div class="styleContacto mt-2">
+                    <fieldset class="shadow  ">
+                        <legend> TOTAL FACTURADO </legend>
+                        <div class="panel panel-default ">
+                            <div class="panel-body ">
+
+
+                                <div class="row ">
+                                    <div class="col-md-3">
+                                        <label> Sub Total </label>
+                                        <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.nroOc">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label> IGV </label>
+                                        <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.tipoOc">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label> Total </label>
+                                        <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.fechaOC ">
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label> Cantidad Facturas </label>
+                                        <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.fechaOC ">
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <fieldset class="shadow mt-2">
+                    <legend> DATOS DEL DOCUMENTO </legend>
+                    <div class="panel panel-default ">
+                        <div class="panel-body">
+
+
+                            <div class="row" style="margin-top: -15px; ">
+                                <div class="col-md-4">
+                                    <label> Nro Factura </label>
+                                    <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.nroOc">
+                                </div>
+                                <div class="col-md-4">
+                                    <label> Fecha </label>
+                                    <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.tipoOc">
+                                </div>
+                                <div class="col-md-4">
+                                    <label> Nro-Guia </label>
+                                    <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.tipoOc">
+                                </div>
+
+                            </div>
+
+
+
+                            <div class="row ">
+                                <div class="col-md-4">
+                                    <label> Sub Total </label>
+                                    <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.nroOc">
+                                </div>
+                                <div class="col-md-4">
+                                    <label> IGV </label>
+                                    <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.tipoOc">
+                                </div>
+                                <div class="col-md-4">
+                                    <label> Total </label>
+                                    <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.fechaOC ">
+                                </div>
+                            </div>
+
+                            <div class="row mt-1">
+                                <div class="col-md-12 text-center">
+                                    <button class="btn  btn-sm  btn-primary" title="Aprobar la Orden de Trabajo">
+                                        <i class="fas fa-save"> Aprobar OT</i> 
+                                    </button>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </fieldset>
+
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist" style="background-color: #002f77;     margin-bottom: 2px !important;">
+
+                            <li class="nav-item TabControl">
+                                <a class="nav-link active" style="color:white" (click)="selectedTabControlDetalle = 'LISTA ITEMS' " data-toggle="pill" [class.active]="selectedTabControlDetalle==='LISTA ITEMS'" role="tab" aria-controls="pills-home" aria-selected="true"> LISTA ITEMS </a>
+                            </li>
+                            <li class="nav-item TabControl">
+                                <a class="nav-link active" style="color:white" (click)="selectedTabControlDetalle = 'LISTA DOCUMENTOS ADJUNTOS' " data-toggle="pill" [class.active]="selectedTabControlDetalle==='LISTA DOCUMENTOS ADJUNTOS'" role="tab" aria-controls="pills-home" aria-selected="true"> LISTA DOCUMENTOS ADJUNTOS</a>
+                            </li>
+
+                        </ul>
+
+                        <div class="containerDetalle">
+                            <div class="tab-content" id="pills-tabContent">
+
+                                <!-- Datos Generales -->
+                                <div *ngIf="selectedTabControlDetalle === tabControlDetalle[0]" role="tabpanel" class="tab-pane active">
+
+                                    <div class="card border-primary	">
+                                        <div class="card-body ">
+
+                                            <div class=" table-responsive">
+                                                <table class="table table-hover table-sm">
+                                                    <thead class="theadTable thead-dark">
+                                                        <tr>
+                                                            <th scope="col">#</th>
+                                                            <th scope="col" class="text-center">Tipo Material</th>
+                                                            <th scope="col" class="text-center">Largo</th>
+                                                            <th scope="col" class="text-center">Ancho</th>
+                                                            <th scope="col" class="text-center">Espesor</th>
+                                                            <th scope="col" class="text-center">Total</th>
+                                                            <th colspan="2" class="text-center">Acciones</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let item of estados; index as i">
+                                                            <th scope="row"> {{i + 1}} </th>
+                                                            <td>{{item.tipoMaterial}}</td>
+                                                            <td class="text-right">{{item.largo | number }}</td>
+                                                            <td class="text-right">{{item.ancho | number }}</td>
+                                                            <td class="text-right">{{item.espesor | number}}</td>
+                                                            <td class="text-right">{{item.total | number }}</td>
+                                                            <td class="text-center">
+                                                                <span class="badge badge-primary puntero" style="padding: 5px;">  Ver Fotos </span>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <td colspan="4"></td>
+                                                            <td style="font-size: 12px; font-weight: 600;" class="text-right">Total:</td>
+                                                            <td scope="col" style=" font-size: 12px; font-weight: 800;" class="text-right" style="color:yellowgreen"> </td>
+                                                            <td scope="col"></td>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <!-- Medidas -->
+                                <div *ngIf="selectedTabControlDetalle === tabControlDetalle[1] " role="tabpanel" class="tab-pane active">
+
+                                    <div class="card border-primary ">
+                                        <div class="card-body ">
+
+                                            <div class=" table-responsive">
+                                                <table class="table table-hover table-sm">
+                                                    <thead class="theadTable thead-dark">
+                                                        <tr>
+                                                            <th scope="col">#</th>
+                                                            <th scope="col" class="text-center">Tipo Material</th>
+                                                            <th scope="col" class="text-center">Largo</th>
+                                                            <th scope="col" class="text-center">Ancho</th>
+                                                            <th scope="col" class="text-center">Espesor</th>
+                                                            <th scope="col" class="text-center">Total</th>
+                                                            <th colspan="2" class="text-center">Acciones</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let item of estados; index as i">
+                                                            <th scope="row"> {{i + 1}} </th>
+                                                            <td>{{item.tipoMaterial}}</td>
+                                                            <td class="text-right">{{item.largo | number }}</td>
+                                                            <td class="text-right">{{item.ancho | number }}</td>
+                                                            <td class="text-right">{{item.espesor | number}}</td>
+                                                            <td class="text-right">{{item.total | number }}</td>
+                                                            <td class="text-center">
+                                                                <span class="badge badge-primary puntero" style="padding: 5px;">  Ver Fotos </span>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>

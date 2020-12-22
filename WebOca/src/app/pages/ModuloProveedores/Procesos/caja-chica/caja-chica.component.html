@@ -1,0 +1,482 @@
+<div class="card border-left-warning  shadow   ">
+    <div class="card-header">
+        <h5 class="headerTitle"> LIQUIDACION CAJA CHICA </h5>
+    </div>
+    <div class="card-body">
+
+        <form [formGroup]="formParamsFiltro">
+            <div class="row" style="margin-top: -10px;">
+
+                <div class="col-md-3 ">
+                    <label for=""> Centro Costo</label>
+                    <select class="form-control comboBox" formControlName="idCentroCostro">
+                            <option value="0"> [ -- TODOS -- ]</option>
+                            <option [value]="item.codigo" *ngFor="let item of centroCostro">{{item.descripcion}}</option> 
+                        </select>
+                </div>
+
+                <div class="col-md-3 ">
+                    <label class="control-label"> Rango Fechas </label>
+                    <div class="input-group">
+                        <input class="form-control" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fecha_ini" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY'  }">
+                        <span class="input-group-addon">-</span>
+                        <input class="form-control" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fecha_fin" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
+                    </div>
+                </div>
+
+                <div class="col-md-3 ">
+                    <label for=""> Estado</label>
+                    <select class="form-control comboBox" formControlName="idEstado">
+                        <option value="0"> [ -- SELECCIONE -- ]</option>
+                        <option [value]="item.Pub_Esta_Codigo" *ngFor="let item of estados">{{item.Pub_Esta_Nombre}}</option> 
+                    </select>
+                </div>
+
+                <div class="col-md-3 text-center">
+                    <br>
+                    <div class="text-center">
+                        <button class="btn btn-primary " (click)="mostrarInformacion()" style="font-size: 13px;">  <i class="fas fa-search"> Mostrar</i> </button>
+                        <button class="btn btn-warning ml-2 " (click)="nuevo()" style="font-size: 13px;">  <i class="fa fa-plus-circle"> Nuevo</i> </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <hr>
+
+        <div class="d-flex justify-content-between" style=" margin-top: -15px;">
+            <div class="p-2 bd-highlight"> </div>
+            <div class="p-2 bd-highlight" style="width: 50%;">
+                <input type="text" class="form-control form-control-sm " placeholder="Buscar" maxlength="50" [(ngModel)]="filtrarCab">
+            </div>
+            <div class="p-2 bd-highlight"> </div>
+        </div>
+
+        <div class="search-results tableFixHead">
+            <table class="table  table-hover table-sm">
+                <thead class="theadTable">
+
+                    <tr style="height: 40px !important;">
+                        <th scope="col">#</th>
+                        <th scope="col">NRO LIQUIDACION</th>
+                        <th scope="col">PERIODO EVALUACION</th>
+                        <th scope="col">FECHA REGISTRO</th>
+
+                        <th scope="col">USUARIO GENERACION</th>
+                        <th scope="col">CANTIDAD DOC.</th>
+                        <th scope="col">Estado</th>
+                        <th class="text-center">Editar</th>
+                        <th class="text-center">Imprimir</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of liquidacionCajaCab |  filter: filtrarCab  ; index as j">
+                        <th scope="row"> {{j + 1}} </th>
+                        <td>{{item.nroLiquidacion}}</td>
+                        <td>{{item.periodoEvaluacion}} </td>
+                        <td>{{item.fechaRegistro | date:"dd/MM/yyyy" }}</td>
+
+                        <td>{{item.usuarioGeneracion}}</td>
+                        <td class="text-right">{{item.cantidadDoc}}</td>
+                        <td class="text-center">{{item.descripcionEstado}}</td>
+                        <td class="text-center">
+                            <span class="badge badge-primary puntero" (click)="editar(item)" style="padding: 5px;">  Editar </span>
+                        </td>
+                        <td class="text-center">
+                            <span class="badge badge-warning puntero btn-block" (click)="descargarCajaChica(item)" style="padding: 5px;">  DESCARGAR </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+<div class="modal fade " id="modal_registro" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel  " aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable " role="document">
+        <div class="modal-content">
+            <div class="p-3 card ">
+                <div class="d-flex justify-content-between flotante">
+                    <div class=" bd-highlight">
+                        <i class="fas fa-arrow-circle-left  fa-2x puntero" title="Retornar" (click)="cerrarModal_registro()">  </i>
+                    </div>
+                    <div class=" bd-highlight">
+                        <h5 class="headerTitleModal"> REGISTRO DE LIQUIDACION CAJA CHICA </h5>
+                    </div>
+                    <div class=" bd-highlight">
+                        <i class="far fa-times-circle fa-2x puntero" title="Retornar" (click)="cerrarModal_registro()">  </i>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <fieldset class="shadow">
+                            <legend>DATOS DE LIQUIDACION </legend>
+                            <div class="panel panel-default ">
+                                <div class="panel-body">
+
+                                    <form [formGroup]="formParams">
+                                        <div class="row" style="margin-top: -15px;">
+                                            <div class="col-md-4">
+                                                <label> Nro Evaluacion </label>
+                                                <input type="text" class="form-control disabledForm" formControlName='id_LiquidacionCaja_Cab'>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label> Centro de Costo </label>
+                                                <select class="form-control comboBox" formControlName="Ges_Ordt_Codigo">
+                                                    <option value="0"> [ -- SELECCIONE -- ]</option>
+                                                    <option [value]="item.codigo" *ngFor="let item of centroCostro">{{item.descripcion}}</option> 
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="control-label"> Periodo Evaluacion </label>
+                                                <div class="input-group">
+                                                    <input class="form-control" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fechaInicial" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY'  }">
+                                                    <span class="input-group-addon">-</span>
+                                                    <input class="form-control" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fechaFinal" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY'  }">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 text-center" style="margin-top: 10px;margin-bottom: -20px;">
+
+                        <div class="d-flex justify-content-center">
+                            <div class="p-2 bd-highlight">
+                                <button class="btn btn-sm btn-success " *ngIf="idEstado_Global== 240" id="btnRegistrar" (click)="registrarLiquidacion()" title="Mostrar la informacion"> <i class="fas fa-save"> </i>  Registrar Liquidacion </button>
+                            </div>
+
+                            <div class="p-2 bd-highlight" *ngIf="idLiquidacionCaja_Cab_Global > 0">
+                                <button class="btn btn-sm btn-info ml-2" *ngIf="idEstado_Global== 240" (click)="enviarAprobar()" title="Enviar a aprobar">  <i class="fas fa-share-square"> </i> Enviar Aprobar </button>
+                            </div>
+
+                            <div class="p-2 bd-highlight">
+                                <button class="btn btn-sm btn-danger ml-2 " (click)="this.flagExpandirComprimir = (this.flagExpandirComprimir)?false:true;">  <i class="fas fa-compress-arrows-alt" > </i>  Registrar Comprobante </button>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+                <br>
+
+                <div class="row" style="margin-top: -10px;" *ngIf="flagExpandirComprimir">
+                    <div class="col-md-12">
+                        <fieldset class="shadow">
+                            <legend> REGISTRO COMPROBANTES </legend>
+                            <div class="panel panel-default ">
+                                <div class="panel-body">
+
+                                    <div class="d-flex justify-content-start" style="margin-top: -20px; margin-bottom: -10px;">
+                                        <div class="p-2 bd-highlight">
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                                <input type="radio" [id]="100" value="1" name="comprobante" checked class="custom-control-input" (change)="changeComprobante($event.target.value)">
+                                                <label class="custom-control-label" [for]="100">INGRESO MANUAL</label>
+                                            </div>
+                                        </div>
+                                        <div class="p-2 bd-highlight">
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                                <input type="radio" [id]="101" value="2" name="comprobante" class="custom-control-input" (change)="changeComprobante($event.target.value)">
+                                                <label class="custom-control-label" [for]="101">INGRESO POR IMPORTACION</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <br>
+                </div>
+
+
+                <div class="row mt-2" *ngIf="flagComprobante == 2">
+                    <div class="col-md-12" *ngIf="flagExpandirComprimir">
+                        <fieldset class="shadow">
+                            <legend> IMPORTAR COMPROBANTES </legend>
+                            <div class="panel panel-default ">
+                                <div class="panel-body">
+
+
+                                    <div class="row" *ngIf="idLiquidacionCaja_Cab_Global > 0">
+                                        <div class="col-md-6 mt-2">
+
+                                            <form [formGroup]="formParamsFile">
+                                                <div class="botonFile">
+                                                    <input type="file" class="form-control-file btn" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" formControlName="file" (change)="onFileChange($event)" />
+                                                </div>
+                                            </form>
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mt-3 text-center" *ngIf="idEstado_Global == 240">
+                                                <button class="btn btn-sm btn-primary " (click)="subirArchivo()" id="btnRegistrar" title="Registrar Documentos"> <i class="fas fa-save"> </i>  Guardar </button>
+                                                <button class="btn btn-sm btn-warning ml-2" (click)="blank()">  <i class="fa fa-plus-circle"> Nuevo</i> </button>
+                                                <button class="btn btn-sm btn-primary ml-2" (click)="downloadFormat()">  <i class="fas fa-file-download"> Formato</i> </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div *ngFor="let fil of filesExcel; let i=index">
+                                                <div class="alert alert-danger text-center" *ngIf="fil.status === 'error'">
+                                                    <h5>Sistemas</h5>
+                                                    <hr>
+                                                    <p><small>{{fil.message}}</small></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <br>
+                </div>
+
+                <div class="row mt-2" *ngIf="flagComprobante == 1">
+                    <div class="col-md-12" *ngIf="flagExpandirComprimir">
+                        <fieldset class="shadow">
+                            <legend> REGISTRO DE COMPROBANTES </legend>
+                            <div class="panel panel-default ">
+                                <div class="panel-body">
+
+                                    <form [formGroup]="formParamsManual">
+                                        <div class="row" style="margin-top: -15px;">
+                                            <div class="col-md-4">
+                                                <label> Interno </label>
+                                                <input type="text" class="form-control disabledForm" formControlName='id_LiquidacionCaja_Det'>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label> Tipo Documento </label>
+
+                                                <select class="form-control comboBox" formControlName="Pub_TiDo_Codigo">
+                                                    <option value="0"> [ -- SELECCIONE -- ]</option>
+                                                    <option [value]="doc.id_TipoDocFile" *ngFor="let doc of tiposDocumentosFiles">{{doc.nombreFile}}</option> 
+                                                </select>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label> Serie </label>
+                                                <input type="text" class="form-control  " formControlName='nroSerie_Doc'>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label> Numero </label>
+                                                <input type="text" class="form-control  " formControlName='numero_Doc'>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label> Fecha Emision </label>
+                                                <input class="form-control" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fechaEmision_Doc" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY'  }">
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label> Ruc </label>
+                                                <input type="text" class="form-control " formControlName='nro_RUC' (keydown.enter)="buscarRuc($event.target.value )">
+
+                                            </div>
+                                            <div class="col-md-8">
+                                                <label> Proveedor </label>
+                                                <input type="text" class="form-control disabledForm" formControlName='razonsocial'>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label> Concepto </label>
+                                                <input type="text" class="form-control " formControlName='concepto_Doc'>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <label> Importe No Afecto </label>
+                                                <input type="text" class="form-control " (keypress)="keyPress($event)" (keyup.enter)="getGenerarCalculos()" (blur)="getGenerarCalculos()" formControlName='subTotal_Doc'>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label> Igv </label>
+                                                <input type="text" class="form-control " (keypress)="keyPress($event)" formControlName='IgvTotal_Doc'>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label> Percepciones </label>
+                                                <input type="text" class="form-control " (keypress)="keyPress($event)" (keyup.enter)="getGenerarCalculos()" (blur)="getGenerarCalculos()" formControlName='percepciones_Doc'>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label> Otros Cargos </label>
+                                                <input type="text" class="form-control " (keypress)="keyPress($event)" (keyup.enter)="getGenerarCalculos()" (blur)="getGenerarCalculos()" formControlName='otrosG_Doc'>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label> Total </label>
+                                                <input type="text" class="form-control " (keypress)="keyPress($event)" formControlName='total_Doc'>
+                                            </div>
+
+                                        </div>
+
+                                    </form>
+
+                                    <div class="row" *ngIf="idEstado_Global == 240">
+                                        <div class="col-md-12 text-center mt-2">
+                                            <button class="btn btn-sm btn-success" *ngIf="idLiquidacionCaja_Cab_Global > 0" (click)="guardarDet_liquidacion()">  <i class="fas fa-save"> Grabar</i> </button>
+                                            <button class="btn btn-sm btn-warning ml-2" (click)="blank_Detalle()">  <i class="fa fa-plus-circle"> Nuevo</i> </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <br>
+                </div>
+
+
+                <div class="row mt-2" id="formDetalle" *ngIf="flagExpandirComprimir">
+                    <div class="col-md-12">
+                        <fieldset class="shadow">
+                            <legend> DETALLE DE LIQUIDACION </legend>
+                            <div class="panel panel-default ">
+                                <div class="panel-body">
+
+                                    <label for=""> * Una vez que termine de ingresar el valor presionar la techa enter para Grabar</label>
+
+                                    <div class="search-results tableFixHead">
+                                        <table class="table  table-bordered table-hover table-sm ">
+                                            <thead class="theadTable thead-dark">
+                                                <tr style="height: 40px !important;">
+                                                    <th scope="col">ITEM</th>
+                                                    <th> TIPO DOC </th>
+                                                    <th> SERIE </th>
+                                                    <th> NUMERO </th>
+                                                    <th> FECHA </th>
+
+                                                    <th> RAZON SOCIAL </th>
+                                                    <th> CONCEPTO </th>
+                                                    <th> NRO AFECTO </th>
+                                                    <th> IGV </th>
+
+                                                    <th> PERCEPCIONES </th>
+                                                    <th> OTROS CARGOS </th>
+                                                    <th> TOTAL </th>
+                                                    <th colspan="2"> ACCIONES </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of liquidacionesDet ; index as j">
+                                                    <td scope="row"> {{j + 1}} </td>
+                                                    <td> {{item.tipoDocumento}} </td>
+                                                    <td>{{item.nroSerie_Doc}}</td>
+                                                    <td>{{item.numero_Doc}}</td>
+                                                    <td>{{item.fechaEmision_Doc}}</td>
+
+                                                    <td>{{item.razonSocial}} </td>
+                                                    <td>{{item.concepto_Doc}}</td>
+                                                    <td>{{item.subTotal_Doc}}</td>
+                                                    <td>{{item.IgvTotal_Doc}}</td>
+
+                                                    <td>{{item.percepciones_Doc}}</td>
+                                                    <td>{{item.otrosG_Doc}}</td>
+                                                    <td>{{item.total_Doc}}</td>
+                                                    <td class="text-right">
+                                                        <span class="badge badge-primary puntero" (click)="modificar_detalleLiquidacion(item)" style="padding: 5px;">  Editar </span>
+                                                    </td>
+                                                    <td class="text-right">
+                                                        <span class="badge badge-danger puntero" (click)="eliminar_detalleLiquidacion(item)" style="padding: 5px;">  Eliminar </span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <br>
+                </div>
+
+
+
+                <div class="row mt-2" id="formDetalle" *ngIf="flagExpandirComprimir">
+                    <div class="col-md-12">
+                        <fieldset class="shadow">
+                            <legend> IMPORTAR DOCUMENTOS </legend>
+                            <div class="panel panel-default ">
+                                <div class="panel-body">
+
+                                    <form [formGroup]="formParamsDoc" *ngIf="idLiquidacionCaja_Cab_Global > 0">
+                                        <div class="row">
+                                            <div class="col-md-8 mt-2">
+                                                <div class="botonFile ">
+                                                    <input type="file" class="form-control-file btn" formControlName="file" (change)="onDocumentChange($event)" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4" *ngIf="idEstado_Global == 240">
+                                                <div class="mt-2 text-left">
+                                                    <button class="btn btn-sm btn-outline-info " (click)="guardar_documentosCajaChica()" title="guardar">  <i class="fas fa-save"> </i>  Cargar </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                    <div class="card border-left-warning shadow  mt-3">
+                                        <div class=" tableFixHead" style="height: 200px;">
+                                            <table class="table  table-bordered table-hover table-sm ">
+                                                <thead class="theadTable">
+                                                    <tr>
+                                                        <th scope="col">#</th>
+                                                        <th scope="col">NOMBRE ARCHIVOS</th>
+                                                        <th scope="col">FECHA REGISTRO</th>
+                                                        <th class="text-center">Eliminar</th>
+                                                        <th class="text-center">Descargar</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let item of documentosCajaChica; index as j">
+                                                        <th scope="row"> {{j + 1}} </th>
+                                                        <td>{{item.nombreArchivo}}</td>
+                                                        <td>{{item.fechaRegistro}}</td>
+                                                        <td class="text-center">
+                                                            <a class="puntero linkOpcion" (click)=" eliminarArchivoSeleccionado(item) " title="quitar el registro"> Eliminar</a>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <a class="puntero linkOpcion" (click)=" downloadFileExport(item.id_Liquidacion_Archivo) " title="descargar"> Descargar</a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

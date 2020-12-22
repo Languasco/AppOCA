@@ -1,0 +1,768 @@
+<div class="card border-left-warning  shadow  mt-2 ">
+    <div class="card-header">
+        <h5 class="headerTitle"> BANDEJA DE PROVEEDORES NUEVOS </h5>
+    </div>
+    <div class="card-body">
+        <div class="formPrincipal">
+
+            <form [formGroup]="formParamsFiltro">
+                <div class="row">
+                    <div class="col-md-4">
+                        <!-- <label class="control-label"> Nro Obra </label>
+                        <input type="text" class="form-control form-control-sm " maxlength="50" formControlName="nroObra"> -->
+                    </div>
+                    <div class="col-md-4 ">
+                        <label for=""> Estado</label>
+                        <select class="form-control comboBox" formControlName="idEstado">
+                            <option value="0"> [ -- TODOS -- ]</option>
+                            <option [value]="item.Pub_Esta_Codigo" *ngFor="let item of estados">{{item.Pub_Esta_Nombre}}</option> 
+                        </select>
+                    </div>
+                    <div class="col-md-4 ">
+                        <div class="text-center mt-3">
+                            <button class="btn   btn-outline-primary btn-block" data-toggle="tooltip" (click)="mostrar_proveedoresNuevosCab()" title="Mostrar la informacion">
+                            <i class="fas fa-search"> </i> Mostrar </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <hr>
+
+            <div class="row mb-2">
+
+                <div class="col-md-3">
+
+                </div>
+
+                <div class="col-md-6">
+                    <input type="text" class="form-control form-control-sm " placeholder="Auto Busquedas" maxlength="50" [(ngModel)]="filtrarCab">
+                </div>
+
+                <div class="col-md-3">
+
+                </div>
+            </div>
+
+            <div class="search-results tableFixHead" style="height: 300px;">
+                <table class="table  table-bordered table-hover table-sm ">
+                    <thead class="theadTable thead-dark">
+                        <tr style="height: 40px !important;">
+                            <th scope="col">#</th>
+                            <th> TP </th>
+                            <th> RUC </th>
+                            <th> RAZON SOCIAL </th>
+                            <th> ACT. ECONOMICA </th>
+
+                            <th> DIRECCION </th>
+                            <th> PAIS </th>
+                            <th> DEPARTAMENTO </th>
+                            <th> ESTADO </th>
+                            <th colspan="3" class="text-center"> ACCIONES </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of proveedoresNuevosCab  |  filter: filtrarCab  ; index as j">
+                            <td scope="row"> {{j + 1}} </td>
+
+                            <td>{{item.tipoProveedor}}</td>
+                            <td>{{item.ruc}}</td>
+                            <td>{{item.razonSocial}}</td>
+                            <td>{{item.actEconomica}}</td>
+
+                            <td>{{item.direccion}}</td>
+                            <td>{{item.pais}}</td>
+                            <td>{{item.departamento}}</td>
+                            <td>{{item.estado}}</td>
+
+                            <td class="text-center">
+                                <span class="badge badge-warning puntero btn-block" (click)="imprimirProveedor(item)" style="padding: 5px;">  IMPRIMIR </span>
+                            </td>
+                            <td class="text-center">
+                                <span class="badge badge-primary puntero btn-block" style="padding: 5px;" (click)="abrir_modalProveedor(item,2)">  VER FICHA </span>
+                            </td>
+                            <td class="text-center">
+                                <span class="badge badge-info puntero btn-block" style="padding: 5px;" (click)="abrir_modalProveedor(item,3)">  VER ADJUNTOS </span>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="modal fade " id="modal_proveedor" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel  " aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable " role="document">
+        <div class="modal-content">
+            <div class="p-3 card ">
+                <div class="d-flex justify-content-between flotante">
+                    <div class=" bd-highlight">
+                        <i class="fas fa-arrow-circle-left  fa-2x puntero" title="Retornar" (click)="cerrarModal_documentos()">  </i>
+                    </div>
+                    <div class=" bd-highlight">
+                        <h5 class="headerTitleModal"> APROBAR PROVEEDOR </h5>
+                    </div>
+                    <div class=" bd-highlight">
+                        <i class="far fa-times-circle fa-2x puntero" title="Retornar" (click)="cerrarModal_documentos()">  </i>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+
+
+                <div class="formPrincipal">
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <fieldset class="shadow">
+                                <legend> </legend>
+                                <div class="panel panel-default ">
+                                    <div class="panel-body">
+
+                                        <form [formGroup]="formParams">
+
+
+                                            <div class="d-flex justify-content-center disabledForm ">
+                                                <div class="p-2 bd-highlight">
+                                                    <div class="custom-control custom-radio custom-control-inline">
+                                                        <input type="radio" [id]="100" value="1" formControlName="id_TipoProveedor" checked class="custom-control-input">
+                                                        <label class="custom-control-label" [for]="100">PROVEEDOR NACIONAL</label>
+                                                    </div>
+                                                </div>
+                                                <div class="p-2 bd-highlight">
+                                                    <div class="custom-control custom-radio custom-control-inline">
+                                                        <input type="radio" [id]="101" value="2" formControlName="id_TipoProveedor" class="custom-control-input">
+                                                        <label class="custom-control-label" [for]="101">PROVEEDOR EXTRANJERO</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <label> Ruc</label>
+                                                    <input type="text" id="txtRuc" class="form-control disabledForm" (blur)="onBlurRuc()" maxlength="20" formControlName="nro_RUC">
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label> Estado</label>
+                                                    <input type="text" class="form-control " formControlName="xxxxx">
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label> Condicion</label>
+                                                    <input type="text" class="form-control " formControlName="xxxxx">
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row mb-2">
+                                                <div class="col-md-6">
+                                                    <label> Nombre o Razon Social</label>
+                                                    <input type="text" class="form-control " maxlength="250" formControlName="razonsocial">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label> Nombre Comercial </label>
+                                                    <input type="text" class="form-control " maxlength="250" formControlName="nombreComercial">
+                                                </div>
+                                            </div>
+
+                                        </form>
+
+                                    </div>
+                                </div>
+
+                            </fieldset>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist" style=" background-color: #003575;  margin-bottom: 1px !important;">
+                                <li class="nav-item TabControl" *ngFor="let nameTab of tabControlDetalle; let first = first;">
+                                    <a class="nav-link active" style="color:white" (click)="selectedTabControlDetalle = nameTab" data-toggle="pill" [class.active]="selectedTabControlDetalle===nameTab" role="tab" aria-controls="pills-home" aria-selected="true">{{nameTab}}</a>
+                                </li>
+                            </ul>
+
+                            <div class="containerDetalle">
+                                <div class="tab-content" id="pills-tabContent">
+
+                                    <div *ngIf="selectedTabControlDetalle === tabControlDetalle[0]" role="tabpanel" class="tab-pane active">
+
+                                        <div class="card border-primary  shadow mb-3">
+                                            <div class="card-body  ">
+
+
+                                                <!-- Actividad Economica -->
+                                                <fieldset class="shadow">
+                                                    <legend>2. Actividad Económica</legend>
+                                                    <div class="panel panel-default ">
+                                                        <div class="panel-body">
+
+                                                            <form [formGroup]="formParams">
+                                                                <div class="row">
+                                                                    <div class="col-md-3">
+                                                                        <div class="custom-control custom-checkbox custom-control-inline animated fadeIn">
+                                                                            <input type="checkbox" [id]="103" class="custom-control-input" formControlName="vtaProductos">
+                                                                            <label class="custom-control-label" [for]="103"> Venta Productos   </label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <div class="custom-control custom-checkbox custom-control-inline animated fadeIn">
+                                                                            <input type="checkbox" [id]="104" class="custom-control-input" formControlName="vtaServicios">
+                                                                            <label class="custom-control-label" [for]="104"> Venta Servicios   </label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <div class="custom-control custom-checkbox custom-control-inline animated fadeIn">
+                                                                            <input type="checkbox" [id]="105" class="custom-control-input" formControlName="vtaotros">
+                                                                            <label class="custom-control-label" [for]="105"> Otros (detalle)   </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row mb-2">
+                                                                    <div class="col-md-8">
+                                                                        <label> Detalle </label>
+                                                                        <input type="text" class="form-control " maxlength="100" formControlName="vtaotrosDetalle">
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+
+                                                        </div>
+                                                    </div>
+
+                                                </fieldset>
+
+                                                <br>
+
+                                                <!-- Informacion general -->
+
+
+                                                <fieldset class="shadow">
+                                                    <legend>3. Información General </legend>
+                                                    <div class="panel panel-default ">
+                                                        <div class="panel-body">
+
+                                                            <!-- empresa -->
+                                                            <div class="styleEmpresa">
+                                                                <fieldset class="shadow " style="margin-top: -15px;">
+                                                                    <legend>3.1 Empresa </legend>
+                                                                    <div class="panel panel-default ">
+                                                                        <div class="panel-body">
+
+                                                                            <form [formGroup]="formParams">
+                                                                                <div class="row">
+                                                                                    <div class="col-md-12">
+                                                                                        <label> Dirección</label>
+                                                                                        <input type="text" class="form-control " maxlength="250" formControlName="direcion">
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="row">
+                                                                                    <div class="col-md-4">
+                                                                                        <label> Pais</label>
+                                                                                        <select class="form-control comboBox" formControlName="id_Pais" (change)="changePais($event.target.value)">
+                                                                                    <option value="0"> [ -- SELECCIONE-- ]</option>
+                                                                                    <option [value]="est.id_Pais" *ngFor="let est of paises">{{est.nombre_Pais | uppercase }}</option> 
+                                                                                </select>
+                                                                                    </div>
+                                                                                    <div class="col-md-4">
+                                                                                        <label> Ciudad</label>
+                                                                                        <select class="form-control comboBox" formControlName="id_Ciudad" (change)="changeCiudad($event.target.value)">
+                                                                                    <option value="0"> [ --SELECCIONE-- ]</option>
+                                                                                    <option [value]="est.id_Ciudad" *ngFor="let est of ciudades">{{est.nombre_Ciudad | uppercase }}</option> 
+                                                                                </select>
+                                                                                    </div>
+                                                                                    <div class="col-md-4">
+                                                                                        <label> Departamento</label>
+                                                                                        <select class="form-control comboBox" formControlName="id_Departamento">
+                                                                                    <option value="0"> [ --SELECCIONE-- ]</option>
+                                                                                    <option [value]="est.id_Departamento" *ngFor="let est of departamentos">{{est.nombre_Dpto | uppercase }}</option> 
+                                                                                </select>
+                                                                                    </div>
+                                                                                </div>
+
+
+                                                                                <div class="row">
+                                                                                    <div class="col-md-4">
+                                                                                        <label> Teléfono Fijo</label>
+                                                                                        <input type="number" class="form-control " maxlength="30" formControlName="telefonoFijo">
+                                                                                    </div>
+                                                                                    <div class="col-md-4">
+                                                                                        <label> Teléfono Celular</label>
+                                                                                        <input type="number" class="form-control " maxlength="30" formControlName="celular">
+                                                                                    </div>
+                                                                                    <div class="col-md-4">
+                                                                                        <label> Fax</label>
+                                                                                        <input type="number" class="form-control " maxlength="30" formControlName="fax">
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="row">
+                                                                                    <div class="col-md-8">
+                                                                                        <label> Persona de Contacto Comercial</label>
+                                                                                        <input type="text" class="form-control " maxlength="100" formControlName="personalContacto_IG">
+                                                                                    </div>
+                                                                                    <div class="col-md-4">
+                                                                                        <label> Cargo </label>
+                                                                                        <input type="text" class="form-control " formControlName="cargo_IG">
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="row mb-2">
+                                                                                    <div class="col-md-8">
+                                                                                        <label> Correo Electrónico Comercial</label>
+                                                                                        <input type="email" class="form-control " formControlName="email_IG">
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            </form>
+
+                                                                        </div>
+                                                                    </div>
+
+                                                                </fieldset>
+                                                            </div>
+                                                            <br>
+
+                                                            <!-- tesoreria -->
+                                                            <div class="styleTesoreria">
+                                                                <fieldset class="shadow">
+                                                                    <legend>3.2 Tesoreria </legend>
+                                                                    <div class="panel panel-default ">
+                                                                        <div class="panel-body">
+
+                                                                            <form [formGroup]="formParams">
+                                                                                <div class="row">
+                                                                                    <div class="col-md-8">
+                                                                                        <label> Nombre y Apellidos </label>
+                                                                                        <input type="text" class="form-control " formControlName="personalContacto_T">
+                                                                                    </div>
+                                                                                    <div class="col-md-4">
+                                                                                        <label> Cargo </label>
+                                                                                        <input type="text" class="form-control " formControlName="cargo_T">
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="row mb-2">
+                                                                                    <div class="col-md-4">
+                                                                                        <label> Teléfono Celular </label>
+                                                                                        <input type="number" class="form-control " formControlName="xxxxx">
+                                                                                    </div>
+                                                                                    <div class="col-md-8">
+                                                                                        <label> Correo Electronico </label>
+                                                                                        <input type="text" class="form-control " formControlName="email_T">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </form>
+
+                                                                        </div>
+                                                                    </div>
+
+                                                                </fieldset>
+                                                            </div>
+                                                            <br>
+
+                                                            <div class="styleContacto">
+                                                                <fieldset class="shadow">
+                                                                    <legend>3.3 Representante Legal de Contacto </legend>
+                                                                    <div class="panel panel-default ">
+                                                                        <div class="panel-body">
+
+                                                                            <form [formGroup]="formParams">
+                                                                                <div class="row">
+                                                                                    <div class="col-md-8">
+                                                                                        <label> Nombre y Apellidos </label>
+                                                                                        <input type="text" class="form-control " formControlName="personalContacto_RLC">
+                                                                                    </div>
+                                                                                    <div class="col-md-4">
+                                                                                        <label> Cargo </label>
+                                                                                        <input type="text" class="form-control " formControlName="cargo_RLC">
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="row mb-2">
+                                                                                    <div class="col-md-3">
+                                                                                        <label> Tipo Doc </label>
+                                                                                        <select class="form-control comboBox" formControlName="id_TipoDoc_RLC">
+                                                                                    <option value="0"> [ --SELECCIONE-- ]</option>
+                                                                                    <option [value]="est.id_GrupoDetalle" *ngFor="let est of tipoDocumentos">{{est.descripcion_detalleTabla | uppercase }}</option>  
+                                                                                </select>
+                                                                                    </div>
+
+                                                                                    <div class="col-md-3">
+                                                                                        <label> Nro Documento </label>
+                                                                                        <input type="number" class="form-control " formControlName="nro_RLC">
+                                                                                    </div>
+                                                                                    <div class="col-md-6">
+                                                                                        <label> Correo Electronico </label>
+                                                                                        <input type="text" class="form-control " formControlName="email_RLC">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </form>
+
+                                                                        </div>
+                                                                    </div>
+
+                                                                </fieldset>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+                                                </fieldset>
+
+
+                                                <br>
+
+                                                <!-- Información Bancaria -->
+                                                <div class="styleBancaria">
+                                                    <fieldset class="shadow ">
+                                                        <legend>4. Información Bancaria </legend>
+                                                        <div class="panel panel-default  ">
+
+                                                            <div class="panel-body ">
+
+                                                                <form [formGroup]="formParams">
+                                                                    <div class="row">
+                                                                        <div class="col-md-6">
+                                                                            <label> Nro Cuenta Detracción (Banco Nación) </label>
+                                                                            <input type="text" class="form-control " mask="00-000-00000000" [showMaskTyped]="true" formControlName="nroCuentaDetraccion">
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+
+                                                                <div *ngIf="idProveedor_Global>0">
+                                                                    <form [formGroup]="formParamsBanco">
+                                                                        <div class="row">
+                                                                            <div class="col-md-4">
+                                                                                <label> Nombre Banco </label>
+                                                                                <select class="form-control comboBox" formControlName="id_Banco">
+                                                                            <option value="0"> [ --SELECCIONE-- ]</option>
+                                                                            <option [value]="banco.id_Banco" *ngFor="let banco of bancos">{{banco.nombre_Banco | uppercase }}</option>  
+                                                                        </select>
+                                                                            </div>
+
+                                                                            <div class="col-md-4">
+                                                                                <label> Moneda </label>
+                                                                                <select class="form-control comboBox" formControlName="Pub_Mone_Codigo">
+                                                                            <option value="0"> [ --SELECCIONE-- ]</option>
+                                                                            <option [value]="moneda.Pub_Mone_Codigo" *ngFor="let moneda of monedas">{{moneda.Pub_Mone_Descripcion | uppercase }}</option>  
+                                                                        </select>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <label> Tipo Cuenta </label>
+                                                                                <br>
+                                                                                <div class="custom-control custom-radio custom-control-inline">
+                                                                                    <input type="radio" [id]="108" value="A" formControlName="id_TipoCuenta" checked class="custom-control-input">
+                                                                                    <label class="custom-control-label" [for]="108">Ahorro</label>
+                                                                                </div>
+
+                                                                                <div class="custom-control custom-radio custom-control-inline">
+                                                                                    <input type="radio" [id]="109" value="C" formControlName="id_TipoCuenta" checked class="custom-control-input">
+                                                                                    <label class="custom-control-label" [for]="109">Corriente</label>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row">
+                                                                            <div class="col-md-4">
+                                                                                <label> Nro Cuenta </label>
+                                                                                <input type="text" class="form-control " formControlName="nroCuenta">
+                                                                            </div>
+
+                                                                            <div class="col-md-4">
+                                                                                <label> Nro Cuenta Interbancaria </label>
+                                                                                <input type="number" class="form-control " formControlName="nroCCI">
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <label> Estado </label>
+                                                                                <select class="form-control comboBox" formControlName="estado">
+                                                                                <option value="1"> ACTIVO </option>
+                                                                                <option value="0"> ANULADO </option>
+                                                                            </select>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </form>
+                                                                    <!-- 
+                                                                    <div class="row mt-2 mb-3">
+                                                                        <div class="col-md-12 text-center">
+                                                                            <button type="button" class="btn btn-sm btn-dark " (click)="saveUpdate_bancos();" tooltip="Grabar informacion bancaria">   <i class="fas fa-save"></i> Grabar</button>
+                                                                        </div>
+                                                                    </div> -->
+
+                                                                    <hr>
+
+                                                                    <div class="search-results tableFixHead">
+                                                                        <table id="tbl_datasolesOt" class="table table-bordered  table-hover table-sm">
+                                                                            <thead class="theadTable">
+                                                                                <tr style="height: 20px !important;">
+                                                                                    <th scope="col">#</th>
+                                                                                    <th scope="col">Banco </th>
+                                                                                    <th scope="col">Tipo Cuenta </th>
+                                                                                    <th scope="col">Nro Cuenta</th>
+                                                                                    <th scope="col">Nro Cuenta Interbancaria </th>
+                                                                                    <th scope="col">Moneda</th>
+                                                                                    <!-- <th colspan="2" class="text-center">Acciones</th> -->
+
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <tr *ngFor="let item of detalleBancos   ; index as j" [ngStyle]="item.estado == '0' && {'color': 'red'}">
+                                                                                    <td scope="row"> {{j + 1}} </td>
+                                                                                    <td>{{item.nombre_Banco}}</td>
+                                                                                    <td>{{item.tipoCuenta}}</td>
+                                                                                    <td>{{item.nroCuenta}}</td>
+                                                                                    <td>{{item.nroCCI}}</td>
+                                                                                    <td>{{item.Pub_Mone_Descripcion}}</td>
+                                                                                    <!-- <td class="text-center">
+                                                                                        <span class="badge badge-primary puntero" style="padding: 5px;" (click)="modificarBanco(item)">  Editar </span>
+                                                                                    </td>
+                                                                                    <td class="text-center">
+
+                                                                                        <span class="badge badge-danger puntero" *ngIf="item.estado > 0" style="padding: 5px;" (click)="anularBanco(item)">  Anular </span>
+                                                                                    </td> -->
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </fieldset>
+                                                </div>
+
+
+                                                <br>
+                                                <fieldset class="shadow">
+                                                    <legend>5. Uso de Datos Personales </legend>
+                                                    <div class="panel panel-default ">
+                                                        <div class="panel-body">
+
+                                                            <form [formGroup]="formParams">
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="custom-control custom-checkbox custom-control-inline animated fadeIn">
+                                                                            <input type="checkbox" [id]="106" class="custom-control-input" formControlName="check1_UDP">
+                                                                            <label class="custom-control-label" [for]="106"> Autorizo a la empresa Oca Calidad Medio Ambiente y Seguridad del Perú SAC (Oca Global) el uso de mis datos personales con la finalidad de que me hagan llegar los servicios que requieren y sean de interés. Oca Global respeta la privacidad de la información personal de las personas y garantiza la confidencialidad y el tratamiento seguro de los datos de carácter personal que se solicitan a través de este formato de acuerdo a lo establecido en la Ley 29733 Ley de Protección de Datos Personales. </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="custom-control custom-checkbox custom-control-inline animated fadeIn">
+                                                                            <input type="checkbox" [id]="107" class="custom-control-input" formControlName="check2_UDP">
+                                                                            <label class="custom-control-label" [for]="107">  No autorizo el uso de mis datos personales </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </form>
+
+                                                        </div>
+                                                    </div>
+
+                                                </fieldset>
+
+                                                <br>
+                                                <!-- Autorizaciones -->
+                                                <fieldset class="shadow">
+                                                    <legend>6. Autorizaciones y Declaraciones Especiales </legend>
+                                                    <div class="panel panel-default ">
+                                                        <div class="panel-body">
+
+                                                            <form [formGroup]="formParams">
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <label>
+                                                                            Declaro que la información consignada en este formulario es veraz y admito que cualquier omisión o inexactitud en estos documentos podrá ocasionar el rechazo de esta solicitud y la devolución de la documentación, como también la cancelación de mi inscripción
+                                                                            y/o finalización de la relación pre o post contractual. Me comprometo a actualizar la información aquí consignada en los tiempos determinados por la Compañía.
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+
+                                                        </div>
+                                                    </div>
+
+                                                </fieldset>
+                                                <br>
+                                                <!-- <div class="text-center" *ngIf="idProveedor_Global > 0">
+                                                    <button type="button" class="btn btn-sm btn-success " (click)="saveUpdate();" tooltip="Grabar">   <i class="fas fa-save fa-2x"></i> Guardar</button>
+                                                </div> -->
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div *ngIf="selectedTabControlDetalle === tabControlDetalle[1]" role="tabpanel" class="tab-pane active">
+
+                                        <div class="card border-light  shadow mb-3">
+                                            <div class="card-body  ">
+
+                                                <div class="styleBancaria">
+                                                    <fieldset class="shadow ">
+                                                        <legend>Adjuntar Documentos </legend>
+                                                        <div class="panel panel-default  ">
+                                                            <div class="panel-body ">
+
+
+
+                                                                <form [formGroup]="formParamsFiles">
+
+                                                                    <div class="row">
+                                                                        <div class="col-md-8">
+                                                                            <label> Tipo Archivo </label>
+                                                                            <select class="form-control comboBox" formControlName="id_TipoDocumento">
+                                                                                <option value="0"> [ --SELECCIONE-- ]</option>
+                                                                                <option [value]="est.id_GrupoDetalle" *ngFor="let est of tipoArchivos">{{est.descripcion_detalleTabla | uppercase }}</option>  
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-8">
+                                                                            <label> Nombre de Archivo</label>
+                                                                            <input type="text" class="form-control " maxlength="250" formControlName="nombreArchivo">
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row mt-2">
+                                                                        <div class="col-md-6">
+                                                                            <div class="botonFile">
+
+                                                                                <input type="file" class="form-control-file btn" formControlName="file" (change)="onFileChange($event,1)" />
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- <div class="col-md-4 pt-1 text-center">
+                                                                            <button class="btn btn-sm btn-success" (click)="subirArchivo_new()">  <i class="fas fa-cloud-upload-alt"> Cargar</i> </button>
+                                                                        </div> -->
+                                                                    </div>
+                                                                </form>
+                                                                <hr>
+
+                                                                <div class=" tableFixHead">
+                                                                    <table class="table table-hover table-sm">
+                                                                        <thead class="theadTableModal">
+                                                                            <tr>
+                                                                                <th scope="col">#</th>
+                                                                                <th scope="col">Tipo Documento</th>
+                                                                                <th scope="col">Nombre</th>
+                                                                                <th scope="col">Fecha</th>
+                                                                                <th class="text-center">Descargar</th>
+                                                                                <!--<th class="text-center">Eliminar</th> -->
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr *ngFor="let item of  detalleProveedorArchivos; index as i">
+
+                                                                                <th scope="row"> {{i + 1}} </th>
+                                                                                <td>{{item.tipoDocumento}}</td>
+                                                                                <td>{{item.nombreArchivo}}</td>
+                                                                                <td>{{item.fechaArchivo}}</td>
+                                                                                <td class="text-center">
+                                                                                    <a class="puntero linkOpcion" (click)=" descargarArchivo_proveedor( item.id_Proveedor_Archivo ) " title="descargar"> Descargar</a>
+                                                                                </td>
+                                                                                <!--    <td class="text-center">
+                                                                                    <a class="puntero linkOpcion" (click)=" eliminarArchivo_proveedor(item) " title="quitar el registro"> Eliminar</a>
+                                                                                </td> -->
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </fieldset>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <br>
+
+
+                                    <div class="text-center" *ngIf="idProveedor_Global > 0">
+                                        <div *ngIf=" (idEstado_Global == 207 || idEstado_Global == 208)?false: true ">
+                                            <button type="button" class="btn btn-sm btn-success " (click)="abrir_modalAprobar('A');" tooltip="Grabar">   <i class="fas fa-save fa-2x"></i> Aprobar</button>
+                                            <button type="button" class="btn btn-sm btn-danger ml-2 " (click)="abrir_modalAprobar('R');" tooltip="Grabar">   <i class="fas fa-save fa-2x"></i> Rechazar</button>
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<div class="modal fade" id="modal_aprobacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered " role="document">
+        <div class="modal-content" style="    border-color: red;">
+            <div class="modal-header">
+                <div class="clearfix">
+                    <h1 class="modal-title float-right text-danger"> RECHAZAR</h1>
+                </div>
+                <button type="button" class="close" (click)="cerrarModal_aprobar()" aria-label="Close">  <span aria-hidden="true">&times;</span>     </button>
+            </div>
+            <div class="modal-body">
+
+                <form [formGroup]="formParamsAprobar" style=" margin-top: -15px;">
+                    <fieldset class="shadow-sm mt-2">
+                        <legend></legend>
+                        <div class="panel panel-default ">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label> Motivo </label>
+                                                <textarea class="form-control" style="background: rgb(253, 253, 120);; color: black; font-weight: 600;font-size: 13px;" maxlength="255" formControlName="motivo" rows="3"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+
+                <div class="d-flex justify-content-center">
+                    <div class="p-2 bd-highlight">
+                        <button class="btn btn-danger ml-2" title="Rechazar" (click)="aprobarRechazarProveedor('R')"> <i class="fas fa-window-close"> Rechazar </i></button>
+                    </div>
+                </div>
+
+            </div>
+            <!-- <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="cerrarModalAprobar()">Cerrar</button>
+            </div> -->
+        </div>
+    </div>
+</div>

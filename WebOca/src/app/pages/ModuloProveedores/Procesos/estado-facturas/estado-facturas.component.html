@@ -1,0 +1,103 @@
+<div class="card border-left-warning  shadow  mt-2 ">
+    <div class="card-header">
+        <h5 class="headerTitle"> ESTADO DE FACTURAS </h5>
+    </div>
+    <div class="card-body">
+        <div class="formPrincipal">
+
+            <form [formGroup]="formParamsFiltro" style="    margin-top: -10px;">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label class="control-label"> Rango Fechas </label>
+                        <div class="input-group">
+                            <input class="form-control" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fecha_ini" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY'  }">
+                            <span class="input-group-addon">-</span>
+                            <input class="form-control" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fecha_fin" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
+                        </div>
+                    </div>
+                    <div class="col-md-3 ">
+                        <label for=""> Orden Compra</label>
+                        <input type="text" class="form-control " formControlName="nroOC">
+                    </div>
+                    <div class="col-md-3 ">
+                        <label for=""> Estado</label>
+                        <select class="form-control comboBox" formControlName="idEstado">
+                            <option value="0"> [ -- TODOS -- ]</option>
+                            <option [value]="item.Pub_Esta_Codigo" *ngFor="let item of estados">{{item.Pub_Esta_Nombre}}</option> 
+                        </select>
+                    </div>
+
+                    <div class="col-md-3 ">
+                        <div class="text-center mt-3">
+                            <button class="btn   btn-outline-primary btn-block" (click)="mostrarInformacion_estadoProveedoresCab()" title="Mostrar la informacion">
+                            <i class="fas fa-search"> </i> Mostrar </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <hr>
+
+            <div class="row mb-2">
+                <div class="col-md-3">
+
+                </div>
+                <div class="col-md-6">
+                    <input type="text" class="form-control form-control-sm " placeholder="Auto Busquedas" maxlength="50" [(ngModel)]="filtrarCab">
+                </div>
+                <div class="col-md-3">
+
+                </div>
+            </div>
+
+            <div class="search-results tableFixHead" style="height: 300px;">
+                <table class="table  table-bordered table-hover table-sm ">
+                    <thead class="theadTable thead-dark">
+                        <tr style="height: 40px !important;">
+                            <th scope="col">#</th>
+                            <th> NRO FACTURA </th>
+                            <th> FECHA </th>
+                            <th class="text-center"> SUB TOTAL</th>
+                            <th class="text-center"> IGV </th>
+                            <th class="text-center"> TOTAL </th>
+
+                            <th> NRO OC </th>
+                            <th> TIPO OC </th>
+                            <th> FORMA PAGO</th>
+                            <th> FECHA APROX. PAGO </th>
+
+
+                            <th> ESTADO </th>
+                            <th> NRO VOUCHER </th>
+                            <th> FECHA PAGO </th>
+                            <th> COMENTARIO PAGO ATRAZADO </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of documentosCab  |  filter: filtrarCab  ; index as j">
+                            <td scope="row"> {{j + 1}} </td>
+                            <td>{{item.nroFactura}}</td>
+                            <td>{{item.fecha}}</td>
+                            <td class="text-right">{{item.subTotal | number:'0.1-5' }}</td>
+                            <td class="text-right">{{item.igv}}</td>
+                            <td class="text-right">{{item.total | number:'0.1-5' }}</td>
+
+                            <td>{{item.nroOC}}</td>
+                            <td>{{item.tipoOC}}</td>
+                            <td>{{item.formaPago}}</td>
+                            <td>{{item.fechaAprox}}</td>
+
+                            <td>{{item.estado}}</td>
+                            <td>{{item.nroVoucher}}</td>
+                            <td>{{item.fechaPago}}</td>
+                            <td>{{item.comentariosPago}}</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+        </div>
+    </div>
+</div>

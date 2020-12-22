@@ -1,0 +1,248 @@
+<div class="card border-left-warning  shadow  mt-2 ">
+    <div class="card-header">
+        <h5 class="headerTitle"> APROBAR EVALUACION DE PROVEEDORES </h5>
+    </div>
+    <div class="card-body">
+        <div class="formPrincipal">
+
+            <form [formGroup]="formParamsFiltro2">
+                <div class="row">
+                    <div class="col-md-3 ">
+                        <label for=""> Centro Costo</label>
+                        <select class="form-control comboBox" formControlName="idCentroCostro">
+                                <option value="0"> [ -- TODOS -- ]</option>
+                                <option [value]="item.codigo" *ngFor="let item of centroCostro">{{item.descripcion}}</option> 
+                            </select>
+                    </div>
+
+                    <div class="col-md-3 ">
+                        <label class="control-label"> Rango Fechas </label>
+                        <div class="input-group">
+                            <input class="form-control" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fecha_ini" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY'  }">
+                            <span class="input-group-addon">-</span>
+                            <input class="form-control" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fecha_fin" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 ">
+                        <label for=""> Estado</label>
+                        <select class="form-control comboBox" formControlName="idEstado">
+                            <option value="0"> [ -- SELECCIONE -- ]</option>
+                            <option [value]="item.Pub_Esta_Codigo" *ngFor="let item of estados">{{item.Pub_Esta_Nombre}}</option> 
+                        </select>
+                    </div>
+
+                    <div class="col-md-3 ">
+                        <div class="text-center mt-4">
+                            <button class="btn btn-sm  btn-primary" data-toggle="tooltip" title="Mostrar Informacion" (click)="mostrarInformacion_listaEvaluaciones()">
+                                <i class="fas fa-search"> </i> Actualizar </button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </form>
+
+            <hr>
+
+            <div class="row mb-2" *ngIf="evaluacionesCab.length > 0">
+
+                <div class="col-md-3">
+
+                </div>
+
+                <div class="col-md-6">
+                    <input type="text" class="form-control form-control-sm " placeholder="Auto Busquedas" maxlength="50" [(ngModel)]="filtrarList">
+                </div>
+
+                <div class="col-md-3">
+
+                </div>
+            </div>
+
+            <div class="search-results tableFixHead" style="height: 400px;">
+                <table class="table  table-bordered table-hover table-sm ">
+                    <thead class="theadTable ">
+                        <tr style="height: 40px !important;">
+                            <th scope="col">#</th>
+                            <th> NRO EVALUACION </th>
+                            <th> PERIODO DE EVALUACION </th>
+                            <th class="text-center"> FECHA EVALUACION </th>
+                            <th class="text-center"> PROVEEDOR A </th>
+                            <th class="text-center"> PROVEEDOR B </th>
+                            <th class="text-center"> PROVEEDOR C </th>
+                            <th class="text-center"> ESTADO </th>
+                            <th class="text-center"> ACCION </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of evaluacionesCab ; index as j" [ngStyle]="item.idEstado == '217' && {'color': 'red'}">
+                            <td scope="row"> {{j + 1}} </td>
+                            <td>{{item.nroEvaluacion}}</td>
+                            <td>{{item.periodoEvaluacion}}</td>
+                            <td class="text-right">{{item.fechaEvaluacion}}</td>
+                            <td class="text-right">{{item.ProveedorA}}</td>
+                            <td class="text-right">{{item.ProveedorB}}</td>
+                            <td class="text-right">{{item.ProveedorC}}</td>
+                            <td class="text-right">{{item.descripcionEstado}}</td>
+                            <td class="text-right">
+                                <span class="badge badge-primary puntero" (click)="editar_evaluacionCab(item)" style="padding: 5px;">  Visualizar </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+
+
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade " id="modal_registro" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel  " aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable " role="document">
+        <div class="modal-content">
+            <div class="p-3 card ">
+                <div class="d-flex justify-content-between flotante">
+                    <div class=" bd-highlight">
+                        <i class="fas fa-arrow-circle-left  fa-2x puntero" title="Retornar" (click)="cerrarModal_registro()">  </i>
+                    </div>
+                    <div class=" bd-highlight">
+                        <h5 class="headerTitleModal"> REGISTRO DE EVALUACION DE PROVEEDORES </h5>
+                    </div>
+                    <div class=" bd-highlight">
+                        <i class="far fa-times-circle fa-2x puntero" title="Retornar" (click)="cerrarModal_registro()">  </i>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <fieldset class="shadow">
+                            <legend>DATOS DE EVALUACION</legend>
+                            <div class="panel panel-default ">
+                                <div class="panel-body">
+
+                                    <div class="row" *ngIf="evaluacionProveedorCab.id_Evaluacion_Cab" style="margin-top: -15px;">
+                                        <div class="col-md-4">
+                                            <label> Nro Evaluacion </label>
+                                            <input type="text" class="form-control disabledForm" [value]="evaluacionProveedorCab.nroEvaluacion">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="control-label"> Periodo Evaluacion </label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control disabledForm" [value]="evaluacionProveedorCab.periodoInicial">
+                                                <span class="input-group-addon">-</span>
+                                                <input type="text" class="form-control disabledForm" [value]="evaluacionProveedorCab.periodoFinal">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label> Centro de Costo </label>
+                                            <input type="text" class="form-control disabledForm" [value]="evaluacionProveedorCab.centroCosto">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+
+                </div>
+
+
+                <div class="d-flex justify-content-center" *ngIf="idEstadoCab_Global == '215'">
+                    <div class="p-2 bd-highlight">
+                        <button class="btn btn-success" title="Aprobar" (click)="aprobarRechazarEvaluacion('A')"> <i class="far fa-check-circle"> Aprobar </i></button>
+                        <button class="btn btn-danger ml-2" title="Rechazar" (click)="aprobarRechazarEvaluacion('R')"> <i class="fas fa-window-close"> Rechazar </i></button>
+                    </div>
+                </div>
+
+                <div class="row" id="formDetalle">
+                    <div class="col-md-12">
+                        <fieldset class="shadow">
+                            <legend> DETALLE DE EVALUACION </legend>
+                            <div class="panel panel-default ">
+                                <div class="panel-body">
+
+                                    <label for=""> * Una vez que termine de ingresar el valor presionar la techa enter para Grabar</label>
+
+                                    <div class="search-results tableFixHead">
+                                        <table class="table  table-bordered table-hover table-sm ">
+                                            <thead class="theadTable thead-dark">
+                                                <tr style="height: 40px !important;">
+                                                    <th scope="col">#</th>
+                                                    <th> RUC </th>
+                                                    <th> RAZON SOCIAL </th>
+                                                    <th> FECHA </th>
+                                                    <!-- <th class="text-center"> CALIDAD </th> -->
+                                                    <th class="text-center"> PRECIO </th>
+                                                    <th class="text-center"> CALIDAD</th>
+
+                                                    <th class="text-center"> T ENTREGA </th>
+                                                    <th class="text-center"> CREDITO </th>
+                                                    <th class="text-center"> GARANTIA </th>
+
+                                                    <th class="text-center"> PUNTUACION </th>
+                                                    <th class="text-center"> STATUS </th>
+                                                    <th class="text-center"> ELIMINAR </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of evaluacionProveedorDet ; index as j">
+                                                    <td scope="row"> {{j + 1}} </td>
+                                                    <td>{{item.ruc}}</td>
+                                                    <td>
+                                                        <div style="width: 250px;">
+                                                            {{item.razonSocial}}
+                                                        </div>
+                                                    </td>
+                                                    <td>{{item.fecha}}</td>
+
+                                                    <!-- <td class="text-right">
+                                                        <input type="text" (keypress)="keyPress($event)" style="background-color: beige; color: brown; font-weight: 700; text-align: right;" class="form-control" [(ngModel)]="item.calidad" (keydown.enter)="actualizarDetalleAprobacion( 'calidad', $event.target.value,item )">
+                                                    </td> -->
+                                                    <td class="text-right">
+                                                        <input type="text" id="id_precio_{{j}}" (keypress)="keyPress($event)" style="background-color: beige; color: brown; font-weight: 700; text-align: right;" class="form-control" [(ngModel)]="item.precio" (keydown.enter)="actualizarDetalleAprobacion('precio',$event.target.value,item, j )">
+                                                    </td>
+                                                    <td class="text-right">
+                                                        <input type="text" id="id_calidad_{{j}}" (keypress)="keyPress($event)" style="background-color: beige; color: brown; font-weight: 700; text-align: right;" class="form-control" [(ngModel)]="item.calidad" (keydown.enter)="actualizarDetalleAprobacion('calidad',$event.target.value,item , j )">
+                                                    </td>
+
+                                                    <td class="text-right">
+                                                        <input type="text" id="id_tEntrega_{{j}}" (keypress)="keyPress($event)" style="background-color: beige; color: brown; font-weight: 700; text-align: right;" class="form-control" [(ngModel)]="item.tEntrega" (keydown.enter)="actualizarDetalleAprobacion('tentrega',$event.target.value,item , j  )">
+                                                    </td>
+                                                    <td class="text-right">
+                                                        <input type="text" id="id_credito_{{j}}" (keypress)="keyPress($event)" style="background-color: beige; color: brown; font-weight: 700; text-align: right;" class="form-control" [(ngModel)]="item.credito" (keydown.enter)="actualizarDetalleAprobacion( 'credito' , $event.target.value,item , j  )">
+                                                    </td>
+                                                    <td class="text-right">
+                                                        <input type="text" id="id_garantia_{{j}}" (keypress)="keyPress($event)" style="background-color: beige; color: brown; font-weight: 700; text-align: right;" class="form-control" [(ngModel)]="item.garantia" (keydown.enter)="actualizarDetalleAprobacion('garantia' , $event.target.value,item , j  )">
+                                                    </td>
+
+                                                    <td class="text-right">
+                                                        <input type="text" (keypress)="keyPress($event)" disabled style="text-align: right;" class="form-control" [(ngModel)]="item.puntuacion">
+                                                    </td>
+                                                    <td class="text-center">{{item.status }}</td>
+                                                    <td class="text-right">
+                                                        <span class="badge badge-danger puntero" (click)="eliminar_evaluacionProveedorDet(item)" style="padding: 5px;">  ELIMINAR </span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

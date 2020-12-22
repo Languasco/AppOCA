@@ -1,0 +1,2488 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MFSoft_Base_OCAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Pub_Monedas">
+          <Key>
+            <PropertyRef Name="Pub_Empr_Codigo" />
+            <PropertyRef Name="Pub_Mone_Codigo" />
+          </Key>
+          <Property Name="Pub_Empr_Codigo" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="Pub_Mone_Codigo" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="Pub_Mone_Descripcion" Type="varchar" MaxLength="50" />
+          <Property Name="Pub_Mone_Simbolo" Type="varchar" MaxLength="5" />
+          <Property Name="Pub_Mone_Procedencia" Type="varchar" MaxLength="5" />
+          <Property Name="Pub_Mone_Uso" Type="varchar" MaxLength="5" />
+          <Property Name="Pub_Esta_Codigo" Type="char" MaxLength="3" />
+          <Property Name="Pub_Mone_UsuCrea" Type="char" MaxLength="6" />
+          <Property Name="Pub_Mone_FecCrea" Type="datetime" />
+          <Property Name="Pub_Mone_UsuModi" Type="char" MaxLength="6" />
+          <Property Name="Pub_Mone_FecModi" Type="datetime" />
+          <Property Name="Pub_Mone_Identidad" Type="char" MaxLength="6" />
+        </EntityType>
+        <EntityType Name="Pub_Usuarios">
+          <Key>
+            <PropertyRef Name="Pub_Usua_Codigo" />
+          </Key>
+          <Property Name="Pub_Usua_Nombre" Type="varchar" MaxLength="100" />
+          <Property Name="Pub_Usua_Codigo" Type="char" MaxLength="6" Nullable="false" />
+          <Property Name="Pub_Usua_Login" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Pub_Usua_Clave" Type="varchar" MaxLength="30" />
+          <Property Name="Pub_Usua_Cargo" Type="varchar" MaxLength="100" />
+          <Property Name="Pub_Usua_Email" Type="varchar" MaxLength="100" />
+          <Property Name="Pub_Usua_Adm" Type="char" MaxLength="2" />
+          <Property Name="Pub_Usua_Sis" Type="char" MaxLength="2" />
+          <Property Name="Pub_Esta_Codigo" Type="char" MaxLength="3" />
+          <Property Name="Pub_Usua_UsuCrea" Type="char" MaxLength="6" />
+          <Property Name="Pub_Usua_FecCrea" Type="datetime" />
+          <Property Name="Pub_Usua_UsuModi" Type="char" MaxLength="6" />
+          <Property Name="Pub_Usua_FecModi" Type="datetime" />
+          <Property Name="Pub_Usua_Identidad" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Pub_Area_Codigo" Type="char" MaxLength="3" />
+          <Property Name="Pub_Usua_Obs" Type="varchar" MaxLength="100" />
+          <Property Name="pub_dni" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="tbl_Aceesos_Evento">
+          <Key>
+            <PropertyRef Name="id_Acceso_evento" />
+          </Key>
+          <Property Name="id_Acceso_evento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_Opcion" Type="int" />
+          <Property Name="id_Usuario" Type="varchar" MaxLength="6" />
+          <Property Name="id_Evento" Type="int" />
+          <Property Name="estado" Type="int" />
+          <Property Name="usuario_creacion" Type="int" />
+          <Property Name="fecha_creacion" Type="datetime" />
+          <Property Name="usuario_edicion" Type="int" />
+          <Property Name="fecha_edicion" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_Armado">
+          <Key>
+            <PropertyRef Name="id_Armado" />
+          </Key>
+          <Property Name="id_Armado" Type="int" Nullable="false" />
+          <Property Name="id_TipoArmado" Type="int" />
+          <Property Name="id_SubTipoArmado" Type="int" />
+          <Property Name="codigo_Armado" Type="varchar" MaxLength="50" />
+          <Property Name="descripcion_Armado" Type="varchar" MaxLength="100" />
+          <Property Name="id_Estructura" Type="int" />
+          <Property Name="TipoRegistro" Type="varchar" MaxLength="5" />
+          <Property Name="Alm_Arti_Codigo" Type="varchar" MaxLength="30" />
+          <Property Name="Cantidad_Armado" Type="decimal" Precision="18" Scale="3" />
+        </EntityType>
+        <EntityType Name="Tbl_Bancos">
+          <Key>
+            <PropertyRef Name="id_Banco" />
+          </Key>
+          <Property Name="id_Banco" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre_Banco" Type="varchar" MaxLength="150" />
+          <Property Name="estado" Type="varchar" MaxLength="3" />
+          <Property Name="usuario_creacion" Type="varchar" MaxLength="6" />
+          <Property Name="fecha_creacion" Type="datetime" Nullable="false" />
+          <Property Name="usuario_edicion" Type="varchar" MaxLength="3" />
+          <Property Name="fecha_edicion" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_Ciudad">
+          <Key>
+            <PropertyRef Name="id_Ciudad" />
+          </Key>
+          <Property Name="id_Ciudad" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_Pais" Type="int" />
+          <Property Name="nombre_Ciudad" Type="varchar" MaxLength="150" />
+          <Property Name="estado" Type="int" />
+          <Property Name="usuario_creacion" Type="int" />
+          <Property Name="fecha_creacion" Type="datetime" />
+          <Property Name="usuario_edicion" Type="int" />
+          <Property Name="fecha_edicion" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_Definicion_Opciones">
+          <Key>
+            <PropertyRef Name="id_opcion" />
+          </Key>
+          <Property Name="id_opcion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre_opcion" Type="varchar" MaxLength="150" />
+          <Property Name="url_opcion" Type="varchar" MaxLength="150" />
+          <Property Name="parentID" Type="int" />
+          <Property Name="nombreParentID" Type="varchar" MaxLength="150" />
+          <Property Name="urlImagen_Opcion" Type="varchar" MaxLength="150" />
+          <Property Name="orden_Opcion" Type="int" />
+          <Property Name="estado" Type="int" />
+          <Property Name="usuario_creacion" Type="int" />
+          <Property Name="fecha_creacion" Type="datetime" />
+          <Property Name="usuario_edicion" Type="int" />
+          <Property Name="fecha_edicion" Type="datetime" />
+          <Property Name="interface_Opcion" Type="int" />
+          <Property Name="TipoInterface" Type="varchar" MaxLength="2" />
+        </EntityType>
+        <EntityType Name="tbl_Departamento">
+          <Key>
+            <PropertyRef Name="id_Departamento" />
+          </Key>
+          <Property Name="id_Departamento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_Pais" Type="int" />
+          <Property Name="id_Ciudad" Type="int" />
+          <Property Name="nombre_Dpto" Type="varchar" MaxLength="100" />
+          <Property Name="estado" Type="int" />
+          <Property Name="usuario_creacion" Type="int" />
+          <Property Name="fecha_creacion" Type="datetime" />
+          <Property Name="usuario_edicion" Type="int" />
+          <Property Name="fecha_edicion" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_Documento_Archivos">
+          <Key>
+            <PropertyRef Name="id_Documento_Archivo" />
+          </Key>
+          <Property Name="id_Documento_Archivo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_Documento" Type="int" />
+          <Property Name="id_TipoDocFile" Type="int" />
+          <Property Name="nombreArchivo" Type="varchar" MaxLength="150" />
+          <Property Name="nombreArchivo_bd" Type="int" />
+          <Property Name="numeroDocumento" Type="varchar" MaxLength="30" />
+          <Property Name="fechaDocumento" Type="datetime" />
+          <Property Name="estado" Type="int" />
+          <Property Name="usuario_creacion" Type="int" />
+          <Property Name="fecha_creacion" Type="datetime" />
+          <Property Name="usuario_edicion" Type="int" />
+          <Property Name="fecha_edicion" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_Documento_Cab">
+          <Key>
+            <PropertyRef Name="id_Documento" />
+          </Key>
+          <Property Name="id_Documento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Pub_Emp_Codigo" Type="varchar" MaxLength="2" />
+          <Property Name="id_tipoIngreso" Type="varchar" MaxLength="5" />
+          <Property Name="Pub_TiDo_Codigo" Type="varchar" MaxLength="2" />
+          <Property Name="nroSerie_Doc" Type="varchar" MaxLength="10" />
+          <Property Name="numero_Doc" Type="varchar" MaxLength="30" />
+          <Property Name="fechaEmision_Doc" Type="datetime" />
+          <Property Name="Ges_Ordt_Codigo" Type="varchar" MaxLength="30" />
+          <Property Name="CCosto" Type="varchar" MaxLength="10" />
+          <Property Name="id_Proveedor" Type="int" />
+          <Property Name="nro_RUC" Type="varchar" MaxLength="20" />
+          <Property Name="concepto_Doc" Type="varchar" MaxLength="250" />
+          <Property Name="Log_Ocom_Tipo" Type="varchar" MaxLength="1" />
+          <Property Name="Log_Ocom_Codigo" Type="varchar" MaxLength="30" />
+          <Property Name="Pub_Mone_Codigo" Type="varchar" MaxLength="2" />
+          <Property Name="TipoCambio" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="subTotal_Doc" Type="decimal" Precision="28" Scale="6" />
+          <Property Name="porcentajeIGV" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="IgvTotal_Doc" Type="decimal" Precision="28" Scale="6" />
+          <Property Name="total_Doc" Type="decimal" Precision="28" Scale="6" />
+          <Property Name="observaciones" Type="varchar" MaxLength="250" />
+          <Property Name="usario_Aprobo" Type="varchar" MaxLength="6" />
+          <Property Name="fecha_Aprobacion" Type="datetime" />
+          <Property Name="usuario_Rechazo" Type="varchar" MaxLength="6" />
+          <Property Name="fecha_Rechazo" Type="nchar" MaxLength="10" />
+          <Property Name="id_MotivoRechazo" Type="varchar" MaxLength="5" />
+          <Property Name="descripcionRechazo" Type="varchar" MaxLength="250" />
+          <Property Name="nroVaocher_Pago" Type="varchar" MaxLength="20" />
+          <Property Name="fechaPago" Type="datetime" />
+          <Property Name="comentario_Pago" Type="varchar" MaxLength="250" />
+          <Property Name="Estado" Type="varchar" MaxLength="3" />
+          <Property Name="usuario_creacion" Type="varchar" MaxLength="6" />
+          <Property Name="fecha_creacion" Type="datetime" />
+          <Property Name="usuario_edicion" Type="varchar" MaxLength="6" />
+          <Property Name="fecha_edicion" Type="datetime" />
+          <Property Name="Log_OCom_Identidad" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_Documento_Det">
+          <Key>
+            <PropertyRef Name="id_Documento_Det" />
+          </Key>
+          <Property Name="id_Documento_Det" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_Documento" Type="int" />
+          <Property Name="item_DocDet" Type="int" />
+          <Property Name="alm_Arti_Codigo" Type="varchar" MaxLength="30" />
+          <Property Name="Pub_Mone_Codigo" Type="varchar" MaxLength="2" />
+          <Property Name="TipoCambio" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="cantidad_DocDet" Type="decimal" Precision="28" Scale="6" />
+          <Property Name="precio_DocDet" Type="decimal" Precision="28" Scale="6" />
+          <Property Name="total_DocDet" Type="decimal" Precision="28" Scale="6" />
+          <Property Name="CtaGastos" Type="varchar" MaxLength="10" />
+          <Property Name="CtaIGV" Type="varchar" MaxLength="10" />
+          <Property Name="CtaxPagar" Type="varchar" MaxLength="10" />
+          <Property Name="Estado" Type="varchar" MaxLength="3" />
+          <Property Name="usuario_creacion" Type="varchar" MaxLength="6" />
+          <Property Name="fecha_creacion" Type="datetime" />
+          <Property Name="usuario_edicion" Type="varchar" MaxLength="6" />
+          <Property Name="fecha_edicion" Type="datetime" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'MFSoft_Base_OCA.dbo.Tbl_Elenco_Baremo' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="Tbl_Elenco_Baremo">
+          <Key>
+            <PropertyRef Name="Baremo" />
+            <PropertyRef Name="Elenco" />
+            <PropertyRef Name="OBS" />
+          </Key>
+          <Property Name="Baremo" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Elenco" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="OBS" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tbl_Elenco_ENEL">
+          <Key>
+            <PropertyRef Name="ideLenco" />
+          </Key>
+          <Property Name="ideLenco" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Codigo1" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Codigo2" Type="varchar" MaxLength="20" />
+          <Property Name="Clasificacion1" Type="varchar" MaxLength="100" />
+          <Property Name="Clasificacion2" Type="varchar" MaxLength="100" />
+          <Property Name="idGrupoInstalacion" Type="int" />
+          <Property Name="descripcion" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Unidad" Type="varchar" MaxLength="40" />
+          <Property Name="Puntos" Type="decimal" Precision="28" Scale="6" />
+          <Property Name="ValorPunto" Type="decimal" Precision="28" Scale="6" />
+          <Property Name="pub_sucu_codigo" Type="varchar" MaxLength="5" Nullable="false" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'MFSoft_Base_OCA.dbo.Tbl_Elenco_ENEL_Conexiones' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="Tbl_Elenco_ENEL_Conexiones">
+          <Key>
+            <PropertyRef Name="PCon_Orde_Sicot" />
+            <PropertyRef Name="PCon_Orde_Sicot_Interno" />
+            <PropertyRef Name="Pub_Sucu_Codigo" />
+            <PropertyRef Name="idZona" />
+            <PropertyRef Name="ideLenco" />
+            <PropertyRef Name="Ele_OPar_Item" />
+            <PropertyRef Name="Ele_OPar_Cantidad" />
+            <PropertyRef Name="Ele_OPar_Precio" />
+            <PropertyRef Name="Ele_OPar_Factor" />
+            <PropertyRef Name="Pub_Esta_Codigo" />
+            <PropertyRef Name="PCon_OPar_UsuCrea" />
+            <PropertyRef Name="PCon_OPar_FecCrea" />
+            <PropertyRef Name="PCon_OPar_UsuModi" />
+            <PropertyRef Name="PCon_OPar_FecModi" />
+          </Key>
+          <Property Name="PCon_Orde_Sicot" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="PCon_Orde_Sicot_Interno" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Pub_Sucu_Codigo" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="idZona" Type="int" Nullable="false" />
+          <Property Name="ideLenco" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Ele_OPar_Item" Type="int" Nullable="false" />
+          <Property Name="Ele_OPar_Cantidad" Type="decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="Ele_OPar_Precio" Type="decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="Ele_OPar_Factor" Type="decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="Pub_Esta_Codigo" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="PCon_OPar_UsuCrea" Type="char" MaxLength="6" Nullable="false" />
+          <Property Name="PCon_OPar_FecCrea" Type="datetime" Nullable="false" />
+          <Property Name="PCon_OPar_UsuModi" Type="char" MaxLength="6" Nullable="false" />
+          <Property Name="PCon_OPar_FecModi" Type="datetime" Nullable="false" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'MFSoft_Base_OCA.dbo.Tbl_Elenco_ENELa' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="Tbl_Elenco_ENELa">
+          <Key>
+            <PropertyRef Name="Codigo1" />
+            <PropertyRef Name="descripcion" />
+            <PropertyRef Name="pub_sucu_codigo" />
+          </Key>
+          <Property Name="Codigo1" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Codigo2" Type="varchar" MaxLength="20" />
+          <Property Name="Clasificacion1" Type="varchar" MaxLength="100" />
+          <Property Name="Clasificacion2" Type="varchar" MaxLength="100" />
+          <Property Name="idGrupoInstalacion" Type="int" />
+          <Property Name="descripcion" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Unidad" Type="varchar" MaxLength="40" />
+          <Property Name="Puntos" Type="decimal" Precision="28" Scale="6" />
+          <Property Name="ValorPunto" Type="decimal" Precision="28" Scale="6" />
+          <Property Name="pub_sucu_codigo" Type="varchar" MaxLength="5" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_Estructura_Material">
+          <Key>
+            <PropertyRef Name="id_Estructura_Material" />
+          </Key>
+          <Property Name="id_Estructura_Material" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_TipoArmado" Type="int" />
+          <Property Name="id_Estructura" Type="int" />
+          <Property Name="TipoRegistro" Type="int" />
+          <Property Name="Alm_Arti_Codigo" Type="varchar" MaxLength="30" />
+          <Property Name="Pub_Esta_Codigo" Type="char" MaxLength="3" />
+          <Property Name="Pub_Empr_UsuCrea" Type="char" MaxLength="6" />
+          <Property Name="Pub_Empr_FecCrea" Type="datetime" />
+          <Property Name="Pub_Empr_UsuModi" Type="char" MaxLength="6" />
+          <Property Name="Pub_Empr_FecModi" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_Estructuras">
+          <Key>
+            <PropertyRef Name="id_Estructura" />
+          </Key>
+          <Property Name="id_Estructura" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre_Estructura" Type="varchar" MaxLength="50" />
+          <Property Name="orden_Estructura" Type="int" />
+          <Property Name="orden2_Estructura" Type="int" />
+        </EntityType>
+        <EntityType Name="Tbl_Grupo_ENEL">
+          <Key>
+            <PropertyRef Name="idGrupo" />
+          </Key>
+          <Property Name="idGrupo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Tbl_Grupo_Zona_ENEL">
+          <Key>
+            <PropertyRef Name="idGrupoZona" />
+          </Key>
+          <Property Name="idGrupoZona" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idGrupo" Type="int" Nullable="false" />
+          <Property Name="idZona" Type="int" Nullable="false" />
+          <Property Name="FactorZona" Type="decimal" Precision="28" Scale="6" Nullable="false" />
+          <Property Name="ValorPunto" Type="decimal" Precision="28" Scale="6" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_GrupoTabla">
+          <Key>
+            <PropertyRef Name="id_GrupoTabla" />
+          </Key>
+          <Property Name="id_GrupoTabla" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre_GrupoTabla" Type="varchar" MaxLength="100" />
+          <Property Name="estado" Type="int" />
+          <Property Name="usuario_creacion" Type="int" />
+          <Property Name="fecha_creacion" Type="datetime" />
+          <Property Name="usuario_edicion" Type="int" />
+          <Property Name="fecha_edicion" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_GrupoTabla_Detalle">
+          <Key>
+            <PropertyRef Name="id_GrupoDetalle" />
+          </Key>
+          <Property Name="id_GrupoDetalle" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_GrupoTabla" Type="int" />
+          <Property Name="codigo_detalleTabla" Type="varchar" MaxLength="20" />
+          <Property Name="descripcion_detalleTabla" Type="varchar" MaxLength="150" />
+          <Property Name="diasVencimiento_detalleTabla" Type="varchar" MaxLength="20" />
+          <Property Name="valor_detalleTabla" Type="varchar" MaxLength="20" />
+          <Property Name="estado" Type="int" />
+          <Property Name="usuario_creacion" Type="int" />
+          <Property Name="fecha_creacion" Type="datetime" Nullable="false" />
+          <Property Name="usuario_edicion" Type="int" />
+          <Property Name="fecha_edicion" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Tbl_Instalacion_CAB_SIGE">
+          <Key>
+            <PropertyRef Name="id_Instalacion" />
+          </Key>
+          <Property Name="id_Instalacion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Contratista" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'MFSoft_Base_OCA.dbo.Tbl_Instalacion_SIGETRAMA' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="Tbl_Instalacion_SIGETRAMA">
+          <Key>
+            <PropertyRef Name="id_Instalacion" />
+            <PropertyRef Name="Contratista" />
+            <PropertyRef Name="RUC" />
+            <PropertyRef Name="DES_CONTRATISTA" />
+            <PropertyRef Name="CONTRATO" />
+            <PropertyRef Name="TRABAJO" />
+            <PropertyRef Name="SUBCONTRATISTA" />
+            <PropertyRef Name="DES_SUBCONTRATISTA" />
+            <PropertyRef Name="INSPECTOR" />
+            <PropertyRef Name="DES_INSPECTORES" />
+            <PropertyRef Name="SUPERV_CONTRA" />
+            <PropertyRef Name="DES_SUPERV_CONTRA" />
+            <PropertyRef Name="TRANSACCION" />
+            <PropertyRef Name="FOLIOSCO" />
+            <PropertyRef Name="FOLIOSIE" />
+            <PropertyRef Name="ESTADO" />
+            <PropertyRef Name="FOLIO_ORIGEN" />
+            <PropertyRef Name="FECHA_DIG" />
+            <PropertyRef Name="USR_DIG" />
+            <PropertyRef Name="FECHA_APROB" />
+            <PropertyRef Name="APROBADOR" />
+            <PropertyRef Name="ORDEN" />
+            <PropertyRef Name="MATERIAL_SIE" />
+            <PropertyRef Name="CANTIDAD" />
+            <PropertyRef Name="CONTRATISTA1" />
+            <PropertyRef Name="VALOR_TRANS" />
+          </Key>
+          <Property Name="id_Instalacion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Contratista" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="RUC" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="DES_CONTRATISTA" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="CONTRATO" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="TRABAJO" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="SUBCONTRATISTA" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="DES_SUBCONTRATISTA" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="INSPECTOR" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="DES_INSPECTORES" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="SUPERV_CONTRA" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="DES_SUPERV_CONTRA" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="TRANSACCION" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="FOLIOSCO" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="FOLIOSIE" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="ESTADO" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="FOLIO_ORIGEN" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="FECHA_DIG" Type="datetime" Nullable="false" />
+          <Property Name="USR_DIG" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="FECHA_APROB" Type="datetime" Nullable="false" />
+          <Property Name="APROBADOR" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="ORDEN" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="MATERIAL_SIE" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="CANTIDAD" Type="decimal" Precision="28" Scale="3" Nullable="false" />
+          <Property Name="CONTRATISTA1" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="VALOR_TRANS" Type="decimal" Precision="28" Scale="3" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_Liquidacion_Caja_Cab">
+          <Key>
+            <PropertyRef Name="id_LiquidacionCaja_Cab" />
+          </Key>
+          <Property Name="id_LiquidacionCaja_Cab" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Ges_Ordt_Codigo" Type="varchar" MaxLength="30" />
+          <Property Name="CCosto" Type="varchar" MaxLength="10" />
+          <Property Name="fechaEmision_Liq" Type="datetime" />
+          <Property Name="fechaInicial" Type="datetime" />
+          <Property Name="fechaFinal" Type="datetime" />
+          <Property Name="usario_Aprobo" Type="varchar" MaxLength="6" />
+          <Property Name="fecha_Aprobacion" Type="datetime" />
+          <Property Name="usuario_Rechazo" Type="varchar" MaxLength="6" />
+          <Property Name="fecha_Rechazo" Type="datetime" />
+          <Property Name="Estado" Type="varchar" MaxLength="3" />
+          <Property Name="usuario_creacion" Type="varchar" MaxLength="6" />
+          <Property Name="fecha_creacion" Type="datetime" />
+          <Property Name="usuario_edicion" Type="varchar" MaxLength="6" />
+          <Property Name="fecha_edicion" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_Liquidacion_Caja_Det">
+          <Key>
+            <PropertyRef Name="id_LiquidacionCaja_Det" />
+          </Key>
+          <Property Name="id_LiquidacionCaja_Det" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_LiquidacionCaja_Cab" Type="int" />
+          <Property Name="id_tipoIngreso" Type="int" />
+          <Property Name="Pub_TiDo_Codigo" Type="varchar" MaxLength="5" />
+          <Property Name="nroSerie_Doc" Type="varchar" MaxLength="10" />
+          <Property Name="numero_Doc" Type="varchar" MaxLength="30" />
+          <Property Name="fechaEmision_Doc" Type="datetime" />
+          <Property Name="Ges_Ordt_Codigo" Type="varchar" MaxLength="30" />
+          <Property Name="CCosto" Type="varchar" MaxLength="10" />
+          <Property Name="id_Proveedor" Type="int" />
+          <Property Name="nro_RUC" Type="varchar" MaxLength="20" />
+          <Property Name="concepto_Doc" Type="varchar" MaxLength="250" />
+          <Property Name="Pub_Mone_Codigo" Type="varchar" MaxLength="2" />
+          <Property Name="TipoCambio" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="subTotal_Doc" Type="decimal" Precision="28" Scale="6" />
+          <Property Name="porcentajeIGV" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="IgvTotal_Doc" Type="decimal" Precision="28" Scale="6" />
+          <Property Name="percepciones_Doc" Type="decimal" Precision="28" Scale="6" />
+          <Property Name="otrosG_Doc" Type="decimal" Precision="28" Scale="6" />
+          <Property Name="total_Doc" Type="decimal" Precision="28" Scale="6" />
+          <Property Name="observaciones" Type="varchar" MaxLength="250" />
+          <Property Name="modoIngreso_Doc" Type="int" />
+          <Property Name="Estado" Type="varchar" MaxLength="3" />
+          <Property Name="usuario_creacion" Type="varchar" MaxLength="6" />
+          <Property Name="fecha_creacion" Type="datetime" />
+          <Property Name="usuario_edicion" Type="varchar" MaxLength="6" />
+          <Property Name="fecha_edicion" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_Pais">
+          <Key>
+            <PropertyRef Name="id_Pais" />
+          </Key>
+          <Property Name="id_Pais" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre_Pais" Type="varchar" MaxLength="100" />
+          <Property Name="codPostal_Pais" Type="varchar" MaxLength="20" />
+          <Property Name="estado" Type="int" />
+          <Property Name="usuario_creacion" Type="int" />
+          <Property Name="fecha_creacion" Type="datetime" />
+          <Property Name="usuario_edicion" Type="int" />
+          <Property Name="fecha_edicion" Type="datetime" />
+        </EntityType>
+        <EntityType Name="TBL_Parametros">
+          <Key>
+            <PropertyRef Name="Id_Configuracion" />
+          </Key>
+          <Property Name="Id_Configuracion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre_parametro" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="valor" Type="int" Nullable="false" />
+          <Property Name="eSTADO" Type="int" />
+        </EntityType>
+        <EntityType Name="Tbl_Personal">
+          <Key>
+            <PropertyRef Name="id_Personal" />
+          </Key>
+          <Property Name="id_Personal" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_empresa" Type="int" />
+          <Property Name="nroDoc_personal" Type="varchar" MaxLength="20" />
+          <Property Name="tipoDoc_personal" Type="int" />
+          <Property Name="apellidos_personal" Type="varchar" MaxLength="150" />
+          <Property Name="nombres_personal" Type="varchar" MaxLength="150" />
+          <Property Name="id_CargoPersonal" Type="int" />
+          <Property Name="fotoUrl_personal" Type="varchar" MaxLength="150" />
+          <Property Name="nroCelular_personal" Type="varchar" MaxLength="30" />
+          <Property Name="email_personal" Type="varchar" MaxLength="100" />
+          <Property Name="nombreUsario_personal" Type="varchar" MaxLength="50" />
+          <Property Name="contrasenia_personal" Type="varchar" MaxLength="30" />
+          <Property Name="envio_enlinea_personal" Type="varchar" MaxLength="2" />
+          <Property Name="id_perfil" Type="int" />
+          <Property Name="estado" Type="int" />
+          <Property Name="usuario_creacion" Type="int" />
+          <Property Name="fecha_creacion" Type="datetime" />
+          <Property Name="usuario_edicion" Type="int" />
+          <Property Name="fecha_edicion" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Tbl_Personal_Cargo">
+          <Key>
+            <PropertyRef Name="id_CargoPersonal" />
+          </Key>
+          <Property Name="id_CargoPersonal" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="codigoInterno_CargoPersonal" Type="varchar" MaxLength="10" />
+          <Property Name="descripcion_CargoPersonal" Type="varchar" MaxLength="100" />
+          <Property Name="estado" Type="int" />
+          <Property Name="usuario_creacion" Type="int" />
+          <Property Name="fecha_creacion" Type="datetime" />
+          <Property Name="usuario_edicion" Type="int" />
+          <Property Name="fecha_edicion" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Tbl_Proveedor">
+          <Key>
+            <PropertyRef Name="id_Proveedor" />
+          </Key>
+          <Property Name="id_Proveedor" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_TipoProveedor" Type="int" />
+          <Property Name="id_TipoPersona" Type="int" />
+          <Property Name="nro_RUC" Type="varchar" MaxLength="20" />
+          <Property Name="razonsocial" Type="varchar" MaxLength="250" />
+          <Property Name="nombreComercial" Type="varchar" MaxLength="250" />
+          <Property Name="vtaProductos" Type="int" />
+          <Property Name="vtaServicios" Type="int" />
+          <Property Name="vtaotros" Type="int" />
+          <Property Name="vtaotrosDetalle" Type="varchar" MaxLength="100" />
+          <Property Name="direcion" Type="varchar" MaxLength="250" />
+          <Property Name="id_Pais" Type="int" />
+          <Property Name="id_Ciudad" Type="int" />
+          <Property Name="id_Departamento" Type="int" />
+          <Property Name="telefonoFijo" Type="varchar" MaxLength="30" />
+          <Property Name="celular" Type="varchar" MaxLength="30" />
+          <Property Name="fax" Type="varchar" MaxLength="30" />
+          <Property Name="personalContacto_IG" Type="varchar" MaxLength="100" />
+          <Property Name="cargo_IG" Type="varchar" MaxLength="50" />
+          <Property Name="email_IG" Type="varchar" MaxLength="100" />
+          <Property Name="personalContacto_T" Type="varchar" MaxLength="100" />
+          <Property Name="cargo_T" Type="varchar" MaxLength="50" />
+          <Property Name="email_T" Type="varchar" MaxLength="100" />
+          <Property Name="personalContacto_RLC" Type="varchar" MaxLength="100" />
+          <Property Name="cargo_RLC" Type="varchar" MaxLength="50" />
+          <Property Name="id_TipoDoc_RLC" Type="int" />
+          <Property Name="nro_RLC" Type="varchar" MaxLength="20" />
+          <Property Name="email_RLC" Type="varchar" MaxLength="100" />
+          <Property Name="nroCuentaDetraccion" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="check1_UDP" Type="int" />
+          <Property Name="check2_UDP" Type="int" />
+          <Property Name="login_Proveedor" Type="varchar" MaxLength="30" />
+          <Property Name="contrasenia_Proveedor" Type="varchar" MaxLength="50" />
+          <Property Name="usuario_Aprobo" Type="varchar" MaxLength="6" />
+          <Property Name="fechaAprobacion" Type="datetime" />
+          <Property Name="id_MotivoRechazo" Type="varchar" MaxLength="5" />
+          <Property Name="descripcionRechazo" Type="varchar" MaxLength="250" />
+          <Property Name="usuario_rechazo" Type="varchar" MaxLength="6" />
+          <Property Name="fechaRechazo" Type="datetime" />
+          <Property Name="estado" Type="varchar" MaxLength="3" />
+          <Property Name="usuario_creacion" Type="varchar" MaxLength="6" />
+          <Property Name="fecha_creacion" Type="datetime" />
+          <Property Name="usuario_edicion" Type="varchar" MaxLength="6" />
+          <Property Name="fecha_edicion" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_Proveedor_Archivos">
+          <Key>
+            <PropertyRef Name="id_Proveedor_Archivo" />
+          </Key>
+          <Property Name="id_Proveedor_Archivo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_Proveedor" Type="int" />
+          <Property Name="id_TipoDocumento" Type="int" />
+          <Property Name="nombreArchivo" Type="varchar" MaxLength="150" />
+          <Property Name="nombreArchivo_bd" Type="int" />
+          <Property Name="estado" Type="varchar" MaxLength="3" />
+          <Property Name="usuario_creacion" Type="varchar" MaxLength="6" />
+          <Property Name="fecha_creacion" Type="datetime" />
+          <Property Name="usuario_edicion" Type="varchar" MaxLength="6" />
+          <Property Name="fecha_edicion" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_Proveedor_Banco">
+          <Key>
+            <PropertyRef Name="id_Proveedor_Banco" />
+          </Key>
+          <Property Name="id_Proveedor_Banco" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_Proveedor" Type="int" />
+          <Property Name="id_Banco" Type="int" />
+          <Property Name="Pub_Mone_Codigo" Type="varchar" MaxLength="2" />
+          <Property Name="id_TipoCuenta" Type="varchar" MaxLength="1" />
+          <Property Name="nroCuenta" Type="varchar" MaxLength="50" />
+          <Property Name="nroCCI" Type="varchar" MaxLength="50" />
+          <Property Name="estado" Type="varchar" MaxLength="3" />
+          <Property Name="usuario_creacion" Type="varchar" MaxLength="6" />
+          <Property Name="fecha_creacion" Type="datetime" />
+          <Property Name="usuario_edicion" Type="varchar" MaxLength="6" />
+          <Property Name="fecha_edicion" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_Proveedor_Evalucion_Cab">
+          <Key>
+            <PropertyRef Name="id_Evaluacion_Cab" />
+          </Key>
+          <Property Name="id_Evaluacion_Cab" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_Proveedor" Type="int" />
+          <Property Name="Ges_Ordt_Codigo" Type="varchar" MaxLength="30" />
+          <Property Name="fechaEvaluacion_Evaluacion" Type="datetime" />
+          <Property Name="fechaInicial_Evaluacion" Type="datetime" />
+          <Property Name="fechaFinal_Evaluacion" Type="datetime" />
+          <Property Name="usario_Aprobo" Type="varchar" MaxLength="6" />
+          <Property Name="fecha_Aprobacion" Type="datetime" />
+          <Property Name="usuario_Rechazo" Type="varchar" MaxLength="6" />
+          <Property Name="fecha_Rechazo" Type="datetime" />
+          <Property Name="Estado" Type="varchar" MaxLength="3" />
+          <Property Name="usuario_creacion" Type="varchar" MaxLength="6" />
+          <Property Name="fecha_creacion" Type="datetime" />
+          <Property Name="usuario_edicion" Type="varchar" MaxLength="6" />
+          <Property Name="fecha_edicion" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_Proveedor_Evalucion_Det">
+          <Key>
+            <PropertyRef Name="id_Evaluacion_Det" />
+          </Key>
+          <Property Name="id_Evaluacion_Det" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_Evaluacion_Cab" Type="int" />
+          <Property Name="id_Proveedor" Type="int" />
+          <Property Name="Pto_Precio" Type="int" />
+          <Property Name="Pto_Calidad" Type="int" />
+          <Property Name="Pto_TEntrega" Type="int" />
+          <Property Name="Pto_Credito" Type="int" />
+          <Property Name="Pto_Garantia" Type="int" />
+          <Property Name="puntuacion" Type="int" />
+          <Property Name="statuss" Type="varchar" MaxLength="30" />
+          <Property Name="Estado" Type="varchar" MaxLength="3" />
+          <Property Name="usuario_creacion" Type="varchar" MaxLength="6" />
+          <Property Name="fecha_creacion" Type="datetime" />
+          <Property Name="usuario_edicion" Type="varchar" MaxLength="6" />
+          <Property Name="fecha_edicion" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_Proveedor_Incidencia">
+          <Key>
+            <PropertyRef Name="id_Incidencia" />
+          </Key>
+          <Property Name="id_Incidencia" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_Proveedor" Type="int" />
+          <Property Name="fechaIngreso_Incidencia" Type="datetime" />
+          <Property Name="observaciones_Incidencia" Type="varchar" MaxLength="250" />
+          <Property Name="Estado" Type="varchar" MaxLength="3" />
+          <Property Name="usuario_creacion" Type="varchar" MaxLength="6" />
+          <Property Name="fecha_creacion" Type="datetime" />
+          <Property Name="usuario_edicion" Type="varchar" MaxLength="6" />
+          <Property Name="fecha_edicion" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_prueba_ubicacion">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="lat" Type="varchar" MaxLength="50" />
+          <Property Name="long" Type="varchar" MaxLength="50" />
+          <Property Name="tip" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'MFSoft_Base_OCA.dbo.TBL_Recupero_TMP' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="TBL_Recupero_TMP">
+          <Key>
+            <PropertyRef Name="Matricula" />
+            <PropertyRef Name="GES_OBRA_CODIGO" />
+            <PropertyRef Name="Almacen" />
+            <PropertyRef Name="devuelto" />
+            <PropertyRef Name="pedido" />
+            <PropertyRef Name="ts" />
+            <PropertyRef Name="tD" />
+            <PropertyRef Name="PorDevolver" />
+          </Key>
+          <Property Name="Matricula" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="GES_OBRA_CODIGO" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Almacen" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="devuelto" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="pedido" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="ts" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="tD" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="PorDevolver" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'MFSoft_Base_OCA.dbo.TBL_SED_ZONA' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="TBL_SED_ZONA">
+          <Key>
+            <PropertyRef Name="Sed" />
+            <PropertyRef Name="idZona" />
+            <PropertyRef Name="descripcion_Zona" />
+          </Key>
+          <Property Name="Sed" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="idZona" Type="int" Nullable="false" />
+          <Property Name="descripcion_Zona" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_SubEstructuras">
+          <Key>
+            <PropertyRef Name="id_SubEstructura" />
+          </Key>
+          <Property Name="id_SubEstructura" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_TipoArmado" Type="int" />
+          <Property Name="id_Estructura" Type="int" />
+          <Property Name="Nombre_Estructura" Type="varchar" MaxLength="100" />
+          <Property Name="codigo_Estructura" Type="varchar" MaxLength="50" />
+          <Property Name="descripcion_Estructura" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="tbl_SubTipo_Armado">
+          <Key>
+            <PropertyRef Name="id_SubTipoArmado" />
+          </Key>
+          <Property Name="id_SubTipoArmado" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre_SubTipoArmado" Type="varchar" MaxLength="50" />
+          <Property Name="id_TipoArmado" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_TidoDocumento_File">
+          <Key>
+            <PropertyRef Name="id_TipoDocFile" />
+          </Key>
+          <Property Name="id_TipoDocFile" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tipoFile" Type="int" />
+          <Property Name="nombreFile" Type="varchar" MaxLength="50" />
+          <Property Name="requiereNroDoc" Type="int" />
+          <Property Name="requiereFecha" Type="int" />
+          <Property Name="estado" Type="int" />
+          <Property Name="usuario_creacion" Type="int" />
+          <Property Name="fecha_creacion" Type="datetime" />
+          <Property Name="usuario_edicion" Type="int" />
+          <Property Name="fecha_edicion" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Tbl_TipoArmado">
+          <Key>
+            <PropertyRef Name="id_TipoArmado" />
+          </Key>
+          <Property Name="id_TipoArmado" Type="int" Nullable="false" />
+          <Property Name="descripcion_TipoArmado" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Tbl_Zona_ENEL">
+          <Key>
+            <PropertyRef Name="idZona" />
+          </Key>
+          <Property Name="idZona" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descripcion_Zona" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Tbl_Personal_Tbl_Personal_Cargo">
+          <End Role="Tbl_Personal_Cargo" Type="Self.Tbl_Personal_Cargo" Multiplicity="0..1" />
+          <End Role="Tbl_Personal" Type="Self.Tbl_Personal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Personal_Cargo">
+              <PropertyRef Name="id_CargoPersonal" />
+            </Principal>
+            <Dependent Role="Tbl_Personal">
+              <PropertyRef Name="id_CargoPersonal" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MFSoft_Base_OCAModelStoreContainer">
+          <EntitySet Name="Pub_Monedas" EntityType="Self.Pub_Monedas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pub_Usuarios" EntityType="Self.Pub_Usuarios" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Aceesos_Evento" EntityType="Self.tbl_Aceesos_Evento" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Armado" EntityType="Self.tbl_Armado" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_Bancos" EntityType="Self.Tbl_Bancos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Ciudad" EntityType="Self.tbl_Ciudad" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Definicion_Opciones" EntityType="Self.tbl_Definicion_Opciones" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Departamento" EntityType="Self.tbl_Departamento" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Documento_Archivos" EntityType="Self.tbl_Documento_Archivos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Documento_Cab" EntityType="Self.tbl_Documento_Cab" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Documento_Det" EntityType="Self.tbl_Documento_Det" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_Elenco_ENEL" EntityType="Self.Tbl_Elenco_ENEL" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Estructura_Material" EntityType="Self.tbl_Estructura_Material" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Estructuras" EntityType="Self.tbl_Estructuras" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_Grupo_ENEL" EntityType="Self.Tbl_Grupo_ENEL" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_Grupo_Zona_ENEL" EntityType="Self.Tbl_Grupo_Zona_ENEL" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_GrupoTabla" EntityType="Self.tbl_GrupoTabla" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_GrupoTabla_Detalle" EntityType="Self.tbl_GrupoTabla_Detalle" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_Instalacion_CAB_SIGE" EntityType="Self.Tbl_Instalacion_CAB_SIGE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Liquidacion_Caja_Cab" EntityType="Self.tbl_Liquidacion_Caja_Cab" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Liquidacion_Caja_Det" EntityType="Self.tbl_Liquidacion_Caja_Det" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Pais" EntityType="Self.tbl_Pais" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_Parametros" EntityType="Self.TBL_Parametros" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_Personal" EntityType="Self.Tbl_Personal" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_Personal_Cargo" EntityType="Self.Tbl_Personal_Cargo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_Proveedor" EntityType="Self.Tbl_Proveedor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Proveedor_Archivos" EntityType="Self.tbl_Proveedor_Archivos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Proveedor_Banco" EntityType="Self.tbl_Proveedor_Banco" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Proveedor_Evalucion_Cab" EntityType="Self.tbl_Proveedor_Evalucion_Cab" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Proveedor_Evalucion_Det" EntityType="Self.tbl_Proveedor_Evalucion_Det" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Proveedor_Incidencia" EntityType="Self.tbl_Proveedor_Incidencia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_prueba_ubicacion" EntityType="Self.tbl_prueba_ubicacion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_SubEstructuras" EntityType="Self.tbl_SubEstructuras" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_SubTipo_Armado" EntityType="Self.tbl_SubTipo_Armado" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_TidoDocumento_File" EntityType="Self.tbl_TidoDocumento_File" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_TipoArmado" EntityType="Self.Tbl_TipoArmado" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_Zona_ENEL" EntityType="Self.Tbl_Zona_ENEL" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_Elenco_Baremo" EntityType="Self.Tbl_Elenco_Baremo" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Tbl_Elenco_Baremo].[Baremo] AS [Baremo], 
+    [Tbl_Elenco_Baremo].[Elenco] AS [Elenco], 
+    [Tbl_Elenco_Baremo].[OBS] AS [OBS]
+    FROM [dbo].[Tbl_Elenco_Baremo] AS [Tbl_Elenco_Baremo]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Tbl_Elenco_ENEL_Conexiones" EntityType="Self.Tbl_Elenco_ENEL_Conexiones" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Tbl_Elenco_ENEL_Conexiones].[PCon_Orde_Sicot] AS [PCon_Orde_Sicot], 
+    [Tbl_Elenco_ENEL_Conexiones].[PCon_Orde_Sicot_Interno] AS [PCon_Orde_Sicot_Interno], 
+    [Tbl_Elenco_ENEL_Conexiones].[Pub_Sucu_Codigo] AS [Pub_Sucu_Codigo], 
+    [Tbl_Elenco_ENEL_Conexiones].[idZona] AS [idZona], 
+    [Tbl_Elenco_ENEL_Conexiones].[ideLenco] AS [ideLenco], 
+    [Tbl_Elenco_ENEL_Conexiones].[Ele_OPar_Item] AS [Ele_OPar_Item], 
+    [Tbl_Elenco_ENEL_Conexiones].[Ele_OPar_Cantidad] AS [Ele_OPar_Cantidad], 
+    [Tbl_Elenco_ENEL_Conexiones].[Ele_OPar_Precio] AS [Ele_OPar_Precio], 
+    [Tbl_Elenco_ENEL_Conexiones].[Ele_OPar_Factor] AS [Ele_OPar_Factor], 
+    [Tbl_Elenco_ENEL_Conexiones].[Pub_Esta_Codigo] AS [Pub_Esta_Codigo], 
+    [Tbl_Elenco_ENEL_Conexiones].[PCon_OPar_UsuCrea] AS [PCon_OPar_UsuCrea], 
+    [Tbl_Elenco_ENEL_Conexiones].[PCon_OPar_FecCrea] AS [PCon_OPar_FecCrea], 
+    [Tbl_Elenco_ENEL_Conexiones].[PCon_OPar_UsuModi] AS [PCon_OPar_UsuModi], 
+    [Tbl_Elenco_ENEL_Conexiones].[PCon_OPar_FecModi] AS [PCon_OPar_FecModi]
+    FROM [dbo].[Tbl_Elenco_ENEL_Conexiones] AS [Tbl_Elenco_ENEL_Conexiones]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Tbl_Elenco_ENELa" EntityType="Self.Tbl_Elenco_ENELa" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Tbl_Elenco_ENELa].[Codigo1] AS [Codigo1], 
+    [Tbl_Elenco_ENELa].[Codigo2] AS [Codigo2], 
+    [Tbl_Elenco_ENELa].[Clasificacion1] AS [Clasificacion1], 
+    [Tbl_Elenco_ENELa].[Clasificacion2] AS [Clasificacion2], 
+    [Tbl_Elenco_ENELa].[idGrupoInstalacion] AS [idGrupoInstalacion], 
+    [Tbl_Elenco_ENELa].[descripcion] AS [descripcion], 
+    [Tbl_Elenco_ENELa].[Unidad] AS [Unidad], 
+    [Tbl_Elenco_ENELa].[Puntos] AS [Puntos], 
+    [Tbl_Elenco_ENELa].[ValorPunto] AS [ValorPunto], 
+    [Tbl_Elenco_ENELa].[pub_sucu_codigo] AS [pub_sucu_codigo]
+    FROM [dbo].[Tbl_Elenco_ENELa] AS [Tbl_Elenco_ENELa]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Tbl_Instalacion_SIGETRAMA" EntityType="Self.Tbl_Instalacion_SIGETRAMA" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Tbl_Instalacion_SIGETRAMA].[id_Instalacion] AS [id_Instalacion], 
+    [Tbl_Instalacion_SIGETRAMA].[Contratista] AS [Contratista], 
+    [Tbl_Instalacion_SIGETRAMA].[RUC] AS [RUC], 
+    [Tbl_Instalacion_SIGETRAMA].[DES_CONTRATISTA] AS [DES_CONTRATISTA], 
+    [Tbl_Instalacion_SIGETRAMA].[CONTRATO] AS [CONTRATO], 
+    [Tbl_Instalacion_SIGETRAMA].[TRABAJO] AS [TRABAJO], 
+    [Tbl_Instalacion_SIGETRAMA].[SUBCONTRATISTA] AS [SUBCONTRATISTA], 
+    [Tbl_Instalacion_SIGETRAMA].[DES_SUBCONTRATISTA] AS [DES_SUBCONTRATISTA], 
+    [Tbl_Instalacion_SIGETRAMA].[INSPECTOR] AS [INSPECTOR], 
+    [Tbl_Instalacion_SIGETRAMA].[DES_INSPECTORES] AS [DES_INSPECTORES], 
+    [Tbl_Instalacion_SIGETRAMA].[SUPERV_CONTRA] AS [SUPERV_CONTRA], 
+    [Tbl_Instalacion_SIGETRAMA].[DES_SUPERV_CONTRA] AS [DES_SUPERV_CONTRA], 
+    [Tbl_Instalacion_SIGETRAMA].[TRANSACCION] AS [TRANSACCION], 
+    [Tbl_Instalacion_SIGETRAMA].[FOLIOSCO] AS [FOLIOSCO], 
+    [Tbl_Instalacion_SIGETRAMA].[FOLIOSIE] AS [FOLIOSIE], 
+    [Tbl_Instalacion_SIGETRAMA].[ESTADO] AS [ESTADO], 
+    [Tbl_Instalacion_SIGETRAMA].[FOLIO_ORIGEN] AS [FOLIO_ORIGEN], 
+    [Tbl_Instalacion_SIGETRAMA].[FECHA_DIG] AS [FECHA_DIG], 
+    [Tbl_Instalacion_SIGETRAMA].[USR_DIG] AS [USR_DIG], 
+    [Tbl_Instalacion_SIGETRAMA].[FECHA_APROB] AS [FECHA_APROB], 
+    [Tbl_Instalacion_SIGETRAMA].[APROBADOR] AS [APROBADOR], 
+    [Tbl_Instalacion_SIGETRAMA].[ORDEN] AS [ORDEN], 
+    [Tbl_Instalacion_SIGETRAMA].[MATERIAL_SIE] AS [MATERIAL_SIE], 
+    [Tbl_Instalacion_SIGETRAMA].[CANTIDAD] AS [CANTIDAD], 
+    [Tbl_Instalacion_SIGETRAMA].[CONTRATISTA1] AS [CONTRATISTA1], 
+    [Tbl_Instalacion_SIGETRAMA].[VALOR_TRANS] AS [VALOR_TRANS]
+    FROM [dbo].[Tbl_Instalacion_SIGETRAMA] AS [Tbl_Instalacion_SIGETRAMA]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="TBL_Recupero_TMP" EntityType="Self.TBL_Recupero_TMP" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [TBL_Recupero_TMP].[Matricula] AS [Matricula], 
+    [TBL_Recupero_TMP].[GES_OBRA_CODIGO] AS [GES_OBRA_CODIGO], 
+    [TBL_Recupero_TMP].[Almacen] AS [Almacen], 
+    [TBL_Recupero_TMP].[devuelto] AS [devuelto], 
+    [TBL_Recupero_TMP].[pedido] AS [pedido], 
+    [TBL_Recupero_TMP].[ts] AS [ts], 
+    [TBL_Recupero_TMP].[tD] AS [tD], 
+    [TBL_Recupero_TMP].[PorDevolver] AS [PorDevolver]
+    FROM [dbo].[TBL_Recupero_TMP] AS [TBL_Recupero_TMP]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="TBL_SED_ZONA" EntityType="Self.TBL_SED_ZONA" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [TBL_SED_ZONA].[Sed] AS [Sed], 
+    [TBL_SED_ZONA].[idZona] AS [idZona], 
+    [TBL_SED_ZONA].[descripcion_Zona] AS [descripcion_Zona]
+    FROM [dbo].[TBL_SED_ZONA] AS [TBL_SED_ZONA]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Tbl_Personal_Tbl_Personal_Cargo" Association="Self.FK_Tbl_Personal_Tbl_Personal_Cargo">
+            <End Role="Tbl_Personal_Cargo" EntitySet="Tbl_Personal_Cargo" />
+            <End Role="Tbl_Personal" EntitySet="Tbl_Personal" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MFSoft_Base_OCAModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Pub_Usuarios">
+          <Key>
+            <PropertyRef Name="Pub_Usua_Codigo" />
+          </Key>
+          <Property Name="Pub_Usua_Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Pub_Usua_Codigo" Type="String" MaxLength="6" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Pub_Usua_Login" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Pub_Usua_Clave" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Pub_Usua_Cargo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Pub_Usua_Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Pub_Usua_Adm" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="Pub_Usua_Sis" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="Pub_Esta_Codigo" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="Pub_Usua_UsuCrea" Type="String" MaxLength="6" FixedLength="true" Unicode="false" />
+          <Property Name="Pub_Usua_FecCrea" Type="DateTime" Precision="3" />
+          <Property Name="Pub_Usua_UsuModi" Type="String" MaxLength="6" FixedLength="true" Unicode="false" />
+          <Property Name="Pub_Usua_FecModi" Type="DateTime" Precision="3" />
+          <Property Name="Pub_Usua_Identidad" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Pub_Area_Codigo" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="Pub_Usua_Obs" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="pub_dni" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="OCAEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Pub_Usuarios" EntityType="Self.Pub_Usuarios" />
+          <EntitySet Name="tbl_Aceesos_Evento" EntityType="MFSoft_Base_OCAModel.tbl_Aceesos_Evento" />
+          <EntitySet Name="tbl_Definicion_Opciones" EntityType="MFSoft_Base_OCAModel.tbl_Definicion_Opciones" />
+          <EntitySet Name="tbl_Armado" EntityType="MFSoft_Base_OCAModel.tbl_Armado" />
+          <EntitySet Name="Tbl_Bancos" EntityType="MFSoft_Base_OCAModel.Tbl_Bancos" />
+          <EntitySet Name="tbl_Ciudad" EntityType="MFSoft_Base_OCAModel.tbl_Ciudad" />
+          <EntitySet Name="tbl_Departamento" EntityType="MFSoft_Base_OCAModel.tbl_Departamento" />
+          <EntitySet Name="Tbl_Elenco_ENEL" EntityType="MFSoft_Base_OCAModel.Tbl_Elenco_ENEL" />
+          <EntitySet Name="tbl_Estructura_Material" EntityType="MFSoft_Base_OCAModel.tbl_Estructura_Material" />
+          <EntitySet Name="tbl_Estructuras" EntityType="MFSoft_Base_OCAModel.tbl_Estructuras" />
+          <EntitySet Name="Tbl_Grupo_ENEL" EntityType="MFSoft_Base_OCAModel.Tbl_Grupo_ENEL" />
+          <EntitySet Name="Tbl_Grupo_Zona_ENEL" EntityType="MFSoft_Base_OCAModel.Tbl_Grupo_Zona_ENEL" />
+          <EntitySet Name="tbl_GrupoTabla" EntityType="MFSoft_Base_OCAModel.tbl_GrupoTabla" />
+          <EntitySet Name="tbl_GrupoTabla_Detalle" EntityType="MFSoft_Base_OCAModel.tbl_GrupoTabla_Detalle" />
+          <EntitySet Name="Tbl_Instalacion_CAB_SIGE" EntityType="MFSoft_Base_OCAModel.Tbl_Instalacion_CAB_SIGE" />
+          <EntitySet Name="tbl_Pais" EntityType="MFSoft_Base_OCAModel.tbl_Pais" />
+          <EntitySet Name="TBL_Parametros" EntityType="MFSoft_Base_OCAModel.TBL_Parametros" />
+          <EntitySet Name="Tbl_Personal" EntityType="MFSoft_Base_OCAModel.Tbl_Personal" />
+          <EntitySet Name="Tbl_Personal_Cargo" EntityType="MFSoft_Base_OCAModel.Tbl_Personal_Cargo" />
+          <EntitySet Name="tbl_prueba_ubicacion" EntityType="MFSoft_Base_OCAModel.tbl_prueba_ubicacion" />
+          <EntitySet Name="tbl_SubEstructuras" EntityType="MFSoft_Base_OCAModel.tbl_SubEstructuras" />
+          <EntitySet Name="tbl_SubTipo_Armado" EntityType="MFSoft_Base_OCAModel.tbl_SubTipo_Armado" />
+          <EntitySet Name="Tbl_TipoArmado" EntityType="MFSoft_Base_OCAModel.Tbl_TipoArmado" />
+          <EntitySet Name="Tbl_Zona_ENEL" EntityType="MFSoft_Base_OCAModel.Tbl_Zona_ENEL" />
+          <EntitySet Name="Tbl_Elenco_Baremo" EntityType="MFSoft_Base_OCAModel.Tbl_Elenco_Baremo" />
+          <EntitySet Name="Tbl_Elenco_ENEL_Conexiones" EntityType="MFSoft_Base_OCAModel.Tbl_Elenco_ENEL_Conexiones" />
+          <EntitySet Name="Tbl_Elenco_ENELa" EntityType="MFSoft_Base_OCAModel.Tbl_Elenco_ENELa" />
+          <EntitySet Name="Tbl_Instalacion_SIGETRAMA" EntityType="MFSoft_Base_OCAModel.Tbl_Instalacion_SIGETRAMA" />
+          <EntitySet Name="TBL_Recupero_TMP" EntityType="MFSoft_Base_OCAModel.TBL_Recupero_TMP" />
+          <EntitySet Name="TBL_SED_ZONA" EntityType="MFSoft_Base_OCAModel.TBL_SED_ZONA" />
+          <AssociationSet Name="FK_Tbl_Personal_Tbl_Personal_Cargo" Association="MFSoft_Base_OCAModel.FK_Tbl_Personal_Tbl_Personal_Cargo">
+            <End Role="Tbl_Personal_Cargo" EntitySet="Tbl_Personal_Cargo" />
+            <End Role="Tbl_Personal" EntitySet="Tbl_Personal" />
+          </AssociationSet>
+          <EntitySet Name="Tbl_Proveedor" EntityType="MFSoft_Base_OCAModel.Tbl_Proveedor" />
+          <EntitySet Name="Pub_Monedas" EntityType="MFSoft_Base_OCAModel.Pub_Monedas" />
+          <EntitySet Name="tbl_Proveedor_Archivos" EntityType="MFSoft_Base_OCAModel.tbl_Proveedor_Archivos" />
+          <EntitySet Name="tbl_Proveedor_Banco" EntityType="MFSoft_Base_OCAModel.tbl_Proveedor_Banco" />
+          <EntitySet Name="tbl_TidoDocumento_File" EntityType="MFSoft_Base_OCAModel.tbl_TidoDocumento_File" />
+          <EntitySet Name="tbl_Proveedor_Evalucion_Cab" EntityType="MFSoft_Base_OCAModel.tbl_Proveedor_Evalucion_Cab" />
+          <EntitySet Name="tbl_Documento_Archivos" EntityType="MFSoft_Base_OCAModel.tbl_Documento_Archivos" />
+          <EntitySet Name="tbl_Documento_Cab" EntityType="MFSoft_Base_OCAModel.tbl_Documento_Cab" />
+          <EntitySet Name="tbl_Documento_Det" EntityType="MFSoft_Base_OCAModel.tbl_Documento_Det" />
+          <EntitySet Name="tbl_Liquidacion_Caja_Cab" EntityType="MFSoft_Base_OCAModel.tbl_Liquidacion_Caja_Cab" />
+          <EntitySet Name="tbl_Liquidacion_Caja_Det" EntityType="MFSoft_Base_OCAModel.tbl_Liquidacion_Caja_Det" />
+          <EntitySet Name="tbl_Proveedor_Evalucion_Det" EntityType="MFSoft_Base_OCAModel.tbl_Proveedor_Evalucion_Det" />
+          <EntitySet Name="tbl_Proveedor_Incidencia" EntityType="MFSoft_Base_OCAModel.tbl_Proveedor_Incidencia" />
+        </EntityContainer>
+        <EntityType Name="tbl_Aceesos_Evento">
+          <Key>
+            <PropertyRef Name="id_Acceso_evento" />
+          </Key>
+          <Property Name="id_Acceso_evento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_Opcion" Type="Int32" />
+          <Property Name="id_Usuario" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="id_Evento" Type="Int32" />
+          <Property Name="estado" Type="Int32" />
+          <Property Name="usuario_creacion" Type="Int32" />
+          <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
+          <Property Name="usuario_edicion" Type="Int32" />
+          <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tbl_Definicion_Opciones">
+          <Key>
+            <PropertyRef Name="id_opcion" />
+          </Key>
+          <Property Name="id_opcion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre_opcion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="url_opcion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="parentID" Type="Int32" />
+          <Property Name="nombreParentID" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="urlImagen_Opcion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="orden_Opcion" Type="Int32" />
+          <Property Name="estado" Type="Int32" />
+          <Property Name="usuario_creacion" Type="Int32" />
+          <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
+          <Property Name="usuario_edicion" Type="Int32" />
+          <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
+          <Property Name="interface_Opcion" Type="Int32" />
+          <Property Name="TipoInterface" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tbl_Armado">
+          <Key>
+            <PropertyRef Name="id_Armado" />
+          </Key>
+          <Property Name="id_Armado" Type="Int32" Nullable="false" />
+          <Property Name="id_TipoArmado" Type="Int32" />
+          <Property Name="id_SubTipoArmado" Type="Int32" />
+          <Property Name="codigo_Armado" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="descripcion_Armado" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="id_Estructura" Type="Int32" />
+          <Property Name="TipoRegistro" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Alm_Arti_Codigo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Cantidad_Armado" Type="Decimal" Precision="18" Scale="3" />
+        </EntityType>
+        <EntityType Name="Tbl_Bancos">
+          <Key>
+            <PropertyRef Name="id_Banco" />
+          </Key>
+          <Property Name="id_Banco" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre_Banco" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="estado" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="usuario_creacion" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_creacion" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="usuario_edicion" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tbl_Ciudad">
+          <Key>
+            <PropertyRef Name="id_Ciudad" />
+          </Key>
+          <Property Name="id_Ciudad" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_Pais" Type="Int32" />
+          <Property Name="nombre_Ciudad" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="estado" Type="Int32" />
+          <Property Name="usuario_creacion" Type="Int32" />
+          <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
+          <Property Name="usuario_edicion" Type="Int32" />
+          <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tbl_Departamento">
+          <Key>
+            <PropertyRef Name="id_Departamento" />
+          </Key>
+          <Property Name="id_Departamento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_Pais" Type="Int32" />
+          <Property Name="id_Ciudad" Type="Int32" />
+          <Property Name="nombre_Dpto" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="estado" Type="Int32" />
+          <Property Name="usuario_creacion" Type="Int32" />
+          <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
+          <Property Name="usuario_edicion" Type="Int32" />
+          <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Tbl_Elenco_ENEL">
+          <Key>
+            <PropertyRef Name="ideLenco" />
+          </Key>
+          <Property Name="ideLenco" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Codigo1" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Codigo2" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Clasificacion1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Clasificacion2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="idGrupoInstalacion" Type="Int32" />
+          <Property Name="descripcion" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Unidad" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="Puntos" Type="Decimal" Precision="28" Scale="6" />
+          <Property Name="ValorPunto" Type="Decimal" Precision="28" Scale="6" />
+          <Property Name="pub_sucu_codigo" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tbl_Estructura_Material">
+          <Key>
+            <PropertyRef Name="id_Estructura_Material" />
+          </Key>
+          <Property Name="id_Estructura_Material" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_TipoArmado" Type="Int32" />
+          <Property Name="id_Estructura" Type="Int32" />
+          <Property Name="TipoRegistro" Type="Int32" />
+          <Property Name="Alm_Arti_Codigo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Pub_Esta_Codigo" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="Pub_Empr_UsuCrea" Type="String" MaxLength="6" FixedLength="true" Unicode="false" />
+          <Property Name="Pub_Empr_FecCrea" Type="DateTime" Precision="3" />
+          <Property Name="Pub_Empr_UsuModi" Type="String" MaxLength="6" FixedLength="true" Unicode="false" />
+          <Property Name="Pub_Empr_FecModi" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tbl_Estructuras">
+          <Key>
+            <PropertyRef Name="id_Estructura" />
+          </Key>
+          <Property Name="id_Estructura" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre_Estructura" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="orden_Estructura" Type="Int32" />
+          <Property Name="orden2_Estructura" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Tbl_Grupo_ENEL">
+          <Key>
+            <PropertyRef Name="idGrupo" />
+          </Key>
+          <Property Name="idGrupo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Tbl_Grupo_Zona_ENEL">
+          <Key>
+            <PropertyRef Name="idGrupoZona" />
+          </Key>
+          <Property Name="idGrupoZona" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idGrupo" Type="Int32" Nullable="false" />
+          <Property Name="idZona" Type="Int32" Nullable="false" />
+          <Property Name="FactorZona" Type="Decimal" Nullable="false" Precision="28" Scale="6" />
+          <Property Name="ValorPunto" Type="Decimal" Nullable="false" Precision="28" Scale="6" />
+        </EntityType>
+        <EntityType Name="tbl_GrupoTabla">
+          <Key>
+            <PropertyRef Name="id_GrupoTabla" />
+          </Key>
+          <Property Name="id_GrupoTabla" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre_GrupoTabla" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="estado" Type="Int32" />
+          <Property Name="usuario_creacion" Type="Int32" />
+          <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
+          <Property Name="usuario_edicion" Type="Int32" />
+          <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tbl_GrupoTabla_Detalle">
+          <Key>
+            <PropertyRef Name="id_GrupoDetalle" />
+          </Key>
+          <Property Name="id_GrupoDetalle" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_GrupoTabla" Type="Int32" />
+          <Property Name="codigo_detalleTabla" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="descripcion_detalleTabla" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="diasVencimiento_detalleTabla" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="valor_detalleTabla" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="estado" Type="Int32" />
+          <Property Name="usuario_creacion" Type="Int32" />
+          <Property Name="fecha_creacion" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="usuario_edicion" Type="Int32" />
+          <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Tbl_Instalacion_CAB_SIGE">
+          <Key>
+            <PropertyRef Name="id_Instalacion" />
+          </Key>
+          <Property Name="id_Instalacion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Contratista" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="tbl_Pais">
+          <Key>
+            <PropertyRef Name="id_Pais" />
+          </Key>
+          <Property Name="id_Pais" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre_Pais" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="codPostal_Pais" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="estado" Type="Int32" />
+          <Property Name="usuario_creacion" Type="Int32" />
+          <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
+          <Property Name="usuario_edicion" Type="Int32" />
+          <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="TBL_Parametros">
+          <Key>
+            <PropertyRef Name="Id_Configuracion" />
+          </Key>
+          <Property Name="Id_Configuracion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre_parametro" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="valor" Type="Int32" Nullable="false" />
+          <Property Name="eSTADO" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Tbl_Personal">
+          <Key>
+            <PropertyRef Name="id_Personal" />
+          </Key>
+          <Property Name="id_Personal" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_empresa" Type="Int32" />
+          <Property Name="nroDoc_personal" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="tipoDoc_personal" Type="Int32" />
+          <Property Name="apellidos_personal" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="nombres_personal" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="id_CargoPersonal" Type="Int32" />
+          <Property Name="fotoUrl_personal" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="nroCelular_personal" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="email_personal" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="nombreUsario_personal" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="contrasenia_personal" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="envio_enlinea_personal" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="id_perfil" Type="Int32" />
+          <Property Name="estado" Type="Int32" />
+          <Property Name="usuario_creacion" Type="Int32" />
+          <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
+          <Property Name="usuario_edicion" Type="Int32" />
+          <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Tbl_Personal_Cargo" Relationship="MFSoft_Base_OCAModel.FK_Tbl_Personal_Tbl_Personal_Cargo" FromRole="Tbl_Personal" ToRole="Tbl_Personal_Cargo" />
+        </EntityType>
+        <EntityType Name="Tbl_Personal_Cargo">
+          <Key>
+            <PropertyRef Name="id_CargoPersonal" />
+          </Key>
+          <Property Name="id_CargoPersonal" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="codigoInterno_CargoPersonal" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="descripcion_CargoPersonal" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="estado" Type="Int32" />
+          <Property Name="usuario_creacion" Type="Int32" />
+          <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
+          <Property Name="usuario_edicion" Type="Int32" />
+          <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Tbl_Personal" Relationship="MFSoft_Base_OCAModel.FK_Tbl_Personal_Tbl_Personal_Cargo" FromRole="Tbl_Personal_Cargo" ToRole="Tbl_Personal" />
+        </EntityType>
+        <EntityType Name="tbl_prueba_ubicacion">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="lat" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="long" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="tip" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tbl_SubEstructuras">
+          <Key>
+            <PropertyRef Name="id_SubEstructura" />
+          </Key>
+          <Property Name="id_SubEstructura" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_TipoArmado" Type="Int32" />
+          <Property Name="id_Estructura" Type="Int32" />
+          <Property Name="Nombre_Estructura" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="codigo_Estructura" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="descripcion_Estructura" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tbl_SubTipo_Armado">
+          <Key>
+            <PropertyRef Name="id_SubTipoArmado" />
+          </Key>
+          <Property Name="id_SubTipoArmado" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre_SubTipoArmado" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="id_TipoArmado" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Tbl_TipoArmado">
+          <Key>
+            <PropertyRef Name="id_TipoArmado" />
+          </Key>
+          <Property Name="id_TipoArmado" Type="Int32" Nullable="false" />
+          <Property Name="descripcion_TipoArmado" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Tbl_Zona_ENEL">
+          <Key>
+            <PropertyRef Name="idZona" />
+          </Key>
+          <Property Name="idZona" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descripcion_Zona" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Tbl_Elenco_Baremo">
+          <Key>
+            <PropertyRef Name="Baremo" />
+            <PropertyRef Name="Elenco" />
+            <PropertyRef Name="OBS" />
+          </Key>
+          <Property Name="Baremo" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Elenco" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="OBS" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Tbl_Elenco_ENEL_Conexiones">
+          <Key>
+            <PropertyRef Name="PCon_Orde_Sicot" />
+            <PropertyRef Name="PCon_Orde_Sicot_Interno" />
+            <PropertyRef Name="Pub_Sucu_Codigo" />
+            <PropertyRef Name="idZona" />
+            <PropertyRef Name="ideLenco" />
+            <PropertyRef Name="Ele_OPar_Item" />
+            <PropertyRef Name="Ele_OPar_Cantidad" />
+            <PropertyRef Name="Ele_OPar_Precio" />
+            <PropertyRef Name="Ele_OPar_Factor" />
+            <PropertyRef Name="Pub_Esta_Codigo" />
+            <PropertyRef Name="PCon_OPar_UsuCrea" />
+            <PropertyRef Name="PCon_OPar_FecCrea" />
+            <PropertyRef Name="PCon_OPar_UsuModi" />
+            <PropertyRef Name="PCon_OPar_FecModi" />
+          </Key>
+          <Property Name="PCon_Orde_Sicot" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="PCon_Orde_Sicot_Interno" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Pub_Sucu_Codigo" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="idZona" Type="Int32" Nullable="false" />
+          <Property Name="ideLenco" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Ele_OPar_Item" Type="Int32" Nullable="false" />
+          <Property Name="Ele_OPar_Cantidad" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
+          <Property Name="Ele_OPar_Precio" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
+          <Property Name="Ele_OPar_Factor" Type="Decimal" Nullable="false" Precision="18" Scale="3" />
+          <Property Name="Pub_Esta_Codigo" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="PCon_OPar_UsuCrea" Type="String" Nullable="false" MaxLength="6" FixedLength="true" Unicode="false" />
+          <Property Name="PCon_OPar_FecCrea" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PCon_OPar_UsuModi" Type="String" Nullable="false" MaxLength="6" FixedLength="true" Unicode="false" />
+          <Property Name="PCon_OPar_FecModi" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="Tbl_Elenco_ENELa">
+          <Key>
+            <PropertyRef Name="Codigo1" />
+            <PropertyRef Name="descripcion" />
+            <PropertyRef Name="pub_sucu_codigo" />
+          </Key>
+          <Property Name="Codigo1" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Codigo2" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Clasificacion1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Clasificacion2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="idGrupoInstalacion" Type="Int32" />
+          <Property Name="descripcion" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Unidad" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="Puntos" Type="Decimal" Precision="28" Scale="6" />
+          <Property Name="ValorPunto" Type="Decimal" Precision="28" Scale="6" />
+          <Property Name="pub_sucu_codigo" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Tbl_Instalacion_SIGETRAMA">
+          <Key>
+            <PropertyRef Name="id_Instalacion" />
+            <PropertyRef Name="Contratista" />
+            <PropertyRef Name="RUC" />
+            <PropertyRef Name="DES_CONTRATISTA" />
+            <PropertyRef Name="CONTRATO" />
+            <PropertyRef Name="TRABAJO" />
+            <PropertyRef Name="SUBCONTRATISTA" />
+            <PropertyRef Name="DES_SUBCONTRATISTA" />
+            <PropertyRef Name="INSPECTOR" />
+            <PropertyRef Name="DES_INSPECTORES" />
+            <PropertyRef Name="SUPERV_CONTRA" />
+            <PropertyRef Name="DES_SUPERV_CONTRA" />
+            <PropertyRef Name="TRANSACCION" />
+            <PropertyRef Name="FOLIOSCO" />
+            <PropertyRef Name="FOLIOSIE" />
+            <PropertyRef Name="ESTADO" />
+            <PropertyRef Name="FOLIO_ORIGEN" />
+            <PropertyRef Name="FECHA_DIG" />
+            <PropertyRef Name="USR_DIG" />
+            <PropertyRef Name="FECHA_APROB" />
+            <PropertyRef Name="APROBADOR" />
+            <PropertyRef Name="ORDEN" />
+            <PropertyRef Name="MATERIAL_SIE" />
+            <PropertyRef Name="CANTIDAD" />
+            <PropertyRef Name="CONTRATISTA1" />
+            <PropertyRef Name="VALOR_TRANS" />
+          </Key>
+          <Property Name="id_Instalacion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Contratista" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="RUC" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="DES_CONTRATISTA" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="CONTRATO" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="TRABAJO" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="SUBCONTRATISTA" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="DES_SUBCONTRATISTA" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="INSPECTOR" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="DES_INSPECTORES" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="SUPERV_CONTRA" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="DES_SUPERV_CONTRA" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="TRANSACCION" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="FOLIOSCO" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="FOLIOSIE" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ESTADO" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="FOLIO_ORIGEN" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="FECHA_DIG" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="USR_DIG" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="FECHA_APROB" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="APROBADOR" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="ORDEN" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="MATERIAL_SIE" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CANTIDAD" Type="Decimal" Nullable="false" Precision="28" Scale="3" />
+          <Property Name="CONTRATISTA1" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="VALOR_TRANS" Type="Decimal" Nullable="false" Precision="28" Scale="3" />
+        </EntityType>
+        <EntityType Name="TBL_Recupero_TMP">
+          <Key>
+            <PropertyRef Name="Matricula" />
+            <PropertyRef Name="GES_OBRA_CODIGO" />
+            <PropertyRef Name="Almacen" />
+            <PropertyRef Name="devuelto" />
+            <PropertyRef Name="pedido" />
+            <PropertyRef Name="ts" />
+            <PropertyRef Name="tD" />
+            <PropertyRef Name="PorDevolver" />
+          </Key>
+          <Property Name="Matricula" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="GES_OBRA_CODIGO" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Almacen" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="devuelto" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="pedido" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="ts" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="tD" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="PorDevolver" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="TBL_SED_ZONA">
+          <Key>
+            <PropertyRef Name="Sed" />
+            <PropertyRef Name="idZona" />
+            <PropertyRef Name="descripcion_Zona" />
+          </Key>
+          <Property Name="Sed" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="idZona" Type="Int32" Nullable="false" />
+          <Property Name="descripcion_Zona" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_Tbl_Personal_Tbl_Personal_Cargo">
+          <End Type="MFSoft_Base_OCAModel.Tbl_Personal_Cargo" Role="Tbl_Personal_Cargo" Multiplicity="0..1" />
+          <End Type="MFSoft_Base_OCAModel.Tbl_Personal" Role="Tbl_Personal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Personal_Cargo">
+              <PropertyRef Name="id_CargoPersonal" />
+            </Principal>
+            <Dependent Role="Tbl_Personal">
+              <PropertyRef Name="id_CargoPersonal" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Tbl_Proveedor">
+          <Key>
+            <PropertyRef Name="id_Proveedor" />
+          </Key>
+          <Property Name="id_Proveedor" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_TipoProveedor" Type="Int32" />
+          <Property Name="id_TipoPersona" Type="Int32" />
+          <Property Name="nro_RUC" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="razonsocial" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="nombreComercial" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="vtaProductos" Type="Int32" />
+          <Property Name="vtaServicios" Type="Int32" />
+          <Property Name="vtaotros" Type="Int32" />
+          <Property Name="vtaotrosDetalle" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="direcion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="id_Pais" Type="Int32" />
+          <Property Name="id_Ciudad" Type="Int32" />
+          <Property Name="id_Departamento" Type="Int32" />
+          <Property Name="telefonoFijo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="celular" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="fax" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="personalContacto_IG" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="cargo_IG" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="email_IG" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="personalContacto_T" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="cargo_T" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="email_T" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="personalContacto_RLC" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="cargo_RLC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="id_TipoDoc_RLC" Type="Int32" />
+          <Property Name="nro_RLC" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="email_RLC" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="nroCuentaDetraccion" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="check1_UDP" Type="Int32" />
+          <Property Name="check2_UDP" Type="Int32" />
+          <Property Name="estado" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="usuario_creacion" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
+          <Property Name="usuario_edicion" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
+          <Property Name="login_Proveedor" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="contrasenia_Proveedor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="usuario_Aprobo" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="fechaAprobacion" Type="DateTime" Precision="3" />
+          <Property Name="id_MotivoRechazo" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="descripcionRechazo" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="usuario_rechazo" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="fechaRechazo" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Pub_Monedas">
+          <Key>
+            <PropertyRef Name="Pub_Empr_Codigo" />
+            <PropertyRef Name="Pub_Mone_Codigo" />
+          </Key>
+          <Property Name="Pub_Empr_Codigo" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="Pub_Mone_Codigo" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="Pub_Mone_Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Pub_Mone_Simbolo" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Pub_Mone_Procedencia" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Pub_Mone_Uso" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Pub_Esta_Codigo" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="Pub_Mone_UsuCrea" Type="String" MaxLength="6" FixedLength="true" Unicode="false" />
+          <Property Name="Pub_Mone_FecCrea" Type="DateTime" Precision="3" />
+          <Property Name="Pub_Mone_UsuModi" Type="String" MaxLength="6" FixedLength="true" Unicode="false" />
+          <Property Name="Pub_Mone_FecModi" Type="DateTime" Precision="3" />
+          <Property Name="Pub_Mone_Identidad" Type="String" MaxLength="6" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tbl_Proveedor_Archivos">
+          <Key>
+            <PropertyRef Name="id_Proveedor_Archivo" />
+          </Key>
+          <Property Name="id_Proveedor_Archivo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_Proveedor" Type="Int32" />
+          <Property Name="id_TipoDocumento" Type="Int32" />
+          <Property Name="nombreArchivo" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="nombreArchivo_bd" Type="Int32" />
+          <Property Name="estado" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="usuario_creacion" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
+          <Property Name="usuario_edicion" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tbl_Proveedor_Banco">
+          <Key>
+            <PropertyRef Name="id_Proveedor_Banco" />
+          </Key>
+          <Property Name="id_Proveedor_Banco" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_Proveedor" Type="Int32" />
+          <Property Name="id_Banco" Type="Int32" />
+          <Property Name="Pub_Mone_Codigo" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="id_TipoCuenta" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="nroCuenta" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="nroCCI" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="estado" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="usuario_creacion" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
+          <Property Name="usuario_edicion" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tbl_TidoDocumento_File">
+          <Key>
+            <PropertyRef Name="id_TipoDocFile" />
+          </Key>
+          <Property Name="id_TipoDocFile" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tipoFile" Type="Int32" />
+          <Property Name="nombreFile" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="requiereNroDoc" Type="Int32" />
+          <Property Name="requiereFecha" Type="Int32" />
+          <Property Name="estado" Type="Int32" />
+          <Property Name="usuario_creacion" Type="Int32" />
+          <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
+          <Property Name="usuario_edicion" Type="Int32" />
+          <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tbl_Proveedor_Evalucion_Cab">
+          <Key>
+            <PropertyRef Name="id_Evaluacion_Cab" />
+          </Key>
+          <Property Name="id_Evaluacion_Cab" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_Proveedor" Type="Int32" />
+          <Property Name="Ges_Ordt_Codigo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="fechaEvaluacion_Evaluacion" Type="DateTime" Precision="3" />
+          <Property Name="fechaInicial_Evaluacion" Type="DateTime" Precision="3" />
+          <Property Name="fechaFinal_Evaluacion" Type="DateTime" Precision="3" />
+          <Property Name="usario_Aprobo" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_Aprobacion" Type="DateTime" Precision="3" />
+          <Property Name="usuario_Rechazo" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_Rechazo" Type="DateTime" Precision="3" />
+          <Property Name="Estado" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="usuario_creacion" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
+          <Property Name="usuario_edicion" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tbl_Documento_Archivos">
+          <Key>
+            <PropertyRef Name="id_Documento_Archivo" />
+          </Key>
+          <Property Name="id_Documento_Archivo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_Documento" Type="Int32" />
+          <Property Name="id_TipoDocFile" Type="Int32" />
+          <Property Name="nombreArchivo" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="nombreArchivo_bd" Type="Int32" />
+          <Property Name="numeroDocumento" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="fechaDocumento" Type="DateTime" Precision="3" />
+          <Property Name="estado" Type="Int32" />
+          <Property Name="usuario_creacion" Type="Int32" />
+          <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
+          <Property Name="usuario_edicion" Type="Int32" />
+          <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tbl_Documento_Cab">
+          <Key>
+            <PropertyRef Name="id_Documento" />
+          </Key>
+          <Property Name="id_Documento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Pub_Emp_Codigo" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="id_tipoIngreso" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Pub_TiDo_Codigo" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="nroSerie_Doc" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="numero_Doc" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="fechaEmision_Doc" Type="DateTime" Precision="3" />
+          <Property Name="Ges_Ordt_Codigo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CCosto" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="id_Proveedor" Type="Int32" />
+          <Property Name="nro_RUC" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="concepto_Doc" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Log_Ocom_Tipo" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="Log_Ocom_Codigo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Pub_Mone_Codigo" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="TipoCambio" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="subTotal_Doc" Type="Decimal" Precision="28" Scale="6" />
+          <Property Name="porcentajeIGV" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="IgvTotal_Doc" Type="Decimal" Precision="28" Scale="6" />
+          <Property Name="total_Doc" Type="Decimal" Precision="28" Scale="6" />
+          <Property Name="observaciones" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="usario_Aprobo" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_Aprobacion" Type="DateTime" Precision="3" />
+          <Property Name="usuario_Rechazo" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_Rechazo" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="id_MotivoRechazo" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="descripcionRechazo" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="nroVaocher_Pago" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="fechaPago" Type="DateTime" Precision="3" />
+          <Property Name="comentario_Pago" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Estado" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="usuario_creacion" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
+          <Property Name="usuario_edicion" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
+          <Property Name="Log_OCom_Identidad" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tbl_Documento_Det">
+          <Key>
+            <PropertyRef Name="id_Documento_Det" />
+          </Key>
+          <Property Name="id_Documento_Det" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_Documento" Type="Int32" />
+          <Property Name="item_DocDet" Type="Int32" />
+          <Property Name="alm_Arti_Codigo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Pub_Mone_Codigo" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="TipoCambio" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="cantidad_DocDet" Type="Decimal" Precision="28" Scale="6" />
+          <Property Name="precio_DocDet" Type="Decimal" Precision="28" Scale="6" />
+          <Property Name="total_DocDet" Type="Decimal" Precision="28" Scale="6" />
+          <Property Name="CtaGastos" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CtaIGV" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CtaxPagar" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Estado" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="usuario_creacion" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
+          <Property Name="usuario_edicion" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tbl_Liquidacion_Caja_Cab">
+          <Key>
+            <PropertyRef Name="id_LiquidacionCaja_Cab" />
+          </Key>
+          <Property Name="id_LiquidacionCaja_Cab" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ges_Ordt_Codigo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CCosto" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="fechaEmision_Liq" Type="DateTime" Precision="3" />
+          <Property Name="fechaInicial" Type="DateTime" Precision="3" />
+          <Property Name="fechaFinal" Type="DateTime" Precision="3" />
+          <Property Name="usario_Aprobo" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_Aprobacion" Type="DateTime" Precision="3" />
+          <Property Name="usuario_Rechazo" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_Rechazo" Type="DateTime" Precision="3" />
+          <Property Name="Estado" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="usuario_creacion" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
+          <Property Name="usuario_edicion" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tbl_Liquidacion_Caja_Det">
+          <Key>
+            <PropertyRef Name="id_LiquidacionCaja_Det" />
+          </Key>
+          <Property Name="id_LiquidacionCaja_Det" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_LiquidacionCaja_Cab" Type="Int32" />
+          <Property Name="id_tipoIngreso" Type="Int32" />
+          <Property Name="Pub_TiDo_Codigo" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="nroSerie_Doc" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="numero_Doc" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="fechaEmision_Doc" Type="DateTime" Precision="3" />
+          <Property Name="Ges_Ordt_Codigo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CCosto" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="id_Proveedor" Type="Int32" />
+          <Property Name="nro_RUC" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="concepto_Doc" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Pub_Mone_Codigo" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="TipoCambio" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="subTotal_Doc" Type="Decimal" Precision="28" Scale="6" />
+          <Property Name="porcentajeIGV" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="IgvTotal_Doc" Type="Decimal" Precision="28" Scale="6" />
+          <Property Name="percepciones_Doc" Type="Decimal" Precision="28" Scale="6" />
+          <Property Name="otrosG_Doc" Type="Decimal" Precision="28" Scale="6" />
+          <Property Name="total_Doc" Type="Decimal" Precision="28" Scale="6" />
+          <Property Name="observaciones" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="modoIngreso_Doc" Type="Int32" />
+          <Property Name="Estado" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="usuario_creacion" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
+          <Property Name="usuario_edicion" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tbl_Proveedor_Evalucion_Det">
+          <Key>
+            <PropertyRef Name="id_Evaluacion_Det" />
+          </Key>
+          <Property Name="id_Evaluacion_Det" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_Evaluacion_Cab" Type="Int32" />
+          <Property Name="id_Proveedor" Type="Int32" />
+          <Property Name="Pto_Precio" Type="Int32" />
+          <Property Name="Pto_Calidad" Type="Int32" />
+          <Property Name="Pto_TEntrega" Type="Int32" />
+          <Property Name="Pto_Credito" Type="Int32" />
+          <Property Name="Pto_Garantia" Type="Int32" />
+          <Property Name="puntuacion" Type="Int32" />
+          <Property Name="statuss" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Estado" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="usuario_creacion" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
+          <Property Name="usuario_edicion" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tbl_Proveedor_Incidencia">
+          <Key>
+            <PropertyRef Name="id_Incidencia" />
+          </Key>
+          <Property Name="id_Incidencia" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_Proveedor" Type="Int32" />
+          <Property Name="fechaIngreso_Incidencia" Type="DateTime" Precision="3" />
+          <Property Name="observaciones_Incidencia" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Estado" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="usuario_creacion" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
+          <Property Name="usuario_edicion" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MFSoft_Base_OCAModelStoreContainer" CdmEntityContainer="OCAEntities">
+          <EntitySetMapping Name="Pub_Usuarios">
+            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.Pub_Usuarios">
+              <MappingFragment StoreEntitySet="Pub_Usuarios">
+                <ScalarProperty Name="Pub_Usua_Nombre" ColumnName="Pub_Usua_Nombre" />
+                <ScalarProperty Name="Pub_Usua_Codigo" ColumnName="Pub_Usua_Codigo" />
+                <ScalarProperty Name="Pub_Usua_Login" ColumnName="Pub_Usua_Login" />
+                <ScalarProperty Name="Pub_Usua_Clave" ColumnName="Pub_Usua_Clave" />
+                <ScalarProperty Name="Pub_Usua_Cargo" ColumnName="Pub_Usua_Cargo" />
+                <ScalarProperty Name="Pub_Usua_Email" ColumnName="Pub_Usua_Email" />
+                <ScalarProperty Name="Pub_Usua_Adm" ColumnName="Pub_Usua_Adm" />
+                <ScalarProperty Name="Pub_Usua_Sis" ColumnName="Pub_Usua_Sis" />
+                <ScalarProperty Name="Pub_Esta_Codigo" ColumnName="Pub_Esta_Codigo" />
+                <ScalarProperty Name="Pub_Usua_UsuCrea" ColumnName="Pub_Usua_UsuCrea" />
+                <ScalarProperty Name="Pub_Usua_FecCrea" ColumnName="Pub_Usua_FecCrea" />
+                <ScalarProperty Name="Pub_Usua_UsuModi" ColumnName="Pub_Usua_UsuModi" />
+                <ScalarProperty Name="Pub_Usua_FecModi" ColumnName="Pub_Usua_FecModi" />
+                <ScalarProperty Name="Pub_Usua_Identidad" ColumnName="Pub_Usua_Identidad" />
+                <ScalarProperty Name="Pub_Area_Codigo" ColumnName="Pub_Area_Codigo" />
+                <ScalarProperty Name="Pub_Usua_Obs" ColumnName="Pub_Usua_Obs" />
+                <ScalarProperty Name="pub_dni" ColumnName="pub_dni" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Aceesos_Evento">
+            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.tbl_Aceesos_Evento">
+              <MappingFragment StoreEntitySet="tbl_Aceesos_Evento">
+                <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
+                <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
+                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
+                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="id_Evento" ColumnName="id_Evento" />
+                <ScalarProperty Name="id_Usuario" ColumnName="id_Usuario" />
+                <ScalarProperty Name="id_Opcion" ColumnName="id_Opcion" />
+                <ScalarProperty Name="id_Acceso_evento" ColumnName="id_Acceso_evento" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Definicion_Opciones">
+            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.tbl_Definicion_Opciones">
+              <MappingFragment StoreEntitySet="tbl_Definicion_Opciones">
+                <ScalarProperty Name="TipoInterface" ColumnName="TipoInterface" />
+                <ScalarProperty Name="interface_Opcion" ColumnName="interface_Opcion" />
+                <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
+                <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
+                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
+                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="orden_Opcion" ColumnName="orden_Opcion" />
+                <ScalarProperty Name="urlImagen_Opcion" ColumnName="urlImagen_Opcion" />
+                <ScalarProperty Name="nombreParentID" ColumnName="nombreParentID" />
+                <ScalarProperty Name="parentID" ColumnName="parentID" />
+                <ScalarProperty Name="url_opcion" ColumnName="url_opcion" />
+                <ScalarProperty Name="nombre_opcion" ColumnName="nombre_opcion" />
+                <ScalarProperty Name="id_opcion" ColumnName="id_opcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Armado">
+            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.tbl_Armado">
+              <MappingFragment StoreEntitySet="tbl_Armado">
+                <ScalarProperty Name="Cantidad_Armado" ColumnName="Cantidad_Armado" />
+                <ScalarProperty Name="Alm_Arti_Codigo" ColumnName="Alm_Arti_Codigo" />
+                <ScalarProperty Name="TipoRegistro" ColumnName="TipoRegistro" />
+                <ScalarProperty Name="id_Estructura" ColumnName="id_Estructura" />
+                <ScalarProperty Name="descripcion_Armado" ColumnName="descripcion_Armado" />
+                <ScalarProperty Name="codigo_Armado" ColumnName="codigo_Armado" />
+                <ScalarProperty Name="id_SubTipoArmado" ColumnName="id_SubTipoArmado" />
+                <ScalarProperty Name="id_TipoArmado" ColumnName="id_TipoArmado" />
+                <ScalarProperty Name="id_Armado" ColumnName="id_Armado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_Bancos">
+            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.Tbl_Bancos">
+              <MappingFragment StoreEntitySet="Tbl_Bancos">
+                <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
+                <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
+                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
+                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="nombre_Banco" ColumnName="nombre_Banco" />
+                <ScalarProperty Name="id_Banco" ColumnName="id_Banco" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Ciudad">
+            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.tbl_Ciudad">
+              <MappingFragment StoreEntitySet="tbl_Ciudad">
+                <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
+                <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
+                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
+                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="nombre_Ciudad" ColumnName="nombre_Ciudad" />
+                <ScalarProperty Name="id_Pais" ColumnName="id_Pais" />
+                <ScalarProperty Name="id_Ciudad" ColumnName="id_Ciudad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Departamento">
+            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.tbl_Departamento">
+              <MappingFragment StoreEntitySet="tbl_Departamento">
+                <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
+                <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
+                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
+                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="nombre_Dpto" ColumnName="nombre_Dpto" />
+                <ScalarProperty Name="id_Ciudad" ColumnName="id_Ciudad" />
+                <ScalarProperty Name="id_Pais" ColumnName="id_Pais" />
+                <ScalarProperty Name="id_Departamento" ColumnName="id_Departamento" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_Elenco_ENEL">
+            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.Tbl_Elenco_ENEL">
+              <MappingFragment StoreEntitySet="Tbl_Elenco_ENEL">
+                <ScalarProperty Name="pub_sucu_codigo" ColumnName="pub_sucu_codigo" />
+                <ScalarProperty Name="ValorPunto" ColumnName="ValorPunto" />
+                <ScalarProperty Name="Puntos" ColumnName="Puntos" />
+                <ScalarProperty Name="Unidad" ColumnName="Unidad" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="idGrupoInstalacion" ColumnName="idGrupoInstalacion" />
+                <ScalarProperty Name="Clasificacion2" ColumnName="Clasificacion2" />
+                <ScalarProperty Name="Clasificacion1" ColumnName="Clasificacion1" />
+                <ScalarProperty Name="Codigo2" ColumnName="Codigo2" />
+                <ScalarProperty Name="Codigo1" ColumnName="Codigo1" />
+                <ScalarProperty Name="ideLenco" ColumnName="ideLenco" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Estructura_Material">
+            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.tbl_Estructura_Material">
+              <MappingFragment StoreEntitySet="tbl_Estructura_Material">
+                <ScalarProperty Name="Pub_Empr_FecModi" ColumnName="Pub_Empr_FecModi" />
+                <ScalarProperty Name="Pub_Empr_UsuModi" ColumnName="Pub_Empr_UsuModi" />
+                <ScalarProperty Name="Pub_Empr_FecCrea" ColumnName="Pub_Empr_FecCrea" />
+                <ScalarProperty Name="Pub_Empr_UsuCrea" ColumnName="Pub_Empr_UsuCrea" />
+                <ScalarProperty Name="Pub_Esta_Codigo" ColumnName="Pub_Esta_Codigo" />
+                <ScalarProperty Name="Alm_Arti_Codigo" ColumnName="Alm_Arti_Codigo" />
+                <ScalarProperty Name="TipoRegistro" ColumnName="TipoRegistro" />
+                <ScalarProperty Name="id_Estructura" ColumnName="id_Estructura" />
+                <ScalarProperty Name="id_TipoArmado" ColumnName="id_TipoArmado" />
+                <ScalarProperty Name="id_Estructura_Material" ColumnName="id_Estructura_Material" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Estructuras">
+            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.tbl_Estructuras">
+              <MappingFragment StoreEntitySet="tbl_Estructuras">
+                <ScalarProperty Name="orden2_Estructura" ColumnName="orden2_Estructura" />
+                <ScalarProperty Name="orden_Estructura" ColumnName="orden_Estructura" />
+                <ScalarProperty Name="nombre_Estructura" ColumnName="nombre_Estructura" />
+                <ScalarProperty Name="id_Estructura" ColumnName="id_Estructura" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_Grupo_ENEL">
+            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.Tbl_Grupo_ENEL">
+              <MappingFragment StoreEntitySet="Tbl_Grupo_ENEL">
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="idGrupo" ColumnName="idGrupo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_Grupo_Zona_ENEL">
+            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.Tbl_Grupo_Zona_ENEL">
+              <MappingFragment StoreEntitySet="Tbl_Grupo_Zona_ENEL">
+                <ScalarProperty Name="ValorPunto" ColumnName="ValorPunto" />
+                <ScalarProperty Name="FactorZona" ColumnName="FactorZona" />
+                <ScalarProperty Name="idZona" ColumnName="idZona" />
+                <ScalarProperty Name="idGrupo" ColumnName="idGrupo" />
+                <ScalarProperty Name="idGrupoZona" ColumnName="idGrupoZona" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_GrupoTabla">
+            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.tbl_GrupoTabla">
+              <MappingFragment StoreEntitySet="tbl_GrupoTabla">
+                <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
+                <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
+                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
+                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="nombre_GrupoTabla" ColumnName="nombre_GrupoTabla" />
+                <ScalarProperty Name="id_GrupoTabla" ColumnName="id_GrupoTabla" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_GrupoTabla_Detalle">
+            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.tbl_GrupoTabla_Detalle">
+              <MappingFragment StoreEntitySet="tbl_GrupoTabla_Detalle">
+                <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
+                <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
+                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
+                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="valor_detalleTabla" ColumnName="valor_detalleTabla" />
+                <ScalarProperty Name="diasVencimiento_detalleTabla" ColumnName="diasVencimiento_detalleTabla" />
+                <ScalarProperty Name="descripcion_detalleTabla" ColumnName="descripcion_detalleTabla" />
+                <ScalarProperty Name="codigo_detalleTabla" ColumnName="codigo_detalleTabla" />
+                <ScalarProperty Name="id_GrupoTabla" ColumnName="id_GrupoTabla" />
+                <ScalarProperty Name="id_GrupoDetalle" ColumnName="id_GrupoDetalle" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_Instalacion_CAB_SIGE">
+            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.Tbl_Instalacion_CAB_SIGE">
+              <MappingFragment StoreEntitySet="Tbl_Instalacion_CAB_SIGE">
+                <ScalarProperty Name="Contratista" ColumnName="Contratista" />
+                <ScalarProperty Name="id_Instalacion" ColumnName="id_Instalacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Pais">
+            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.tbl_Pais">
+              <MappingFragment StoreEntitySet="tbl_Pais">
+                <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
+                <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
+                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
+                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="codPostal_Pais" ColumnName="codPostal_Pais" />
+                <ScalarProperty Name="nombre_Pais" ColumnName="nombre_Pais" />
+                <ScalarProperty Name="id_Pais" ColumnName="id_Pais" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_Parametros">
+            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.TBL_Parametros">
+              <MappingFragment StoreEntitySet="TBL_Parametros">
+                <ScalarProperty Name="eSTADO" ColumnName="eSTADO" />
+                <ScalarProperty Name="valor" ColumnName="valor" />
+                <ScalarProperty Name="nombre_parametro" ColumnName="nombre_parametro" />
+                <ScalarProperty Name="Id_Configuracion" ColumnName="Id_Configuracion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_Personal">
+            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.Tbl_Personal">
+              <MappingFragment StoreEntitySet="Tbl_Personal">
+                <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
+                <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
+                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
+                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="id_perfil" ColumnName="id_perfil" />
+                <ScalarProperty Name="envio_enlinea_personal" ColumnName="envio_enlinea_personal" />
+                <ScalarProperty Name="contrasenia_personal" ColumnName="contrasenia_personal" />
+                <ScalarProperty Name="nombreUsario_personal" ColumnName="nombreUsario_personal" />
+                <ScalarProperty Name="email_personal" ColumnName="email_personal" />
+                <ScalarProperty Name="nroCelular_personal" ColumnName="nroCelular_personal" />
+                <ScalarProperty Name="fotoUrl_personal" ColumnName="fotoUrl_personal" />
+                <ScalarProperty Name="id_CargoPersonal" ColumnName="id_CargoPersonal" />
+                <ScalarProperty Name="nombres_personal" ColumnName="nombres_personal" />
+                <ScalarProperty Name="apellidos_personal" ColumnName="apellidos_personal" />
+                <ScalarProperty Name="tipoDoc_personal" ColumnName="tipoDoc_personal" />
+                <ScalarProperty Name="nroDoc_personal" ColumnName="nroDoc_personal" />
+                <ScalarProperty Name="id_empresa" ColumnName="id_empresa" />
+                <ScalarProperty Name="id_Personal" ColumnName="id_Personal" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_Personal_Cargo">
+            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.Tbl_Personal_Cargo">
+              <MappingFragment StoreEntitySet="Tbl_Personal_Cargo">
+                <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
+                <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
+                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
+                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="descripcion_CargoPersonal" ColumnName="descripcion_CargoPersonal" />
+                <ScalarProperty Name="codigoInterno_CargoPersonal" ColumnName="codigoInterno_CargoPersonal" />
+                <ScalarProperty Name="id_CargoPersonal" ColumnName="id_CargoPersonal" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_prueba_ubicacion">
+            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.tbl_prueba_ubicacion">
+              <MappingFragment StoreEntitySet="tbl_prueba_ubicacion">
+                <ScalarProperty Name="tip" ColumnName="tip" />
+                <ScalarProperty Name="long" ColumnName="long" />
+                <ScalarProperty Name="lat" ColumnName="lat" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_SubEstructuras">
+            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.tbl_SubEstructuras">
+              <MappingFragment StoreEntitySet="tbl_SubEstructuras">
+                <ScalarProperty Name="descripcion_Estructura" ColumnName="descripcion_Estructura" />
+                <ScalarProperty Name="codigo_Estructura" ColumnName="codigo_Estructura" />
+                <ScalarProperty Name="Nombre_Estructura" ColumnName="Nombre_Estructura" />
+                <ScalarProperty Name="id_Estructura" ColumnName="id_Estructura" />
+                <ScalarProperty Name="id_TipoArmado" ColumnName="id_TipoArmado" />
+                <ScalarProperty Name="id_SubEstructura" ColumnName="id_SubEstructura" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_SubTipo_Armado">
+            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.tbl_SubTipo_Armado">
+              <MappingFragment StoreEntitySet="tbl_SubTipo_Armado">
+                <ScalarProperty Name="id_TipoArmado" ColumnName="id_TipoArmado" />
+                <ScalarProperty Name="nombre_SubTipoArmado" ColumnName="nombre_SubTipoArmado" />
+                <ScalarProperty Name="id_SubTipoArmado" ColumnName="id_SubTipoArmado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_TipoArmado">
+            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.Tbl_TipoArmado">
+              <MappingFragment StoreEntitySet="Tbl_TipoArmado">
+                <ScalarProperty Name="descripcion_TipoArmado" ColumnName="descripcion_TipoArmado" />
+                <ScalarProperty Name="id_TipoArmado" ColumnName="id_TipoArmado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_Zona_ENEL">
+            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.Tbl_Zona_ENEL">
+              <MappingFragment StoreEntitySet="Tbl_Zona_ENEL">
+                <ScalarProperty Name="descripcion_Zona" ColumnName="descripcion_Zona" />
+                <ScalarProperty Name="idZona" ColumnName="idZona" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_Elenco_Baremo">
+            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.Tbl_Elenco_Baremo">
+              <MappingFragment StoreEntitySet="Tbl_Elenco_Baremo">
+                <ScalarProperty Name="OBS" ColumnName="OBS" />
+                <ScalarProperty Name="Elenco" ColumnName="Elenco" />
+                <ScalarProperty Name="Baremo" ColumnName="Baremo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_Elenco_ENEL_Conexiones">
+            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.Tbl_Elenco_ENEL_Conexiones">
+              <MappingFragment StoreEntitySet="Tbl_Elenco_ENEL_Conexiones">
+                <ScalarProperty Name="PCon_OPar_FecModi" ColumnName="PCon_OPar_FecModi" />
+                <ScalarProperty Name="PCon_OPar_UsuModi" ColumnName="PCon_OPar_UsuModi" />
+                <ScalarProperty Name="PCon_OPar_FecCrea" ColumnName="PCon_OPar_FecCrea" />
+                <ScalarProperty Name="PCon_OPar_UsuCrea" ColumnName="PCon_OPar_UsuCrea" />
+                <ScalarProperty Name="Pub_Esta_Codigo" ColumnName="Pub_Esta_Codigo" />
+                <ScalarProperty Name="Ele_OPar_Factor" ColumnName="Ele_OPar_Factor" />
+                <ScalarProperty Name="Ele_OPar_Precio" ColumnName="Ele_OPar_Precio" />
+                <ScalarProperty Name="Ele_OPar_Cantidad" ColumnName="Ele_OPar_Cantidad" />
+                <ScalarProperty Name="Ele_OPar_Item" ColumnName="Ele_OPar_Item" />
+                <ScalarProperty Name="ideLenco" ColumnName="ideLenco" />
+                <ScalarProperty Name="idZona" ColumnName="idZona" />
+                <ScalarProperty Name="Pub_Sucu_Codigo" ColumnName="Pub_Sucu_Codigo" />
+                <ScalarProperty Name="PCon_Orde_Sicot_Interno" ColumnName="PCon_Orde_Sicot_Interno" />
+                <ScalarProperty Name="PCon_Orde_Sicot" ColumnName="PCon_Orde_Sicot" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_Elenco_ENELa">
+            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.Tbl_Elenco_ENELa">
+              <MappingFragment StoreEntitySet="Tbl_Elenco_ENELa">
+                <ScalarProperty Name="pub_sucu_codigo" ColumnName="pub_sucu_codigo" />
+                <ScalarProperty Name="ValorPunto" ColumnName="ValorPunto" />
+                <ScalarProperty Name="Puntos" ColumnName="Puntos" />
+                <ScalarProperty Name="Unidad" ColumnName="Unidad" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="idGrupoInstalacion" ColumnName="idGrupoInstalacion" />
+                <ScalarProperty Name="Clasificacion2" ColumnName="Clasificacion2" />
+                <ScalarProperty Name="Clasificacion1" ColumnName="Clasificacion1" />
+                <ScalarProperty Name="Codigo2" ColumnName="Codigo2" />
+                <ScalarProperty Name="Codigo1" ColumnName="Codigo1" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_Instalacion_SIGETRAMA">
+            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.Tbl_Instalacion_SIGETRAMA">
+              <MappingFragment StoreEntitySet="Tbl_Instalacion_SIGETRAMA">
+                <ScalarProperty Name="VALOR_TRANS" ColumnName="VALOR_TRANS" />
+                <ScalarProperty Name="CONTRATISTA1" ColumnName="CONTRATISTA1" />
+                <ScalarProperty Name="CANTIDAD" ColumnName="CANTIDAD" />
+                <ScalarProperty Name="MATERIAL_SIE" ColumnName="MATERIAL_SIE" />
+                <ScalarProperty Name="ORDEN" ColumnName="ORDEN" />
+                <ScalarProperty Name="APROBADOR" ColumnName="APROBADOR" />
+                <ScalarProperty Name="FECHA_APROB" ColumnName="FECHA_APROB" />
+                <ScalarProperty Name="USR_DIG" ColumnName="USR_DIG" />
+                <ScalarProperty Name="FECHA_DIG" ColumnName="FECHA_DIG" />
+                <ScalarProperty Name="FOLIO_ORIGEN" ColumnName="FOLIO_ORIGEN" />
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="FOLIOSIE" ColumnName="FOLIOSIE" />
+                <ScalarProperty Name="FOLIOSCO" ColumnName="FOLIOSCO" />
+                <ScalarProperty Name="TRANSACCION" ColumnName="TRANSACCION" />
+                <ScalarProperty Name="DES_SUPERV_CONTRA" ColumnName="DES_SUPERV_CONTRA" />
+                <ScalarProperty Name="SUPERV_CONTRA" ColumnName="SUPERV_CONTRA" />
+                <ScalarProperty Name="DES_INSPECTORES" ColumnName="DES_INSPECTORES" />
+                <ScalarProperty Name="INSPECTOR" ColumnName="INSPECTOR" />
+                <ScalarProperty Name="DES_SUBCONTRATISTA" ColumnName="DES_SUBCONTRATISTA" />
+                <ScalarProperty Name="SUBCONTRATISTA" ColumnName="SUBCONTRATISTA" />
+                <ScalarProperty Name="TRABAJO" ColumnName="TRABAJO" />
+                <ScalarProperty Name="CONTRATO" ColumnName="CONTRATO" />
+                <ScalarProperty Name="DES_CONTRATISTA" ColumnName="DES_CONTRATISTA" />
+                <ScalarProperty Name="RUC" ColumnName="RUC" />
+                <ScalarProperty Name="Contratista" ColumnName="Contratista" />
+                <ScalarProperty Name="id_Instalacion" ColumnName="id_Instalacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_Recupero_TMP">
+            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.TBL_Recupero_TMP">
+              <MappingFragment StoreEntitySet="TBL_Recupero_TMP">
+                <ScalarProperty Name="PorDevolver" ColumnName="PorDevolver" />
+                <ScalarProperty Name="tD" ColumnName="tD" />
+                <ScalarProperty Name="ts" ColumnName="ts" />
+                <ScalarProperty Name="pedido" ColumnName="pedido" />
+                <ScalarProperty Name="devuelto" ColumnName="devuelto" />
+                <ScalarProperty Name="Almacen" ColumnName="Almacen" />
+                <ScalarProperty Name="GES_OBRA_CODIGO" ColumnName="GES_OBRA_CODIGO" />
+                <ScalarProperty Name="Matricula" ColumnName="Matricula" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_SED_ZONA">
+            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.TBL_SED_ZONA">
+              <MappingFragment StoreEntitySet="TBL_SED_ZONA">
+                <ScalarProperty Name="descripcion_Zona" ColumnName="descripcion_Zona" />
+                <ScalarProperty Name="idZona" ColumnName="idZona" />
+                <ScalarProperty Name="Sed" ColumnName="Sed" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_Proveedor">
+            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.Tbl_Proveedor">
+              <MappingFragment StoreEntitySet="Tbl_Proveedor">
+                <ScalarProperty Name="fechaRechazo" ColumnName="fechaRechazo" />
+                <ScalarProperty Name="usuario_rechazo" ColumnName="usuario_rechazo" />
+                <ScalarProperty Name="descripcionRechazo" ColumnName="descripcionRechazo" />
+                <ScalarProperty Name="id_MotivoRechazo" ColumnName="id_MotivoRechazo" />
+                <ScalarProperty Name="fechaAprobacion" ColumnName="fechaAprobacion" />
+                <ScalarProperty Name="usuario_Aprobo" ColumnName="usuario_Aprobo" />
+                <ScalarProperty Name="contrasenia_Proveedor" ColumnName="contrasenia_Proveedor" />
+                <ScalarProperty Name="login_Proveedor" ColumnName="login_Proveedor" />
+                <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
+                <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
+                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
+                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="check2_UDP" ColumnName="check2_UDP" />
+                <ScalarProperty Name="check1_UDP" ColumnName="check1_UDP" />
+                <ScalarProperty Name="nroCuentaDetraccion" ColumnName="nroCuentaDetraccion" />
+                <ScalarProperty Name="email_RLC" ColumnName="email_RLC" />
+                <ScalarProperty Name="nro_RLC" ColumnName="nro_RLC" />
+                <ScalarProperty Name="id_TipoDoc_RLC" ColumnName="id_TipoDoc_RLC" />
+                <ScalarProperty Name="cargo_RLC" ColumnName="cargo_RLC" />
+                <ScalarProperty Name="personalContacto_RLC" ColumnName="personalContacto_RLC" />
+                <ScalarProperty Name="email_T" ColumnName="email_T" />
+                <ScalarProperty Name="cargo_T" ColumnName="cargo_T" />
+                <ScalarProperty Name="personalContacto_T" ColumnName="personalContacto_T" />
+                <ScalarProperty Name="email_IG" ColumnName="email_IG" />
+                <ScalarProperty Name="cargo_IG" ColumnName="cargo_IG" />
+                <ScalarProperty Name="personalContacto_IG" ColumnName="personalContacto_IG" />
+                <ScalarProperty Name="fax" ColumnName="fax" />
+                <ScalarProperty Name="celular" ColumnName="celular" />
+                <ScalarProperty Name="telefonoFijo" ColumnName="telefonoFijo" />
+                <ScalarProperty Name="id_Departamento" ColumnName="id_Departamento" />
+                <ScalarProperty Name="id_Ciudad" ColumnName="id_Ciudad" />
+                <ScalarProperty Name="id_Pais" ColumnName="id_Pais" />
+                <ScalarProperty Name="direcion" ColumnName="direcion" />
+                <ScalarProperty Name="vtaotrosDetalle" ColumnName="vtaotrosDetalle" />
+                <ScalarProperty Name="vtaotros" ColumnName="vtaotros" />
+                <ScalarProperty Name="vtaServicios" ColumnName="vtaServicios" />
+                <ScalarProperty Name="vtaProductos" ColumnName="vtaProductos" />
+                <ScalarProperty Name="nombreComercial" ColumnName="nombreComercial" />
+                <ScalarProperty Name="razonsocial" ColumnName="razonsocial" />
+                <ScalarProperty Name="nro_RUC" ColumnName="nro_RUC" />
+                <ScalarProperty Name="id_TipoPersona" ColumnName="id_TipoPersona" />
+                <ScalarProperty Name="id_TipoProveedor" ColumnName="id_TipoProveedor" />
+                <ScalarProperty Name="id_Proveedor" ColumnName="id_Proveedor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pub_Monedas">
+            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.Pub_Monedas">
+              <MappingFragment StoreEntitySet="Pub_Monedas">
+                <ScalarProperty Name="Pub_Mone_Identidad" ColumnName="Pub_Mone_Identidad" />
+                <ScalarProperty Name="Pub_Mone_FecModi" ColumnName="Pub_Mone_FecModi" />
+                <ScalarProperty Name="Pub_Mone_UsuModi" ColumnName="Pub_Mone_UsuModi" />
+                <ScalarProperty Name="Pub_Mone_FecCrea" ColumnName="Pub_Mone_FecCrea" />
+                <ScalarProperty Name="Pub_Mone_UsuCrea" ColumnName="Pub_Mone_UsuCrea" />
+                <ScalarProperty Name="Pub_Esta_Codigo" ColumnName="Pub_Esta_Codigo" />
+                <ScalarProperty Name="Pub_Mone_Uso" ColumnName="Pub_Mone_Uso" />
+                <ScalarProperty Name="Pub_Mone_Procedencia" ColumnName="Pub_Mone_Procedencia" />
+                <ScalarProperty Name="Pub_Mone_Simbolo" ColumnName="Pub_Mone_Simbolo" />
+                <ScalarProperty Name="Pub_Mone_Descripcion" ColumnName="Pub_Mone_Descripcion" />
+                <ScalarProperty Name="Pub_Mone_Codigo" ColumnName="Pub_Mone_Codigo" />
+                <ScalarProperty Name="Pub_Empr_Codigo" ColumnName="Pub_Empr_Codigo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Proveedor_Archivos">
+            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.tbl_Proveedor_Archivos">
+              <MappingFragment StoreEntitySet="tbl_Proveedor_Archivos">
+                <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
+                <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
+                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
+                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="nombreArchivo_bd" ColumnName="nombreArchivo_bd" />
+                <ScalarProperty Name="nombreArchivo" ColumnName="nombreArchivo" />
+                <ScalarProperty Name="id_TipoDocumento" ColumnName="id_TipoDocumento" />
+                <ScalarProperty Name="id_Proveedor" ColumnName="id_Proveedor" />
+                <ScalarProperty Name="id_Proveedor_Archivo" ColumnName="id_Proveedor_Archivo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Proveedor_Banco">
+            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.tbl_Proveedor_Banco">
+              <MappingFragment StoreEntitySet="tbl_Proveedor_Banco">
+                <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
+                <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
+                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
+                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="nroCCI" ColumnName="nroCCI" />
+                <ScalarProperty Name="nroCuenta" ColumnName="nroCuenta" />
+                <ScalarProperty Name="id_TipoCuenta" ColumnName="id_TipoCuenta" />
+                <ScalarProperty Name="Pub_Mone_Codigo" ColumnName="Pub_Mone_Codigo" />
+                <ScalarProperty Name="id_Banco" ColumnName="id_Banco" />
+                <ScalarProperty Name="id_Proveedor" ColumnName="id_Proveedor" />
+                <ScalarProperty Name="id_Proveedor_Banco" ColumnName="id_Proveedor_Banco" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_TidoDocumento_File">
+            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.tbl_TidoDocumento_File">
+              <MappingFragment StoreEntitySet="tbl_TidoDocumento_File">
+                <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
+                <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
+                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
+                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="requiereFecha" ColumnName="requiereFecha" />
+                <ScalarProperty Name="requiereNroDoc" ColumnName="requiereNroDoc" />
+                <ScalarProperty Name="nombreFile" ColumnName="nombreFile" />
+                <ScalarProperty Name="tipoFile" ColumnName="tipoFile" />
+                <ScalarProperty Name="id_TipoDocFile" ColumnName="id_TipoDocFile" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Proveedor_Evalucion_Cab">
+            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.tbl_Proveedor_Evalucion_Cab">
+              <MappingFragment StoreEntitySet="tbl_Proveedor_Evalucion_Cab">
+                <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
+                <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
+                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
+                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="fecha_Rechazo" ColumnName="fecha_Rechazo" />
+                <ScalarProperty Name="usuario_Rechazo" ColumnName="usuario_Rechazo" />
+                <ScalarProperty Name="fecha_Aprobacion" ColumnName="fecha_Aprobacion" />
+                <ScalarProperty Name="usario_Aprobo" ColumnName="usario_Aprobo" />
+                <ScalarProperty Name="fechaFinal_Evaluacion" ColumnName="fechaFinal_Evaluacion" />
+                <ScalarProperty Name="fechaInicial_Evaluacion" ColumnName="fechaInicial_Evaluacion" />
+                <ScalarProperty Name="fechaEvaluacion_Evaluacion" ColumnName="fechaEvaluacion_Evaluacion" />
+                <ScalarProperty Name="Ges_Ordt_Codigo" ColumnName="Ges_Ordt_Codigo" />
+                <ScalarProperty Name="id_Proveedor" ColumnName="id_Proveedor" />
+                <ScalarProperty Name="id_Evaluacion_Cab" ColumnName="id_Evaluacion_Cab" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Documento_Archivos">
+            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.tbl_Documento_Archivos">
+              <MappingFragment StoreEntitySet="tbl_Documento_Archivos">
+                <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
+                <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
+                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
+                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="fechaDocumento" ColumnName="fechaDocumento" />
+                <ScalarProperty Name="numeroDocumento" ColumnName="numeroDocumento" />
+                <ScalarProperty Name="nombreArchivo_bd" ColumnName="nombreArchivo_bd" />
+                <ScalarProperty Name="nombreArchivo" ColumnName="nombreArchivo" />
+                <ScalarProperty Name="id_TipoDocFile" ColumnName="id_TipoDocFile" />
+                <ScalarProperty Name="id_Documento" ColumnName="id_Documento" />
+                <ScalarProperty Name="id_Documento_Archivo" ColumnName="id_Documento_Archivo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Documento_Cab">
+            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.tbl_Documento_Cab">
+              <MappingFragment StoreEntitySet="tbl_Documento_Cab">
+                <ScalarProperty Name="Log_OCom_Identidad" ColumnName="Log_OCom_Identidad" />
+                <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
+                <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
+                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
+                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="comentario_Pago" ColumnName="comentario_Pago" />
+                <ScalarProperty Name="fechaPago" ColumnName="fechaPago" />
+                <ScalarProperty Name="nroVaocher_Pago" ColumnName="nroVaocher_Pago" />
+                <ScalarProperty Name="descripcionRechazo" ColumnName="descripcionRechazo" />
+                <ScalarProperty Name="id_MotivoRechazo" ColumnName="id_MotivoRechazo" />
+                <ScalarProperty Name="fecha_Rechazo" ColumnName="fecha_Rechazo" />
+                <ScalarProperty Name="usuario_Rechazo" ColumnName="usuario_Rechazo" />
+                <ScalarProperty Name="fecha_Aprobacion" ColumnName="fecha_Aprobacion" />
+                <ScalarProperty Name="usario_Aprobo" ColumnName="usario_Aprobo" />
+                <ScalarProperty Name="observaciones" ColumnName="observaciones" />
+                <ScalarProperty Name="total_Doc" ColumnName="total_Doc" />
+                <ScalarProperty Name="IgvTotal_Doc" ColumnName="IgvTotal_Doc" />
+                <ScalarProperty Name="porcentajeIGV" ColumnName="porcentajeIGV" />
+                <ScalarProperty Name="subTotal_Doc" ColumnName="subTotal_Doc" />
+                <ScalarProperty Name="TipoCambio" ColumnName="TipoCambio" />
+                <ScalarProperty Name="Pub_Mone_Codigo" ColumnName="Pub_Mone_Codigo" />
+                <ScalarProperty Name="Log_Ocom_Codigo" ColumnName="Log_Ocom_Codigo" />
+                <ScalarProperty Name="Log_Ocom_Tipo" ColumnName="Log_Ocom_Tipo" />
+                <ScalarProperty Name="concepto_Doc" ColumnName="concepto_Doc" />
+                <ScalarProperty Name="nro_RUC" ColumnName="nro_RUC" />
+                <ScalarProperty Name="id_Proveedor" ColumnName="id_Proveedor" />
+                <ScalarProperty Name="CCosto" ColumnName="CCosto" />
+                <ScalarProperty Name="Ges_Ordt_Codigo" ColumnName="Ges_Ordt_Codigo" />
+                <ScalarProperty Name="fechaEmision_Doc" ColumnName="fechaEmision_Doc" />
+                <ScalarProperty Name="numero_Doc" ColumnName="numero_Doc" />
+                <ScalarProperty Name="nroSerie_Doc" ColumnName="nroSerie_Doc" />
+                <ScalarProperty Name="Pub_TiDo_Codigo" ColumnName="Pub_TiDo_Codigo" />
+                <ScalarProperty Name="id_tipoIngreso" ColumnName="id_tipoIngreso" />
+                <ScalarProperty Name="Pub_Emp_Codigo" ColumnName="Pub_Emp_Codigo" />
+                <ScalarProperty Name="id_Documento" ColumnName="id_Documento" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Documento_Det">
+            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.tbl_Documento_Det">
+              <MappingFragment StoreEntitySet="tbl_Documento_Det">
+                <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
+                <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
+                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
+                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="CtaxPagar" ColumnName="CtaxPagar" />
+                <ScalarProperty Name="CtaIGV" ColumnName="CtaIGV" />
+                <ScalarProperty Name="CtaGastos" ColumnName="CtaGastos" />
+                <ScalarProperty Name="total_DocDet" ColumnName="total_DocDet" />
+                <ScalarProperty Name="precio_DocDet" ColumnName="precio_DocDet" />
+                <ScalarProperty Name="cantidad_DocDet" ColumnName="cantidad_DocDet" />
+                <ScalarProperty Name="TipoCambio" ColumnName="TipoCambio" />
+                <ScalarProperty Name="Pub_Mone_Codigo" ColumnName="Pub_Mone_Codigo" />
+                <ScalarProperty Name="alm_Arti_Codigo" ColumnName="alm_Arti_Codigo" />
+                <ScalarProperty Name="item_DocDet" ColumnName="item_DocDet" />
+                <ScalarProperty Name="id_Documento" ColumnName="id_Documento" />
+                <ScalarProperty Name="id_Documento_Det" ColumnName="id_Documento_Det" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Liquidacion_Caja_Cab">
+            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.tbl_Liquidacion_Caja_Cab">
+              <MappingFragment StoreEntitySet="tbl_Liquidacion_Caja_Cab">
+                <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
+                <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
+                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
+                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="fecha_Rechazo" ColumnName="fecha_Rechazo" />
+                <ScalarProperty Name="usuario_Rechazo" ColumnName="usuario_Rechazo" />
+                <ScalarProperty Name="fecha_Aprobacion" ColumnName="fecha_Aprobacion" />
+                <ScalarProperty Name="usario_Aprobo" ColumnName="usario_Aprobo" />
+                <ScalarProperty Name="fechaFinal" ColumnName="fechaFinal" />
+                <ScalarProperty Name="fechaInicial" ColumnName="fechaInicial" />
+                <ScalarProperty Name="fechaEmision_Liq" ColumnName="fechaEmision_Liq" />
+                <ScalarProperty Name="CCosto" ColumnName="CCosto" />
+                <ScalarProperty Name="Ges_Ordt_Codigo" ColumnName="Ges_Ordt_Codigo" />
+                <ScalarProperty Name="id_LiquidacionCaja_Cab" ColumnName="id_LiquidacionCaja_Cab" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Liquidacion_Caja_Det">
+            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.tbl_Liquidacion_Caja_Det">
+              <MappingFragment StoreEntitySet="tbl_Liquidacion_Caja_Det">
+                <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
+                <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
+                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
+                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="modoIngreso_Doc" ColumnName="modoIngreso_Doc" />
+                <ScalarProperty Name="observaciones" ColumnName="observaciones" />
+                <ScalarProperty Name="total_Doc" ColumnName="total_Doc" />
+                <ScalarProperty Name="otrosG_Doc" ColumnName="otrosG_Doc" />
+                <ScalarProperty Name="percepciones_Doc" ColumnName="percepciones_Doc" />
+                <ScalarProperty Name="IgvTotal_Doc" ColumnName="IgvTotal_Doc" />
+                <ScalarProperty Name="porcentajeIGV" ColumnName="porcentajeIGV" />
+                <ScalarProperty Name="subTotal_Doc" ColumnName="subTotal_Doc" />
+                <ScalarProperty Name="TipoCambio" ColumnName="TipoCambio" />
+                <ScalarProperty Name="Pub_Mone_Codigo" ColumnName="Pub_Mone_Codigo" />
+                <ScalarProperty Name="concepto_Doc" ColumnName="concepto_Doc" />
+                <ScalarProperty Name="nro_RUC" ColumnName="nro_RUC" />
+                <ScalarProperty Name="id_Proveedor" ColumnName="id_Proveedor" />
+                <ScalarProperty Name="CCosto" ColumnName="CCosto" />
+                <ScalarProperty Name="Ges_Ordt_Codigo" ColumnName="Ges_Ordt_Codigo" />
+                <ScalarProperty Name="fechaEmision_Doc" ColumnName="fechaEmision_Doc" />
+                <ScalarProperty Name="numero_Doc" ColumnName="numero_Doc" />
+                <ScalarProperty Name="nroSerie_Doc" ColumnName="nroSerie_Doc" />
+                <ScalarProperty Name="Pub_TiDo_Codigo" ColumnName="Pub_TiDo_Codigo" />
+                <ScalarProperty Name="id_tipoIngreso" ColumnName="id_tipoIngreso" />
+                <ScalarProperty Name="id_LiquidacionCaja_Cab" ColumnName="id_LiquidacionCaja_Cab" />
+                <ScalarProperty Name="id_LiquidacionCaja_Det" ColumnName="id_LiquidacionCaja_Det" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Proveedor_Evalucion_Det">
+            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.tbl_Proveedor_Evalucion_Det">
+              <MappingFragment StoreEntitySet="tbl_Proveedor_Evalucion_Det">
+                <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
+                <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
+                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
+                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="statuss" ColumnName="statuss" />
+                <ScalarProperty Name="puntuacion" ColumnName="puntuacion" />
+                <ScalarProperty Name="Pto_Garantia" ColumnName="Pto_Garantia" />
+                <ScalarProperty Name="Pto_Credito" ColumnName="Pto_Credito" />
+                <ScalarProperty Name="Pto_TEntrega" ColumnName="Pto_TEntrega" />
+                <ScalarProperty Name="Pto_Calidad" ColumnName="Pto_Calidad" />
+                <ScalarProperty Name="Pto_Precio" ColumnName="Pto_Precio" />
+                <ScalarProperty Name="id_Proveedor" ColumnName="id_Proveedor" />
+                <ScalarProperty Name="id_Evaluacion_Cab" ColumnName="id_Evaluacion_Cab" />
+                <ScalarProperty Name="id_Evaluacion_Det" ColumnName="id_Evaluacion_Det" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Proveedor_Incidencia">
+            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.tbl_Proveedor_Incidencia">
+              <MappingFragment StoreEntitySet="tbl_Proveedor_Incidencia">
+                <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
+                <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
+                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
+                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="observaciones_Incidencia" ColumnName="observaciones_Incidencia" />
+                <ScalarProperty Name="fechaIngreso_Incidencia" ColumnName="fechaIngreso_Incidencia" />
+                <ScalarProperty Name="id_Proveedor" ColumnName="id_Proveedor" />
+                <ScalarProperty Name="id_Incidencia" ColumnName="id_Incidencia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
