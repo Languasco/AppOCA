@@ -16,7 +16,8 @@ import { EvaluacionProveedorComponent } from './Procesos/evaluacion-proveedor/ev
 import { AprobarEvaluacionProveedorComponent } from './Procesos/aprobar-evaluacion-proveedor/aprobar-evaluacion-proveedor.component';
 import { IncidenciaProveedorComponent } from './Procesos/incidencia-proveedor/incidencia-proveedor.component';
 import { CajaChicaComponent } from './Procesos/caja-chica/caja-chica.component';
-import { AprobarFacturasComponent } from './Procesos/aprobar-facturas/aprobar-facturas.component'
+import { AprobarFacturasComponent } from './Procesos/aprobar-facturas/aprobar-facturas.component';
+import { AprobarCajaChicaComponent } from './Procesos/aprobar-caja-chica/aprobar-caja-chica.component'
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
  
@@ -24,7 +25,7 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
 @NgModule({
   declarations: [ 
   ActualizarProveedorComponent, 
-  EstadoEvaluacionComponent, RegistroFacturasComponent, EstadoFacturasComponent, BandejaProveedoresComponent, EvaluacionProveedorComponent, AprobarEvaluacionProveedorComponent, IncidenciaProveedorComponent, CajaChicaComponent, AprobarFacturasComponent
+  EstadoEvaluacionComponent, RegistroFacturasComponent, EstadoFacturasComponent, BandejaProveedoresComponent, EvaluacionProveedorComponent, AprobarEvaluacionProveedorComponent, IncidenciaProveedorComponent, CajaChicaComponent, AprobarFacturasComponent, AprobarCajaChicaComponent
   ],
   imports: [
     CommonModule,

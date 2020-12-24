@@ -17,5 +17,15 @@ namespace Entidades.Proveedores.Procesos
         public string idEstado { get; set; }
         public string descripcionEstado { get; set; }
 
+        public string usuarioAprobador1 { get; set; }
+        public string fechaAprobacion1 { get; set; }
+
+        public string usuarioAprobador2 { get; set; }
+        public string fechaAprobacion2 { get; set; }
+
+        public string usuarioDevuelve { get; set; }
+        public string fechaDevolucion { get; set; }
+
+        public string centroCosto { get; set; }
     }
 }

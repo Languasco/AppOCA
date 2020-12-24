@@ -170,7 +170,7 @@ namespace WebApi_Oca.Controllers.Proveedores
                     string idEstado = parametros[3].ToString();
                     int idProveedor = Convert.ToInt32(parametros[4].ToString());
 
- 
+
                     res.ok = true;
                     res.data = obj_negocio.get_estadosDocumentosCab(fechaIni, fechaFin, nroOC, idEstado, idProveedor);
                     res.totalpage = 0;
@@ -190,7 +190,7 @@ namespace WebApi_Oca.Controllers.Proveedores
                     string[] parametros = filtro.Split('|');
 
                     int idOrdenCompraCab = Convert.ToInt32(parametros[0].ToString());
-                    int idProveedor = Convert.ToInt32(parametros[1].ToString()); 
+                    int idProveedor = Convert.ToInt32(parametros[1].ToString());
                     string serieDoc = parametros[2].ToString();
                     string nroDoc = parametros[3].ToString();
                     string idUser = parametros[4].ToString();
@@ -230,7 +230,7 @@ namespace WebApi_Oca.Controllers.Proveedores
                     string idUsuario = parametros[5].ToString();
 
                     res.ok = true;
-                    res.data = obj_negocio.get_aprobacionFacturasCab(nroFactura, nroOC, Proveedor, idFormaPago, idEstado, idUsuario  );
+                    res.data = obj_negocio.get_aprobacionFacturasCab(nroFactura, nroOC, Proveedor, idFormaPago, idEstado, idUsuario);
                     res.totalpage = 0;
 
                     resul = res;
@@ -242,6 +242,48 @@ namespace WebApi_Oca.Controllers.Proveedores
                     string idUser = parametros[1].ToString();
 
                     resul = obj_negocio.set_aprobarFacturacion_masivo(codigosIdFact, idUser);
+                }
+                else if (opcion == 20)
+                {
+                    string[] parametros = filtro.Split('|');
+                    int idFacturaCab = Convert.ToInt32(parametros[0].ToString());
+
+                    res.ok = true;
+                    res.data = obj_negocio.get_detalleFacturaCab(idFacturaCab);
+                    res.totalpage = 0;
+
+                    resul = res;
+                }
+                else if (opcion == 21)
+                {
+                    string[] parametros = filtro.Split('|');
+                    int idFacturaCab = Convert.ToInt32(parametros[0].ToString());
+                    int opcionProceso = Convert.ToInt32(parametros[1].ToString());
+                    string idUser = parametros[2].ToString();
+
+                    resul = obj_negocio.set_aprobarDevolverFacturacion(idFacturaCab, opcionProceso , idUser);
+                }
+                else if (opcion == 22)
+                {
+                    string[] parametros = filtro.Split('|');
+                    int idFacturaCab = Convert.ToInt32(parametros[0].ToString());
+
+                    res.ok = true;
+                    res.data = obj_negocio.get_listadoItemFacturacion(idFacturaCab);
+                    res.totalpage = 0;
+
+                    resul = res;
+                }
+                else if (opcion == 23)
+                {
+                    string[] parametros = filtro.Split('|');
+                    int idFacturaCab = Convert.ToInt32(parametros[0].ToString());
+
+                    res.ok = true;
+                    res.data = obj_negocio.get_listadoDocumentosFacturacion(idFacturaCab);
+                    res.totalpage = 0;
+
+                    resul = res;
                 }
                 else
                 {

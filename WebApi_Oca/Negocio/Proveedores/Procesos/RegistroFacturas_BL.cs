@@ -751,7 +751,7 @@ namespace Negocio.Proveedores
                                 AprobarFacturas_E obj_entidad = new AprobarFacturas_E();
 
 
-                                obj_entidad.checkeado =  true;
+                                obj_entidad.checkeado =  false;
                                 obj_entidad.idFacturaCab = Convert.ToInt32(dr["idFacturaCab"].ToString());
  
                                 obj_entidad.nroFactura = dr["nroFactura"].ToString();
@@ -798,7 +798,7 @@ namespace Negocio.Proveedores
                 using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
                 {
                     cn.Open();
-                    using (SqlCommand cmd = new SqlCommand("DSIGE_PROY_W_APROBAR_FACTURAS_APROBAR", cn))
+                    using (SqlCommand cmd = new SqlCommand("DSIGE_PROY_W_APROBAR_FACTURAS_APROBAR_MASIVO", cn))
                     {
                         cmd.CommandTimeout = 0;
                         cmd.CommandType = CommandType.StoredProcedure;
@@ -819,6 +819,123 @@ namespace Negocio.Proveedores
                 res.data = ex.Message;
             }
             return res;
+        }
+
+        public DataTable get_detalleFacturaCab(int idFacturaCab )
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("DSIGE_PROY_W_APROBAR_FACTURAS_DETALLE_CAB", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@idFacturaCab", SqlDbType.Int).Value = idFacturaCab;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return dt_detalle;
+        }
+        
+        public object set_aprobarDevolverFacturacion( int idFacturaCab, int opcionProceso , string idUser)
+        {
+            Resultado res = new Resultado();
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("DSIGE_PROY_W_APROBAR_FACTURAS_APROBAR_DEVOLVER", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@idFacturaCab", SqlDbType.Int).Value = idFacturaCab;
+                        cmd.Parameters.Add("@opcionProceso", SqlDbType.Int).Value = opcionProceso;
+                        cmd.Parameters.Add("@idUser", SqlDbType.VarChar).Value = idUser;
+
+                        cmd.ExecuteNonQuery();
+
+                        res.ok = true;
+                        res.data = "OK";
+                        res.totalpage = 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                res.ok = false;
+                res.data = ex.Message;
+            }
+            return res;
+        }
+        
+        public DataTable get_listadoItemFacturacion(int idFacturaCab)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("DSIGE_PROY_W_APROBAR_FACTURAS_LISTADO_ITEMS", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@idFacturaCab", SqlDbType.Int).Value = idFacturaCab;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return dt_detalle;
+        }
+
+        public DataTable get_listadoDocumentosFacturacion(int idFacturaCab)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("DSIGE_PROY_W_APROBAR_FACTURAS_LISTADO_DOCUMENTOS", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@idFacturaCab", SqlDbType.Int).Value = idFacturaCab;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return dt_detalle;
         }
 
 

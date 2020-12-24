@@ -114,7 +114,7 @@
                             </div>
                         </td>
                         <td class="text-center">
-                            <span class="badge badge-primary puntero" style="padding: 5px;" (click)="nuevo(item)">  Ver factura </span>
+                            <span class="badge badge-warning puntero" style="padding: 5px;" (click)="verFactura(item)">  Ver Factura </span>
                         </td>
                         <td>{{item.proveedor}} </td>
 
@@ -185,11 +185,11 @@
                             <div class="row" style="margin-top: -15px;">
                                 <div class="col-md-4">
                                     <label> Nro OC </label>
-                                    <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.nroOc">
+                                    <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.nroOC">
                                 </div>
                                 <div class="col-md-4">
                                     <label> Tipo OC </label>
-                                    <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.tipoOc">
+                                    <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.tipoOC">
                                 </div>
                                 <div class="col-md-4">
                                     <label> Fecha OC </label>
@@ -200,22 +200,22 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <label> Centro Costo </label>
-                                    <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.nroOc">
+                                    <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.centroCosto">
                                 </div>
                                 <div class="col-md-6">
                                     <label> Proveedor </label>
-                                    <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.tipoOc">
+                                    <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.proveedor">
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-md-6">
                                     <label> Forma Pago </label>
-                                    <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.nroOc">
+                                    <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.formaPago">
                                 </div>
                                 <div class="col-md-6">
                                     <label> Moneda </label>
-                                    <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.tipoOc">
+                                    <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.moneda">
                                 </div>
                             </div>
 
@@ -223,15 +223,15 @@
                             <div class="row mt-1">
                                 <div class="col-md-4">
                                     <label> Sub Total </label>
-                                    <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.nroOc">
+                                    <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.subTotalOC">
                                 </div>
                                 <div class="col-md-4">
                                     <label> IGV </label>
-                                    <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.tipoOc">
+                                    <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.igvOC">
                                 </div>
                                 <div class="col-md-4">
                                     <label> Total </label>
-                                    <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.fechaOC ">
+                                    <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.totalOC ">
                                 </div>
                             </div>
 
@@ -249,20 +249,20 @@
                                 <div class="row ">
                                     <div class="col-md-3">
                                         <label> Sub Total </label>
-                                        <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.nroOc">
+                                        <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.subtotalFacturado">
                                     </div>
                                     <div class="col-md-3">
                                         <label> IGV </label>
-                                        <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.tipoOc">
+                                        <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.igvFacturado">
                                     </div>
                                     <div class="col-md-3">
                                         <label> Total </label>
-                                        <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.fechaOC ">
+                                        <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.totalFacturado ">
                                     </div>
 
                                     <div class="col-md-3">
                                         <label> Cantidad Facturas </label>
-                                        <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.fechaOC ">
+                                        <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.cantFacturas ">
                                     </div>
 
                                 </div>
@@ -281,40 +281,40 @@
                             <div class="row" style="margin-top: -15px; ">
                                 <div class="col-md-4">
                                     <label> Nro Factura </label>
-                                    <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.nroOc">
+                                    <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.nroFactura">
                                 </div>
                                 <div class="col-md-4">
                                     <label> Fecha </label>
-                                    <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.tipoOc">
+                                    <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.fechaFactura">
                                 </div>
                                 <div class="col-md-4">
                                     <label> Nro-Guia </label>
-                                    <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.tipoOc">
+                                    <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.nroGuiaFactura">
                                 </div>
-
                             </div>
-
-
 
                             <div class="row ">
                                 <div class="col-md-4">
                                     <label> Sub Total </label>
-                                    <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.nroOc">
+                                    <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.subTotalFactura">
                                 </div>
                                 <div class="col-md-4">
                                     <label> IGV </label>
-                                    <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.tipoOc">
+                                    <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.igvFactura">
                                 </div>
                                 <div class="col-md-4">
                                     <label> Total </label>
-                                    <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.fechaOC ">
+                                    <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.totalFactura ">
                                 </div>
                             </div>
 
                             <div class="row mt-1">
                                 <div class="col-md-12 text-center">
-                                    <button class="btn  btn-sm  btn-primary" title="Aprobar la Orden de Trabajo">
-                                        <i class="fas fa-save"> Aprobar OT</i> 
+                                    <button class="btn  btn-sm  btn-success" title="Aprobar la Orden de Trabajo" (click)="aprobarDevolver(1)">
+                                        <i class="fas fa-save"></i>  Aprobar
+                                    </button>
+                                    <button class="btn  btn-sm  btn-danger ml-2" title="Aprobar la Orden de Trabajo" (click)="aprobarDevolver(2)">
+                                        <i class="fas fa-save"> </i> Devolver
                                     </button>
                                 </div>
                             </div>
@@ -340,46 +340,38 @@
                         <div class="containerDetalle">
                             <div class="tab-content" id="pills-tabContent">
 
-                                <!-- Datos Generales -->
+                                <!-- lista de items -->
                                 <div *ngIf="selectedTabControlDetalle === tabControlDetalle[0]" role="tabpanel" class="tab-pane active">
 
                                     <div class="card border-primary	">
-                                        <div class="card-body ">
+                                        <div class="card-body">
 
                                             <div class=" table-responsive">
                                                 <table class="table table-hover table-sm">
                                                     <thead class="theadTable thead-dark">
                                                         <tr>
                                                             <th scope="col">#</th>
-                                                            <th scope="col" class="text-center">Tipo Material</th>
-                                                            <th scope="col" class="text-center">Largo</th>
-                                                            <th scope="col" class="text-center">Ancho</th>
-                                                            <th scope="col" class="text-center">Espesor</th>
-                                                            <th scope="col" class="text-center">Total</th>
-                                                            <th colspan="2" class="text-center">Acciones</th>
+                                                            <th scope="col" class="text-center">Codigo</th>
+                                                            <th scope="col" class="text-center">Descripcion</th>
+                                                            <th scope="col" class="text-center">Cantidad OC</th>
+                                                            <th scope="col" class="text-center">Cantidad Ing. Alm</th>
+                                                            <th scope="col" class="text-center">Cantidad Aprobada</th>
+                                                            <th class="text-center">Precio</th>
+                                                            <th class="text-center">Sub Total</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr *ngFor="let item of estados; index as i">
+                                                        <tr *ngFor="let item of listaItems; index as i">
                                                             <th scope="row"> {{i + 1}} </th>
-                                                            <td>{{item.tipoMaterial}}</td>
-                                                            <td class="text-right">{{item.largo | number }}</td>
-                                                            <td class="text-right">{{item.ancho | number }}</td>
-                                                            <td class="text-right">{{item.espesor | number}}</td>
-                                                            <td class="text-right">{{item.total | number }}</td>
-                                                            <td class="text-center">
-                                                                <span class="badge badge-primary puntero" style="padding: 5px;">  Ver Fotos </span>
-                                                            </td>
+                                                            <td>{{item.codigo}}</td>
+                                                            <td>{{item.descripcion }}</td>
+                                                            <td class="text-right">{{item.cantOC }}</td>
+                                                            <td class="text-right">{{item.cantIngresadaAlmacen }}</td>
+                                                            <td class="text-right">{{item.cantidadAprobada }}</td>
+                                                            <td class="text-right">{{item.precio }}</td>
+                                                            <td class="text-right">{{item.subTotal }}</td>
                                                         </tr>
                                                     </tbody>
-                                                    <tfoot>
-                                                        <tr>
-                                                            <td colspan="4"></td>
-                                                            <td style="font-size: 12px; font-weight: 600;" class="text-right">Total:</td>
-                                                            <td scope="col" style=" font-size: 12px; font-weight: 800;" class="text-right" style="color:yellowgreen"> </td>
-                                                            <td scope="col"></td>
-                                                        </tr>
-                                                    </tfoot>
                                                 </table>
                                             </div>
 
@@ -389,7 +381,7 @@
 
                                 </div>
 
-                                <!-- Medidas -->
+                                <!-- documentos adjuntos -->
                                 <div *ngIf="selectedTabControlDetalle === tabControlDetalle[1] " role="tabpanel" class="tab-pane active">
 
                                     <div class="card border-primary ">
@@ -400,24 +392,22 @@
                                                     <thead class="theadTable thead-dark">
                                                         <tr>
                                                             <th scope="col">#</th>
-                                                            <th scope="col" class="text-center">Tipo Material</th>
-                                                            <th scope="col" class="text-center">Largo</th>
-                                                            <th scope="col" class="text-center">Ancho</th>
-                                                            <th scope="col" class="text-center">Espesor</th>
-                                                            <th scope="col" class="text-center">Total</th>
-                                                            <th colspan="2" class="text-center">Acciones</th>
+                                                            <th scope="col" class="text-center">Tipo Documentos</th>
+                                                            <th scope="col" class="text-center">Nro Documentos</th>
+                                                            <th scope="col" class="text-center">Fecha</th>
+                                                            <th scope="col" class="text-center">Nombre Archivos</th>
+                                                            <th scope="col" class="text-center">Acciones</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr *ngFor="let item of estados; index as i">
+                                                        <tr *ngFor="let item of listaDocumentos; index as i">
                                                             <th scope="row"> {{i + 1}} </th>
-                                                            <td>{{item.tipoMaterial}}</td>
-                                                            <td class="text-right">{{item.largo | number }}</td>
-                                                            <td class="text-right">{{item.ancho | number }}</td>
-                                                            <td class="text-right">{{item.espesor | number}}</td>
-                                                            <td class="text-right">{{item.total | number }}</td>
+                                                            <td>{{item.tipoDocumentos}}</td>
+                                                            <td>{{item.nroDocumentos}}</td>
+                                                            <td>{{item.fecha }}</td>
+                                                            <td>{{item.NombreArchivo }}</td>
                                                             <td class="text-center">
-                                                                <span class="badge badge-primary puntero" style="padding: 5px;">  Ver Fotos </span>
+                                                                <a class="puntero linkOpcion" (click)=" descargarArchivo( item.id_Documento_Archivo ) " title="descargar"> Descargar</a>
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -427,9 +417,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-
-
                             </div>
                         </div>
 

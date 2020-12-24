@@ -1,0 +1,198 @@
+<div class="card border-left-warning  shadow   ">
+    <div class="card-header">
+        <h5 class="headerTitle"> APROBACION DE LIQUIDACION CAJA CHICA </h5>
+    </div>
+    <div class="card-body">
+
+        <form [formGroup]="formParamsFiltro">
+            <div class="row" style="margin-top: -10px;">
+
+                <div class="col-md-3 ">
+                    <label for=""> Centro Costo</label>
+                    <select class="form-control comboBox" formControlName="idCentroCostro">
+                            <option value="0"> [ -- TODOS -- ]</option>
+                            <option [value]="item.codigo" *ngFor="let item of centroCostro">{{item.descripcion}}</option> 
+                        </select>
+                </div>
+
+                <div class="col-md-3 ">
+                    <label class="control-label"> Rango Fechas </label>
+                    <div class="input-group">
+                        <input class="form-control" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fecha_ini" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY'  }">
+                        <span class="input-group-addon">-</span>
+                        <input class="form-control" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fecha_fin" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
+                    </div>
+                </div>
+
+                <div class="col-md-3 ">
+                    <label for=""> Estado</label>
+                    <select class="form-control comboBox" formControlName="idEstado">
+                        <option value="0"> [ -- SELECCIONE -- ]</option>
+                        <option [value]="item.Pub_Esta_Codigo" *ngFor="let item of estados">{{item.Pub_Esta_Nombre}}</option> 
+                    </select>
+                </div>
+
+                <div class="col-md-3 text-center">
+                    <br>
+                    <button class="btn btn-primary " (click)="mostrarInformacion()" style="font-size: 13px;">  <i class="fas fa-search"> Mostrar</i> </button>
+                </div>
+            </div>
+        </form>
+        <hr>
+
+        <div class="d-flex justify-content-between" style=" margin-top: -15px;">
+            <div class="p-2 bd-highlight"> </div>
+            <div class="p-2 bd-highlight" style="width: 50%;">
+                <input type="text" class="form-control form-control-sm " placeholder="Buscar" maxlength="50" [(ngModel)]="filtrarCab">
+            </div>
+            <div class="p-2 bd-highlight"> </div>
+        </div>
+
+        <div class="search-results tableFixHead">
+            <table class="table  table-hover table-sm">
+                <thead class="theadTable">
+
+                    <tr style="height: 40px !important; text-align: center;">
+                        <th scope="col">#</th>
+                        <th scope="col">NRO LIQUIDACION</th>
+                        <th scope="col">PERIODO EVALUACION</th>
+                        <th scope="col">FECHA REGISTRO</th>
+
+                        <th scope="col">USUARIO GENERACION</th>
+                        <th scope="col">CANTIDAD DOC.</th>
+                        <th scope="col">Estado</th>
+
+                        <th class="text-center">usuario aprobador 1</th>
+                        <th class="text-center">fecha aprobacion 1</th>
+
+                        <th class="text-center">usuario aprobador 2</th>
+                        <th class="text-center">fecha aprobacion 2</th>
+
+                        <th class="text-center">usuario devuelve</th>
+                        <th class="text-center">fecha devolucion</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of liquidacionCajaCab |  filter: filtrarCab  ; index as j">
+                        <th scope="row"> {{j + 1}} </th>
+                        <td class="text-center">
+                            <span class="badge badge-success puntero" style="padding: 5px;" (click)="abrirModal_liquidacion(item)">  {{item.nroLiquidacion}}   Ver Liq </span>
+                        </td>
+                        <td>{{item.periodoEvaluacion}} </td>
+                        <td>{{item.fechaRegistro | date:"dd/MM/yyyy" }}</td>
+
+                        <td>{{item.usuarioGeneracion}}</td>
+                        <td>{{item.cantidadDoc}}</td>
+                        <td>{{item.descripcionEstado}}</td>
+
+                        <td>{{item.usuarioAprobador1}}</td>
+                        <td>{{item.fechaAprobacion1}}</td>
+
+                        <td>{{item.usuarioAprobador2}}</td>
+                        <td>{{item.fechaAprobacion2}}</td>
+
+                        <td>{{item.usuarioDevuelve}}</td>
+                        <td>{{item.fechaDevolucion}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+
+<div class="modal fade " id="modal_aprobacion" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel  " aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable " role="document">
+        <div class="modal-content">
+            <div class="p-3 card ">
+                <div class="d-flex justify-content-between flotante">
+                    <div class=" bd-highlight">
+                        <i class="fas fa-arrow-circle-left  fa-2x puntero" title="Retornar" (click)="cerrarModal()">  </i>
+                    </div>
+                    <div class=" bd-highlight">
+                        <h5 class="headerTitleModal"> APROBACION DE FACTURAS </h5>
+                    </div>
+                    <div class=" bd-highlight">
+                        <i class="far fa-times-circle fa-2x puntero" title="Retornar" (click)="cerrarModal()">  </i>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body ">
+
+                <fieldset class="shadow" style="margin-top: -15px; ">
+                    <legend> DATOS DE LA LIQUIDACION </legend>
+                    <div class="panel panel-default ">
+                        <div class="panel-body">
+
+                            <div class="row" style="margin-top: -15px;">
+                                <div class="col-md-3">
+                                    <label> Evaluacion  </label>
+                                    <input type="text" class="form-control disabledForm" [value]="objLiquidacionGlobal.id_LiquidacionCaja_Cab">
+                                </div>
+                                <div class="col-md-5">
+                                    <label> Centro Costo </label>
+                                    <!-- <input type="text" class="form-control disabledForm" [value]="objLiquidacionGlobal.tipoOC"> -->
+                                </div>
+                                <div class="col-md-4">
+                                    <label> Periodo Liquidacion </label>
+                                    <input type="text" class="form-control disabledForm" [value]="objLiquidacionGlobal.periodoEvaluacion ">
+                                </div>
+                            </div>
+
+                            <div class="row mt-1">
+                                <div class="col-md-12 text-center">
+                                    <button class="btn  btn-sm  btn-success" title="Aprobar la Orden de Trabajo" (click)="aprobarDevolver(1)">
+                                        <i class="fas fa-save"></i>  Aprobar
+                                    </button>
+                                    <button class="btn  btn-sm  btn-danger ml-2" title="Aprobar la Orden de Trabajo" (click)="aprobarDevolver(2)">
+                                        <i class="fas fa-save"> </i> Devolver
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </fieldset>
+
+                <br>
+
+                <div class=" table-responsive">
+                    <table class="table table-hover table-sm">
+                        <thead class="theadTable thead-dark">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col" class="text-center">Codigo</th>
+                                <th scope="col" class="text-center">Descripcion</th>
+                                <th scope="col" class="text-center">Cantidad OC</th>
+                                <th scope="col" class="text-center">Cantidad Ing. Alm</th>
+                                <th scope="col" class="text-center">Cantidad Aprobada</th>
+                                <th class="text-center">Precio</th>
+                                <th class="text-center">Sub Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of estados; index as i">
+                                <th scope="row"> {{i + 1}} </th>
+                                <td>{{item.codigo}}</td>
+                                <td>{{item.descripcion }}</td>
+                                <td class="text-right">{{item.cantOC }}</td>
+                                <td class="text-right">{{item.cantIngresadaAlmacen }}</td>
+                                <td class="text-right">{{item.cantidadAprobada }}</td>
+                                <td class="text-right">{{item.precio }}</td>
+                                <td class="text-right">{{item.subTotal }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>

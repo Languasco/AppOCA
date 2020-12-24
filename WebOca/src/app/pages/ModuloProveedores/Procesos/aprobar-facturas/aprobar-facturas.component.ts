@@ -35,10 +35,15 @@ export class AprobarFacturasComponent implements OnInit {
   filtrarCab = "";
   objFacturacionGlobal:any ={};
 
+  idFacturaCab_Global = 0;
+
   checkeadoAll = false;
     //-TAB control
     tabControlDetalle: string[] = ['LISTA ITEMS','LISTA DOCUMENTOS ADJUNTOS',]; 
     selectedTabControlDetalle :any;
+
+  listaItems :any[]=[]; 
+  listaDocumentos :any[]=[]; 
  
   constructor(private router:Router, private spinner: NgxSpinnerService, private alertasService : AlertasService, private localeService: BsLocaleService, private loginService: LoginService, private funcionGlobalServices : FuncionesglobalesService,private registerService : RegisterService, private registroFacturasService : RegistroFacturasService ) { 
     this.idUserGlobal = this.loginService.get_idUsuario();
@@ -48,7 +53,6 @@ export class AprobarFacturasComponent implements OnInit {
   this.selectedTabControlDetalle = this.tabControlDetalle[0]; 
    this.getCargarCombos();
    this.inicializarFormularioFiltro();
-   this.inicializarFormulario(); 
  }
 
  inicializarFormularioFiltro(){ 
@@ -60,20 +64,7 @@ export class AprobarFacturasComponent implements OnInit {
       idEstado : new FormControl('0'),
  
      }) 
- }
-
- inicializarFormulario(){ 
-    this.formParams= new FormGroup({
-      id_Incidencia: new FormControl('0'), 
-      id_Proveedor: new FormControl('0'),
-      nro_RUC : new FormControl(''),
-      razonSocial : new FormControl(''),
-      fechaIngreso_Incidencia: new FormControl( new Date()), 
-      observaciones_Incidencia: new FormControl(''), 
-      Estado : new FormControl('220'),   
-      usuario_creacion : new FormControl('')
-    }) 
- }
+ }  
 
  getCargarCombos(){ 
   this.spinner.show(); 
@@ -106,14 +97,19 @@ export class AprobarFacturasComponent implements OnInit {
       },0); 
    }
 
-   nuevo(obj:any){
+   verFactura(obj:any){
+
       this.flag_modoEdicion = false;
-      this.inicializarFormulario();  
-      setTimeout(()=>{ // 
-          $('#modal_aprobacion').modal('show');   
-          $('#txtBuscar').removeClass('disabledForm'); 
-      },0); 
+      this.idFacturaCab_Global =  obj.idFacturaCab;
+
+      if ( this.idFacturaCab_Global > 0) {
+        this.obtenerDetalleFacturacion();
+        this.mostrarListaItems();
+        this.mostrarListaDocumentosAdjuntos();
+      }
    } 
+
+
 
  
    marcarTodos(){
@@ -174,8 +170,125 @@ export class AprobarFacturasComponent implements OnInit {
       }
     }) 
 
-
   }
+
+  obtenerDetalleFacturacion(){ 
+    
+    this.spinner.show();
+    this.registroFacturasService.get_detalleFacturaCab( this.idFacturaCab_Global )
+        .subscribe((res:RespuestaServer)=>{  
+            this.spinner.hide();
+
+            console.log(res);
+            if (res.ok==true) {        
+
+              if (res.data.length > 0) {
+                this.objFacturacionGlobal = res.data[0]; 
+                setTimeout(()=>{ // 
+                    $('#modal_aprobacion').modal('show');           
+                },0); 
+
+              }else{
+                this.alertasService.Swal_alert('error','No hay informacion para mostrar con el ID');
+                this.objFacturacionGlobal ={};
+              }
+
+            }else{
+              this.alertasService.Swal_alert('error', JSON.stringify(res.data));
+              alert(JSON.stringify(res.data));
+            }
+    })
+  }  
+
+ aprobarDevolver(opcionProceso: number){
+
+  if (this.idFacturaCab_Global == 0) {
+    this.alertasService.Swal_alert('error','No se cargo el ID del documento actualice su pagina por favor');
+    return 
+  }
+
+  let mensaje = '';
+  if (opcionProceso == 1 ) {
+    mensaje = 'Esta seguro de Aprobar ?';
+  }
+  if (opcionProceso == 2 ) {
+    mensaje = 'Esta seguro de Devolver ?';
+  }
+
+  this.alertasService.Swal_Question('Sistemas', mensaje)
+  .then((result)=>{
+    if(result.value){
+
+      Swal.fire({  icon: 'info', allowOutsideClick: false, allowEscapeKey: false, text: 'Espere por favor'  })
+      Swal.showLoading();
+      this.registroFacturasService.get_aprobarDevolverFactura( this.idFacturaCab_Global , opcionProceso , this.idUserGlobal ).subscribe((res:RespuestaServer)=>{
+        Swal.close();        
+        if (res.ok ==true) {               
+          //-----listando la informacion  
+          this.mostrarInformacion();  
+          this.alertasService.Swal_Success('Proceso realizado correctamente..');   
+          this.cerrarModal();
+        }else{
+          this.alertasService.Swal_alert('error', JSON.stringify(res.data));
+          alert(JSON.stringify(res.data));
+        }
+      })
+       
+    }
+  }) 
+
+ }
+
+ mostrarListaItems(){ 
+  this.spinner.show();
+  this.checkeadoAll = false;
+  this.registroFacturasService.get_listadoItems( this.idFacturaCab_Global , this.idUserGlobal   )
+      .subscribe((res:RespuestaServer)=>{  
+          this.spinner.hide();
+          if (res.ok==true) {        
+              this.listaItems = res.data; 
+          }else{
+            this.alertasService.Swal_alert('error', JSON.stringify(res.data));
+            alert(JSON.stringify(res.data));
+          }
+  })
+ }   
+
+ mostrarListaDocumentosAdjuntos(){ 
+  this.spinner.show();
+  this.checkeadoAll = false;
+  this.registroFacturasService.get_listadoDocumentosAdjuntos( this.idFacturaCab_Global , this.idUserGlobal   )
+      .subscribe((res:RespuestaServer)=>{  
+          this.spinner.hide();
+          if (res.ok==true) {        
+              this.listaDocumentos = res.data; 
+          }else{
+            this.alertasService.Swal_alert('error', JSON.stringify(res.data));
+            alert(JSON.stringify(res.data));
+          }
+  })
+ } 
+
+   
+ descargarArchivo(id_Documento_Archivo:number){    
+  Swal.fire({
+    icon: 'info', allowOutsideClick: false, allowEscapeKey: false, text: 'Espere por favor'
+  })
+  Swal.showLoading();
+  this.registroFacturasService.get_descargarFileAdicionales(id_Documento_Archivo, this.idUserGlobal).subscribe((res:RespuestaServer)=>{
+    Swal.close();
+    console.log(res);
+    if (res.ok) { 
+      window.open(String(res.data),'_blank');
+    }else{
+      this.alertasService.Swal_alert('error', JSON.stringify(res.data));
+      alert(JSON.stringify(res.data));
+    }
+  })
+}
+
+
+
 
 
 }

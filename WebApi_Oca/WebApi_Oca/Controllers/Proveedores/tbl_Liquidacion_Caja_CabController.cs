@@ -144,6 +144,25 @@ namespace WebApi_Oca.Controllers.Proveedores
 
                     resul = obj_negocio.set_enviarAprobarDocumentosLiquidacion_Cab(idLiquidacionCaja_Cab, idUser);
                 }
+                //------ APROBACIONES CAJA CHICA------
+                /// ------------------------------------
+                else if (opcion == 11)
+                {
+                    string[] parametros = filtro.Split('|');
+
+                    string idCentroCosto = parametros[0].ToString();
+                    string fechaIni = parametros[1].ToString();
+                    string fechaFin = parametros[2].ToString();
+                    string idEstado = parametros[3].ToString();
+                    string IdUsuarios = parametros[4].ToString();
+
+                    res.ok = true;
+                    res.data = obj_negocio.get_aprobacion_liquidacionCajaChicaCab(idCentroCosto, fechaIni, fechaFin, idEstado, IdUsuarios);
+                    res.totalpage = 0;
+
+                    resul = res;
+                }
+
                 else
                 {
                     res.ok = false;

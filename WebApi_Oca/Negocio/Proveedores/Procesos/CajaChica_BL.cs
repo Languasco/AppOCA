@@ -415,5 +415,64 @@ namespace Negocio.Proveedores.Procesos
 
 
 
+        public object get_aprobacion_liquidacionCajaChicaCab(string idCentroCosto, string fechaIni, string fechaFin, string idEstado, string IdUsuarios)
+        {
+            List<CajaChica_E> list_cabecera = new List<CajaChica_E>();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("DSIGE_PROY_W_APROBAR_CAJA_CHICA_CAB", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@idCentroCosto", SqlDbType.VarChar).Value = idCentroCosto;
+                        cmd.Parameters.Add("@fechaIni", SqlDbType.VarChar).Value = fechaIni;
+                        cmd.Parameters.Add("@fechaFin", SqlDbType.VarChar).Value = fechaFin;
+                        cmd.Parameters.Add("@idEstado", SqlDbType.VarChar).Value = idEstado;
+                        cmd.Parameters.Add("@IdUsuarios", SqlDbType.VarChar).Value = IdUsuarios;
+
+                        using (SqlDataReader dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                CajaChica_E obj_entidad = new CajaChica_E();
+
+                                obj_entidad.id_LiquidacionCaja_Cab = Convert.ToInt32(dr["id_LiquidacionCaja_Cab"].ToString());
+                                obj_entidad.nroLiquidacion = dr["nroLiquidacion"].ToString();
+                                obj_entidad.periodoEvaluacion = dr["periodoEvaluacion"].ToString();
+                                obj_entidad.fechaRegistro = Convert.ToDateTime(dr["fechaRegistro"].ToString());
+
+                                obj_entidad.usuarioGeneracion = dr["usuarioGeneracion"].ToString();
+                                obj_entidad.cantidadDoc = dr["cantidadDoc"].ToString();
+                                obj_entidad.idEstado = dr["idEstado"].ToString();
+                                obj_entidad.descripcionEstado = dr["descripcionEstado"].ToString();
+
+                                obj_entidad.usuarioAprobador1 = dr["usuarioAprobador1"].ToString();
+                                obj_entidad.fechaAprobacion1 = dr["fechaAprobacion1"].ToString();
+
+                                obj_entidad.usuarioAprobador2 = dr["usuarioAprobador2"].ToString();
+                                obj_entidad.fechaAprobacion2 = dr["fechaAprobacion2"].ToString();
+
+                                obj_entidad.usuarioDevuelve = dr["usuarioDevuelve"].ToString();
+                                obj_entidad.fechaDevolucion = dr["fechaDevolucion"].ToString();
+                                obj_entidad.centroCosto = dr["centroCosto"].ToString();
+
+                                list_cabecera.Add(obj_entidad);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return list_cabecera;
+        }
+
+
     }
 }

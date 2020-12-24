@@ -118,6 +118,17 @@ export class CajaChicaService {
     return this.http.get( this.URL + 'TblProveedor' , {params: parametros});
   }
 
+  // -------------  APROBACION DE CAJA CHICA -------------
+  //-----------------------------------------------------
+
+  get_mostrar_aprobacionCajaChicaCab(idcentroCosto: string, fechaIni : string, fechaFin : string, idEstado : number, idUsuario : string ){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '11');
+    parametros = parametros.append('filtro',  idcentroCosto + '|'+ fechaIni + '|'+ fechaFin  + '|'+ idEstado + '|'+ idUsuario   );
+
+    return this.http.get( this.URL + 'tbl_Liquidacion_Caja_Cab' , {params: parametros});
+  }
+
 
 
 }

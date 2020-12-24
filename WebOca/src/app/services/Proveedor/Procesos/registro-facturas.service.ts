@@ -225,6 +225,42 @@ export class RegistroFacturasService {
     return this.http.get( this.URL + 'RegistroFacturas' , {params: parametros});
   }
 
+  get_detalleFacturaCab(idFacturaCab_Global : number  ){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '20');
+    parametros = parametros.append('filtro',   String(idFacturaCab_Global) );
+  
+    return this.http.get( this.URL + 'RegistroFacturas' , {params: parametros});
+  }
+
+  get_aprobarDevolverFactura( idFacturaCab : number , opcionProceso: number, usuario :string  ){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '21');
+    parametros = parametros.append('filtro',  idFacturaCab   + '|' +  opcionProceso + '|' +  usuario   );
+  
+    return this.http.get( this.URL + 'RegistroFacturas' , {params: parametros});
+  }
+
+  get_listadoItems( idFacturaCab : number , usuario :string  ){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '22');
+    parametros = parametros.append('filtro',  idFacturaCab   + '|' +  usuario   );
+  
+    return this.http.get( this.URL + 'RegistroFacturas' , {params: parametros});
+  }
+
+  
+  get_listadoDocumentosAdjuntos( idFacturaCab : number , usuario :string  ){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '23');
+    parametros = parametros.append('filtro',  idFacturaCab   + '|' +  usuario   );
+  
+    return this.http.get( this.URL + 'RegistroFacturas' , {params: parametros});
+  }
+
+ 
+
+
 
 
 

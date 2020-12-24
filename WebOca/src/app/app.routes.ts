@@ -17,6 +17,7 @@ import { AprobarEvaluacionProveedorComponent } from './pages/ModuloProveedores/P
 import { IncidenciaProveedorComponent } from './pages/ModuloProveedores/Procesos/incidencia-proveedor/incidencia-proveedor.component';
 import { CajaChicaComponent } from './pages/ModuloProveedores/Procesos/caja-chica/caja-chica.component';
 import { AprobarFacturasComponent } from './pages/ModuloProveedores/Procesos/aprobar-facturas/aprobar-facturas.component';
+import { AprobarCajaChicaComponent } from './pages/ModuloProveedores/Procesos/aprobar-caja-chica/aprobar-caja-chica.component';
  
 const APP_ROUTERS: Routes = [
     { path: 'login', component: LoginComponent},  
@@ -40,6 +41,7 @@ const APP_ROUTERS: Routes = [
     { path: 'caja-chica', component: CajaChicaComponent  },  
 
     { path: 'aprobar-facturas', component: AprobarFacturasComponent  },  
+    { path: 'aprobar-caja-chica', component: AprobarCajaChicaComponent  },  
 
     { path: '', pathMatch:'full', redirectTo:'home' },
     { path: '**', pathMatch:'full', redirectTo:'home' },

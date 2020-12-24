@@ -130,7 +130,7 @@ legend {
 }
 
 .styleContacto fieldset {
-    background-color: #dee2e6!important
+    background-color: rgba(0, 123, 255, .5)!important;
 }
 
 .styleContacto label {
@@ -139,5 +139,5 @@ legend {
 
 .styleContacto legend {
     border-bottom: 0.5px solid white;
-    background-color: #dee2e6!important
+    background-color: rgba(0, 123, 255, .5)!important;
 }
