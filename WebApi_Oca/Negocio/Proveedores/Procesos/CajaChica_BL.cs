@@ -412,9 +412,7 @@ namespace Negocio.Proveedores.Procesos
             }
             return res;
         }
-
-
-
+               
         public object get_aprobacion_liquidacionCajaChicaCab(string idCentroCosto, string fechaIni, string fechaFin, string idEstado, string IdUsuarios)
         {
             List<CajaChica_E> list_cabecera = new List<CajaChica_E>();
@@ -471,6 +469,234 @@ namespace Negocio.Proveedores.Procesos
                 throw;
             }
             return list_cabecera;
+        }
+        
+        public DataTable get_detalleCajaChica(int idLiquidacionCaja_Cab)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("DSIGE_PROY_W_APROBAR_CAJA_CHICA_DET", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@idLiquidacionCaja_Cab", SqlDbType.Int).Value = idLiquidacionCaja_Cab;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return dt_detalle;
+        }
+        
+        public string set_Eliminar_archivosCajaChica(int id_Liquidacion_Archivo)
+        {
+            string res = "";
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("DSIGE_PROY_W_APROBAR_CAJA_CHICA_ARCHIVOS_ELIMINAR", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_Liquidacion_Archivo", SqlDbType.Int).Value = id_Liquidacion_Archivo;
+                        cmd.ExecuteNonQuery(); 
+                        res = "OK";
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return res;
+        }
+        
+        public DataTable get_detalleCajaChica_archivos(int idLiquidacionCaja_Cab)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("DSIGE_PROY_W_APROBAR_CAJA_CHICA_DET_ARCHIVOS", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@idLiquidacionCaja_Cab", SqlDbType.Int).Value = idLiquidacionCaja_Cab;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return dt_detalle;
+        }
+        
+        public DataTable get_documentosCajaChica_Det(int idLiquidacionCaja_Det)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("DSIGE_PROY_W_CAJA_CHICA_FILE_DOCUMENTOS_DET_LISTAR", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@idLiquidacionCaja_Det", SqlDbType.Int).Value = idLiquidacionCaja_Det;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return dt_detalle;
+        }
+        
+        public object get_eliminarDocumentoCajaChica_Det(int idLiquidacion_Archivo)
+        {
+            Resultado res = new Resultado();
+            string sPath = HttpContext.Current.Server.MapPath("~/Archivos/CajaChicaDet/" + idLiquidacion_Archivo);
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("DSIGE_PROY_W_CAJA_CHICA_FILE_DOCUMENTOS_DET_ELIMINAR", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_Liquidacion_Archivo", SqlDbType.Int).Value = idLiquidacion_Archivo;
+                        cmd.ExecuteNonQuery();
+
+                        if (File.Exists(sPath))
+                        {
+                            System.IO.File.Delete(sPath);
+                        }
+
+                        res.ok = true;
+                        res.data = "OK";
+                        res.totalpage = 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                res.ok = false;
+                res.data = ex.Message;
+            }
+            return res;
+        }
+
+
+        public string get_download_documentoCajaChica_Det(int idLiquidacion_Archivo, string iduser)
+        {
+            DataTable dt_detalle = new DataTable();
+            List<download> list_files = new List<download>();
+            string pathfile = "";
+            string rutaOrig = "";
+            string rutaDest = "";
+            string nombreArchivoReal = "";
+            string ruta_descarga = "";
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("DSIGE_PROY_W_CAJA_CHICA_FILE_DOCUMENTOS_DET_DESCARGAR", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_Liquidacion_Archivo", SqlDbType.Int).Value = idLiquidacion_Archivo;
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                            pathfile = HttpContext.Current.Server.MapPath("~/Archivos/CajaChicaDet/");
+
+                            foreach (DataRow Fila in dt_detalle.Rows)
+                            {
+                                download obj_entidad = new download();
+                                obj_entidad.nombreFile = Fila["nombreArchivo"].ToString();
+                                obj_entidad.nombreBd = Fila["nombreArchivo_bd"].ToString();
+                                obj_entidad.ubicacion = pathfile;
+
+                                list_files.Add(obj_entidad);
+                            }
+
+                            ////restaurando el archivo...
+                            foreach (download item in list_files)
+                            {
+                                nombreArchivoReal = "";
+                                nombreArchivoReal = item.nombreBd.Replace(item.nombreBd, item.nombreFile);
+
+                                rutaOrig = System.Web.Hosting.HostingEnvironment.MapPath("~/Archivos/CajaChicaDet/" + item.nombreBd);
+                                rutaDest = System.Web.Hosting.HostingEnvironment.MapPath("~/Archivos/CajaChicaDet/Descargas/" + nombreArchivoReal);
+
+                                if (System.IO.File.Exists(rutaDest)) //--- borrando restaurarlo
+                                {
+                                    System.IO.File.Delete(rutaDest);
+                                    System.IO.File.Copy(rutaOrig, rutaDest);
+                                }
+                                else //--- restaurandolo
+                                {
+                                    System.IO.File.Copy(rutaOrig, rutaDest);
+                                }
+                                Thread.Sleep(1000);
+                            }
+
+
+                            if (list_files.Count > 0)
+                            {
+                                if (list_files.Count == 1)
+                                {
+                                    ruta_descarga = ConfigurationManager.AppSettings["ServerFiles"] + "CajaChicaDet/Descargas/" + list_files[0].nombreFile;
+                                }
+                                //else
+                                //{
+                                //    ruta_descarga = comprimir_Files(list_files, id_usuario, tipo);
+                                //}
+                            }
+                            else
+                            {
+                                throw new System.InvalidOperationException("No hay archivo para Descargar");
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return ruta_descarga;
         }
 
 

@@ -45,11 +45,6 @@ namespace Entidades
         public string nroCuentaDetraccion { get; set; }
         public Nullable<int> check1_UDP { get; set; }
         public Nullable<int> check2_UDP { get; set; }
-        public string estado { get; set; }
-        public string usuario_creacion { get; set; }
-        public Nullable<System.DateTime> fecha_creacion { get; set; }
-        public string usuario_edicion { get; set; }
-        public Nullable<System.DateTime> fecha_edicion { get; set; }
         public string login_Proveedor { get; set; }
         public string contrasenia_Proveedor { get; set; }
         public string usuario_Aprobo { get; set; }
@@ -58,5 +53,11 @@ namespace Entidades
         public string descripcionRechazo { get; set; }
         public string usuario_rechazo { get; set; }
         public Nullable<System.DateTime> fechaRechazo { get; set; }
+        public string estado { get; set; }
+        public string usuario_creacion { get; set; }
+        public Nullable<System.DateTime> fecha_creacion { get; set; }
+        public string usuario_edicion { get; set; }
+        public Nullable<System.DateTime> fecha_edicion { get; set; }
+        public string celular_T { get; set; }
     }
 }

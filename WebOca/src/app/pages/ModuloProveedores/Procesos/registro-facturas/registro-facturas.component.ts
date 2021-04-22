@@ -31,10 +31,12 @@ export class RegistroFacturasComponent implements OnInit {
   idProveedor_Global = 0;
   idOrdenCompraCab_Global = 0;
   idDocumentoCab_Global = 0;
+  isProveedor_Global = 0;
 
   filtrarCab = '';
   estados :any [] = []; 
   tiposDocumentosFiles :any [] =[];
+  proveedores:any [] =[];
 
   registroOrdenCompras :any [] = []; 
   objOrdenCompra_Global:any ={};
@@ -48,19 +50,29 @@ export class RegistroFacturasComponent implements OnInit {
 
   filesDoc:InputFileI[] = [];
   archivosImportados :any [] = []; 
-   
+  centroCostro:any [] = []; 
+
   subTotalFactura  = 0;
   subTotalOC  = 0;
   TotalFacturaOC ='0';
 
   flag_modoEdicion = false;
   flagExpandirComprimir = false;
-
+  checkeadoAll =false;
+  tituloVizualizarDoc = '2.1.- Visualizar Documentos Adjuntos';
+  tituloCheckMarcado = 'Marcar Todos';
 
   constructor(private router:Router, private spinner: NgxSpinnerService, private alertasService : AlertasService, private localeService: BsLocaleService, private loginService: LoginService, private funcionGlobalServices : FuncionesglobalesService,private registerService : RegisterService, private registroFacturasService : RegistroFacturasService, private uploadService : UploadService ) { 
       this.idUserGlobal = this.loginService.get_idUsuario();
       this.idProveedor_Global =  this.loginService.get_idProveedor(); 
-    }
+      const observacionProveedor  = this.loginService.get_observacionProveedor();
+
+      if (observacionProveedor.trim().toUpperCase() == 'PROVEEDORES') {
+        this.isProveedor_Global = 1;
+      }else{
+        this.isProveedor_Global = 0;
+      } 
+ }
 
   ngOnInit(): void {
     this.getCargarCombos();
@@ -71,9 +83,12 @@ export class RegistroFacturasComponent implements OnInit {
 
   inicializarFormularioFiltro(){ 
     this.formParamsFiltro= new FormGroup({ 
+      idCentroCostro : new FormControl('0'),
       fecha_ini : new FormControl(new Date()),
       fecha_fin : new FormControl(new Date()),
-      idEstado : new FormControl('0')
+      idEstado : new FormControl('0'),
+      idProveedor : new FormControl('0'),
+      nroOC : new FormControl(''),
      }) 
   }
 
@@ -99,11 +114,15 @@ export class RegistroFacturasComponent implements OnInit {
   
   getCargarCombos(){ 
     this.spinner.show(); 
-    combineLatest([ this.registroFacturasService.get_estado() , this.registroFacturasService.get_tipoDocumentoFile() ])
-     .subscribe(([ _estados, _tiposDocumentosFiles]) =>{
+    combineLatest([ this.registroFacturasService.get_estado() , this.registroFacturasService.get_tipoDocumentoFile() , this.registroFacturasService.get_proveedores(this.idUserGlobal), this.registerService.get_centroCosto(this.idUserGlobal) ])
+     .subscribe(([ _estados, _tiposDocumentosFiles,  _proveedores, _centroCostro]) =>{
         this.spinner.hide(); 
           this.estados = _estados; 
           this.tiposDocumentosFiles =_tiposDocumentosFiles;
+          this.proveedores =_proveedores;
+          this.centroCostro =_centroCostro;
+      },(e)=>{
+        this.alertasService.Swal_alert('error', JSON.stringify(e));
       })
   }
 
@@ -121,8 +140,10 @@ export class RegistroFacturasComponent implements OnInit {
     const fechaIni = this.funcionGlobalServices.formatoFecha(this.formParamsFiltro.value.fecha_ini);
     const fechaFin = this.funcionGlobalServices.formatoFecha(this.formParamsFiltro.value.fecha_fin);
 
+    const idProv = (this.isProveedor_Global == 1 ) ? this.idProveedor_Global : this.formParamsFiltro.value.idProveedor;
+
     this.spinner.show();
-    this.registroFacturasService.get_ordenesCompraCab( fechaIni, fechaFin, this.formParamsFiltro.value.idEstado, this.idProveedor_Global ).subscribe((res:RespuestaServer)=>{
+    this.registroFacturasService.get_ordenesCompraCab( fechaIni, fechaFin, this.formParamsFiltro.value.idEstado,  idProv , this.formParamsFiltro.value.nroOC , this.isProveedor_Global ,  this.formParamsFiltro.value.idCentroCostro ).subscribe((res:RespuestaServer)=>{
       this.spinner.hide();
       if (res.ok) { 
         this.registroOrdenCompras = res.data;
@@ -248,8 +269,7 @@ export class RegistroFacturasComponent implements OnInit {
   }
 
 
-  editar_documentosCab(obj){  
- 
+  editar_documentosCab(obj){   
 
     this.idDocumentoCab_Global = obj.id_Documento ;
     this.flag_modoEdicion = true;
@@ -451,7 +471,7 @@ export class RegistroFacturasComponent implements OnInit {
     return flagRepetida;
   }
 
-  guardar_archivosAdicionales(){ 
+ async guardar_archivosAdicionales(){ 
 
     if (!this.formParamsFile.value.file) {
       this.alertasService.Swal_alert('error', 'Por favor seleccione el archivo a cargar.');
@@ -487,7 +507,19 @@ export class RegistroFacturasComponent implements OnInit {
     Swal.fire({
       icon: 'info', allowOutsideClick: false, allowEscapeKey: false,  text: 'Espere por favor'
     })
-    Swal.showLoading();
+    Swal.showLoading(); 
+
+    const  flagNroDoc :any = await this.registroFacturasService.get_verificar_nroDocumento( this.idOrdenCompraCab_Global, this.idProveedor_Global  ,  this.formParamsFile.value.serieDoc , this.formParamsFile.value.nroDoc, this.idUserGlobal);
+    if (flagNroDoc.ok = true) {
+      if (flagNroDoc.data.length > 0) {
+
+        const {validacion, mensaje} = flagNroDoc.data[0];  
+        if (validacion == 0 || validacion == '0' ) {
+          this.alertasService.Swal_alert('error',  mensaje);
+          return 
+        }   
+      }
+    }
 
    this.uploadService.upload_documentosAdicionalesCab( this.filesDoc[0].file , this.idDocumentoCab_Global, this.formParamsFile.value.tipoDoc , this.formParamsFile.value.nroDoc, fechaD , this.idUserGlobal, this.formParamsFile.value.serieDoc ).subscribe(
      (res:RespuestaServer) =>{
@@ -593,6 +625,8 @@ export class RegistroFacturasComponent implements OnInit {
   }
 
   abrirModal_agregarDetalle(){
+
+    this.checkeadoAll = false;
 
     Swal.fire({
       icon: 'info', allowOutsideClick: false, allowEscapeKey: false, text: 'Obteniendo documentos, Espere por favor'
@@ -710,10 +744,11 @@ export class RegistroFacturasComponent implements OnInit {
       this.alertasService.Swal_alert('error','Tiene que ingresar un valor positivo');
       return;
     }
-    if (  (Number(cantidadFacturada) + Number(cantidadIngresoAprobada)) > Number(cantidadIngresoAlmacen) ) {
-      this.alertasService.Swal_alert('warning','La cant Facturada + Cant. Aprobada no tiene que superar a la cantidad de Ingreso por Almacén');
-      return;
-    }
+    
+    // if ((Number(cantidadFacturada) + Number(cantidadIngresoAprobada)) > Number(cantidadIngresoAlmacen) ) {
+    //   this.alertasService.Swal_alert('warning','La cant Facturada + Cant. Aprobada no tiene que superar a la cantidad de Ingreso por Almacén');
+    //   return;
+    // }
 
       Swal.fire({
         icon: 'info', allowOutsideClick: false, allowEscapeKey: false, text: 'Obteniendo el detalle del Documento, Espere por favor'
@@ -790,8 +825,34 @@ export class RegistroFacturasComponent implements OnInit {
     this.totalDocumentoOC();
   }
 
- 
- 
+  keyPress(event: any) {
+    this.funcionGlobalServices.verificar_soloNumeros_sinPunto(event)  ;
+  }
+
+  marcarTodos(){
+    if (this.detalleDocumentosOC.length<=0) {
+      return;
+    }
+    for (const obj of this.detalleDocumentosOC) {
+      if (this.checkeadoAll) {
+        obj.checkeado = false;
+        this.tituloCheckMarcado = 'Marcar Todos';
+      }else{
+        obj.checkeado = true;
+        this.tituloCheckMarcado = 'Desmarcar Todos';
+      }
+    }
+  }
+
+  visualizarDocumentos(){
+    if (  this.flagExpandirComprimir) {
+      this.tituloVizualizarDoc = '2.1.- Visualizar Documentos Adjuntos';
+    }else{
+      this.tituloVizualizarDoc = '2.2.- Ocultar Documentos Adjuntos';
+    }
+    this.flagExpandirComprimir = !this.flagExpandirComprimir;
+
+  }
 
 
   

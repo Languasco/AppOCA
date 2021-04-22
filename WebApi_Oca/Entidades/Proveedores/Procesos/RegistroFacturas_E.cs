@@ -21,6 +21,10 @@ namespace Entidades.Proveedores.Procesos
         public string subTotalFactura { get; set; }
         public string igvFactura { get; set; }
         public string TotalFactura { get; set; }
+        public string porDetraccion { get; set; }
+        public string totDetraccion { get; set; }
+        public string totalPagar { get; set; }
+
     }
 
     public class Documentos_E
@@ -34,6 +38,14 @@ namespace Entidades.Proveedores.Procesos
 
         public string igv { get; set; }
         public string total { get; set; }
+
+
+        public string porDetraccion { get; set; }
+        public string totDetraccion { get; set; }
+        public string totalPagar { get; set; }
+
+
+        public int idEstado { get; set; }
         public string descripcionEstado { get; set; }
 
     }
@@ -82,6 +94,11 @@ namespace Entidades.Proveedores.Procesos
         public string nroVoucher { get; set; }
         public string fechaPago { get; set; }
         public string comentariosPago { get; set; }
+
+        public string porDetraccion { get; set; }
+        public string totDetraccion { get; set; }
+        public string totalPagar { get; set; }
+
     }
 
 
@@ -110,6 +127,9 @@ namespace Entidades.Proveedores.Procesos
         public string  usuarioDevuelve { get; set; }
         public string fechaDevuelve { get; set; }
 
+        public string porDetraccion { get; set; }
+        public string totDetraccion { get; set; }
+        public string totalPagar { get; set; }
 
     }
 

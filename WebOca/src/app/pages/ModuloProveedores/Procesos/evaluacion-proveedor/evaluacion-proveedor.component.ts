@@ -56,6 +56,11 @@ export class EvaluacionProveedorComponent implements OnInit {
   flagBloquearEvaluacionDet = true;
   flagExpandirComprimir = false;
 
+  cursos=[];
+  selectionStart:any;
+  selectionEnd =0;
+  scrollTop =0;
+
   constructor(private router:Router, private spinner: NgxSpinnerService, private alertasService : AlertasService, private localeService: BsLocaleService, private loginService: LoginService, private funcionGlobalServices : FuncionesglobalesService,private registerService : RegisterService, private registroFacturasService : RegistroFacturasService, private uploadService : UploadService ) { 
     this.idUserGlobal = this.loginService.get_idUsuario();
   }
@@ -66,12 +71,14 @@ export class EvaluacionProveedorComponent implements OnInit {
     this.inicializarFormularioFiltro(); 
     this.inicializarFormularioFiltro2();     
     this.inicializarFormularioRuc();
+ 
+
   }
   
   inicializarFormularioFiltro(){ 
     this.formParamsFiltro= new FormGroup({ 
       idCentroCostro : new FormControl('0'),
-      idTipoResultado : new FormControl('0'),
+      idTipoResultado : new FormControl('1'),
       fecha_ini : new FormControl(new Date()),
       fecha_fin : new FormControl(new Date()),
       porcEvaluacion : new FormControl('')
@@ -98,10 +105,10 @@ export class EvaluacionProveedorComponent implements OnInit {
   
   getCargarCombos(){ 
     this.spinner.show(); 
-    combineLatest([ this.registroFacturasService.get_estado_evaluacion(), this.registerService.get_centroCosto(),this.registerService.get_tipoResultado() ])
+    combineLatest([ this.registroFacturasService.get_estado_evaluacion(), this.registerService.get_centroCosto(   this.idUserGlobal),this.registerService.get_tipoResultado(this.idUserGlobal) ])
      .subscribe(([ _estados, _centroCostro, _tipoResultado ]) =>{
         this.spinner.hide(); 
-          this.estados = _estados; 
+          this.estados = _estados;        
           this.centroCostro =_centroCostro;
           this.tipoResultado = _tipoResultado;
       })
@@ -262,7 +269,6 @@ export class EvaluacionProveedorComponent implements OnInit {
 
 
   obtenerDatosEvaluacionCabDet(idEvaluacion_Cab : number,opcion:string ){
-
     this.spinner.show();
       this.registerService.get_evaluacionProveedorCabDet( idEvaluacion_Cab, this.idUserGlobal  ).subscribe((res :RespuestaServer)=>{ 
         this.spinner.hide(); 
@@ -511,10 +517,6 @@ export class EvaluacionProveedorComponent implements OnInit {
 
   }
 
-
-
-
-
   keyPress(event: any) {
     this.funcionGlobalServices.verificar_soloNumeros(event)  ;
    }
@@ -659,6 +661,59 @@ export class EvaluacionProveedorComponent implements OnInit {
   })
  }
 
+ 
+  // dragOver(e){ 
+  //   e.preventDefault();
+  // }
+    
+  // drop(e){
+  //   e.preventDefault();
+
+  //   const textoUsuario = $("#txtMensaje").val();
+
+  //   this.selectionStart = $('#txtMensaje')[0].selectionStart;
+  //   this.selectionEnd = $('#txtMensaje')[0].selectionEnd;
+  //   this.scrollTop =  $("#txtMensaje").scrollTop();
+
+  //   let textoDinamico = e.dataTransfer.getData("opcionDinamico");
+    
+  //   if ( (this.selectionStart)  || this.selectionStart == '0' ) { 
+         
+  //     var startPos = this.selectionStart;
+  //     var endPos = this.selectionEnd;
+
+  //     $("#txtMensaje").val(textoUsuario.substring(0, startPos) + textoDinamico + textoUsuario.substring(endPos, textoUsuario.length));
+  //     $("#txtMensaje").focus();
+  //   } else {
+  //     $("#txtMensaje").val( textoUsuario + ' ' + textoDinamico);
+  //     $("#txtMensaje").focus();
+  //   }  
+ 
+  // }
+
+  // drag(e){
+  //   e.dataTransfer.setData("opcionDinamico", e.target.id);
+  // }
+
+  // submit(){ 
+  //   var input = $('txtMensaje').val();
+  //   this.cursos.push(input);
+  //   var data= this.cursos.join(" ,");
+  //   if(input !=""){
+  //     document.getElementById('result').innerHTML = data;
+  //     $("#txtMensaje").val('');
+  //     document.getElementById('btn_reset').style.display="inline";
+  //   }else{
+  //     alert("Please drag something first!");
+  //   }
+  // }
+
+  // reset(){
+  //   document.getElementById('result').innerHTML = "";
+  //   document.getElementById('btn_reset').style.display="none";
+  // }
+
+  
  
   
  

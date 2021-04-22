@@ -48,6 +48,14 @@ export class  UploadService {
     return this.http.post(this.URL + 'Uploads/post_archivosDocumentos_cajaChica?filtros=' + filtro, formData);
   }
 
+  upload_documentosCajaChica_Det(file:any, idLiquidacionCaja_Det: number , idusuario : string  ) { 
+    const formData = new FormData();   
+    formData.append('file', file);
+    const filtro =  idLiquidacionCaja_Det + '|' + idusuario ;
+    return this.http.post(this.URL + 'Uploads/post_archivosDocumentos_cajaChica_Det?filtros=' + filtro, formData);
+  }
+
+
 
 
 

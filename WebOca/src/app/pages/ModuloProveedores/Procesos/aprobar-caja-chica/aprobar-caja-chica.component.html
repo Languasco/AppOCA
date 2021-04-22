@@ -134,7 +134,7 @@
                                 </div>
                                 <div class="col-md-5">
                                     <label> Centro Costo </label>
-                                    <!-- <input type="text" class="form-control disabledForm" [value]="objLiquidacionGlobal.tipoOC"> -->
+                                    <input type="text" class="form-control disabledForm" [value]="objLiquidacionGlobal.centroCosto">
                                 </div>
                                 <div class="col-md-4">
                                     <label> Periodo Liquidacion </label>
@@ -157,37 +157,149 @@
                     </div>
                 </fieldset>
 
-                <br>
-
-                <div class=" table-responsive">
+                <div class=" table-responsive mt-2">
                     <table class="table table-hover table-sm">
-                        <thead class="theadTable thead-dark">
-                            <tr>
+                        <thead class="theadTable thead-dark ">
+                            <tr style="background-color: white; color: black;">
+                                <th colspan="6" style="background-color: white; color: black;">
+                                    <input type="text" class="form-control form-control-sm " placeholder="Buscar" maxlength="50" [(ngModel)]="filtrarDet">
+                                </th>
+                                <th class="text-right" style="background-color: white; color: black;"> TOTALES : </th>
+                                <th class="text-right" style="background-color: white; color: black;">{{noAfectoGlobal}} </th>
+                                <th class="text-right" style="background-color: white; color: black;">{{igvGlobal}} </th>
+                                <th class="text-right" style="background-color: white; color: black;">{{percepcionesGlobal}} </th>
+                                <th class="text-right" style="background-color: white; color: black;">{{otrosCargosGlobal}} </th>
+                                <th class="text-right" style="background-color: white; color: black;">{{totalGlobal}} </th>
+                                <th colspan="4" style="background-color: white; color: black;"> </th>
+                            </tr>
+                            <tr class="text-center">
                                 <th scope="col">#</th>
-                                <th scope="col" class="text-center">Codigo</th>
-                                <th scope="col" class="text-center">Descripcion</th>
-                                <th scope="col" class="text-center">Cantidad OC</th>
-                                <th scope="col" class="text-center">Cantidad Ing. Alm</th>
-                                <th scope="col" class="text-center">Cantidad Aprobada</th>
-                                <th class="text-center">Precio</th>
-                                <th class="text-center">Sub Total</th>
+                                <th>TIPO DOC</th>
+                                <th>SERIE </th>
+                                <th>NUMERO </th>
+
+                                <th>FECHA </th>
+                                <th>RAZON SOCIAL - PROVEEDOR </th>
+                                <th>CONCEPTO </th>
+
+                                <th>NO AFECTO </th>
+                                <th>IGV </th>
+                                <th>PERCEPCIONES </th>
+                                <th>OTROS CARGOS </th>
+                                <th>TOTAL </th>
+                                <th> ACCIONES </th>
+                                <th> CTA GASTOS </th>
+                                <th> CTA IGV </th>
+                                <th> CTA X PAGAR </th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let item of estados; index as i">
+                            <tr *ngFor="let item of liquidacionesDet | filter : filtrarDet ; index as i">
                                 <th scope="row"> {{i + 1}} </th>
-                                <td>{{item.codigo}}</td>
-                                <td>{{item.descripcion }}</td>
-                                <td class="text-right">{{item.cantOC }}</td>
-                                <td class="text-right">{{item.cantIngresadaAlmacen }}</td>
-                                <td class="text-right">{{item.cantidadAprobada }}</td>
-                                <td class="text-right">{{item.precio }}</td>
-                                <td class="text-right">{{item.subTotal }}</td>
+                                <td>{{item.tipoDoc}}</td>
+                                <td>{{item.serie}}</td>
+                                <td>{{item.numero }}</td>
+
+                                <td>{{item.fecha }}</td>
+                                <td>{{item.razonSocial }}</td>
+                                <td>{{item.concepto }}</td>
+
+                                <td class="text-right">{{item.noAfecto }}</td>
+                                <td class="text-right">{{item.igv }}</td>
+                                <td class="text-right">{{item.percepciones }}</td>
+                                <td class="text-right">{{item.otrosCargos }}</td>
+                                <td class="text-right">{{item.total }}</td>
+                                <td class="text-right">
+                                    <span class="badge badge-primary puntero" style="padding: 5px;" (click)="abrirModal_cuentaContables(item)">  Agregar - Editar </span>
+                                </td>
+                                <td class="text-right">{{item.CtaGastos }}</td>
+                                <td class="text-right">{{item.CtaIGV }}</td>
+                                <td class="text-right">{{item.CtaxPagar }}</td>
+
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
+                <hr>
+
+
+                <div class="row">
+                    <div class="col-md-8">
+                        <fieldset class="shadow mt-2">
+                            <legend> DOCUMENTOS ADJUNTOS </legend>
+                            <div class="panel panel-default ">
+                                <div class="panel-body">
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class=" table-responsive mt-2">
+                                                <table class="table table-hover table-sm">
+                                                    <thead class="theadTable thead-dark ">
+
+                                                        <tr class="text-center">
+                                                            <th scope="col">#</th>
+                                                            <th>nombre</th>
+                                                            <th>fecha registro </th>
+                                                            <th>accion </th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let item of liquidacionesArchivos ; index as i">
+                                                            <th scope="row"> {{i + 1}} </th>
+                                                            <td>{{item.nombre}}</td>
+                                                            <td>{{item.fechaRegistro}}</td>
+                                                            <td>
+                                                                <a class="puntero linkOpcion" (click)=" eliminarArchivo_cajaChica(item) " title="quitar el registro"> Eliminar</a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="col-md-4">
+                        <fieldset class="shadow mt-2">
+                            <legend style="width: 95%;"> EXPORTAR E IMPORTAR CUENTAS </legend>
+                            <div class="panel panel-default ">
+                                <div class="panel-body">
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <button class="btn  btn-sm btn-block  btn-primary" title="Exportar Liquidacion" (click)="exportar_formatoLiquidacion()">
+                                                <i class="fas fa-file-download"></i>  Exportar Liquidacion
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <form [formGroup]="formParamsFile">
+                                        <div class="row mt-2">
+                                            <div class="col-md-12">
+                                                <div class="botonFile">
+                                                    <input type="file" class="form-control-file btn" formControlName="file" (change)="onFileChange($event)" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                    <div class="row">
+                                        <div class="col-md-12 text-center">
+                                            <button class="btn btn-sm btn-success" (click)="subirArchivo()">  <i class="fas fa-cloud-upload-alt"> Actualizar </i> </button>
+                                            <button class="btn btn-sm btn-warning ml-2" (click)="blank_file()">  <i class="fa fa-plus-circle"> Nuevo</i> </button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
 
             </div>
             <div class="modal-footer">
@@ -195,4 +307,93 @@
             </div>
         </div>
     </div>
+</div>
+
+
+
+
+<div class="modal fade " id="modal_cuentasContables" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel  " aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered " role="document">
+        <div class="modal-content" style="border: solid red;">
+            <div class="p-3 card ">
+                <div class="d-flex justify-content-between flotante">
+                    <div class=" bd-highlight">
+                        <i class="fas fa-arrow-circle-left  fa-2x puntero" title="Retornar" (click)="cerrarModal_cuentaContables()">  </i>
+                    </div>
+                    <div class=" bd-highlight">
+                        <h5 class="headerTitleModal"> CUENTAS CONTABLES </h5>
+                    </div>
+                    <div class=" bd-highlight">
+                        <i class="far fa-times-circle fa-2x puntero" title="Retornar" (click)="cerrarModal_cuentaContables()">  </i>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+
+                <fieldset class="shadow">
+                    <legend style="width: 95%;"> REGISTRO DE CUENTAS CONTABLES </legend>
+                    <div class="panel panel-default ">
+                        <div class="panel-body">
+
+                            <form [formGroup]="formParamsContabilidad">
+                                <!-- <div class="row" style="margin-top: -15px;">
+                                    <div class="col-md-4">
+                                        <label> Importe Asignado </label>
+                                        <input type="text" (keypress)="keyPress($event)" class="form-control " formControlName='importeDocumento'>
+                                    </div>
+                                </div> -->
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label> Glosa </label>
+                                        <input type="text" class="form-control  " formControlName='Glosa'>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label> Cuenta Gastos </label>
+                                        <select class="form-control comboBox" formControlName="CtaGastos">
+                                            <option value="0"> [ -- SELECCIONE -- ]</option>
+                                            <option [value]="item.idCuenta" *ngFor="let item of cuentaContableGastos">{{item.descripcionCuenta}}</option> 
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label> Cuenta IGV </label>
+                                        <select class="form-control comboBox" formControlName="CtaIGV">
+                                            <option value="0"> [ -- SELECCIONE -- ]</option>
+                                            <option [value]="item.Id_GrupoDetalle" *ngFor="let item of cuentaContableIGV">{{item.codigo_detalleTabla}}</option> 
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label> Cuenta Pagar </label>
+                                        <select class="form-control comboBox" formControlName="CtaxPagar">
+                                            <option value="0"> [ -- SELECCIONE -- ]</option>
+                                            <option [value]="item.Id_GrupoDetalle" *ngFor="let item of cuentaContablePagar">{{item.codigo_detalleTabla}}</option> 
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </form>
+
+                            <div class="row">
+                                <div class="col-md-12 text-center mt-2">
+                                    <button class="btn btn-sm btn-success" (click)="almacenarCuentasContables_cajaChica()">  <i class="fas fa-save"> Grabar</i> </button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
+            </div>
+
+        </div>
+    </div>
+
 </div>

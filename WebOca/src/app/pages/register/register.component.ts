@@ -64,9 +64,11 @@ export class RegisterComponent implements OnInit {
     this.inicializarFormulario_Archivos(); 
     this.selectedTabControlDetalle = this.tabControlDetalle[0];
     this.cargarCombos();
+    this.changePais(139);
+    this.changeCiudad(82);
 
- 
     setTimeout(()=>{ // 
+      this.formParams.patchValue({"id_Ciudad": '82' });
       $('#txtRuc').removeClass('disabledForm');      
     },0);
  
@@ -89,7 +91,7 @@ export class RegisterComponent implements OnInit {
       vtaotrosDetalle : new FormControl(''), 
 
       direcion : new FormControl(''), 
-      id_Pais : new FormControl('0'), 
+      id_Pais : new FormControl('139'), 
       id_Ciudad : new FormControl('0'), 
       id_Departamento : new FormControl('0'), 
       telefonoFijo : new FormControl(''), 
@@ -113,9 +115,12 @@ export class RegisterComponent implements OnInit {
       check1_UDP : new FormControl(''), 
       check2_UDP : new FormControl(''), 
       estado : new FormControl('203'), 
+      celular_T: new FormControl(''), 
+
       usuario_creacion : new FormControl('')
 
      }) 
+    
   } 
 
   inicializarFormulario_Banco(){ 
@@ -205,6 +210,7 @@ export class RegisterComponent implements OnInit {
   }
   
   async saveUpdate(){  
+ 
 
     if (this.formParams.value.id_TipoProveedor == '' || this.formParams.value.id_TipoProveedor == 0) {
       this.alertasService.Swal_alert('error','Por favor seleccione el Tipo de Proveedor');
@@ -346,10 +352,10 @@ export class RegisterComponent implements OnInit {
     }
   
   
-    if (this.formParams.value.nroCuentaDetraccion == '' || this.formParams.value.nroCuentaDetraccion == null) {
-      this.alertasService.Swal_alert('error','Por favor ingrese la cuenta de detraccion de Informacion bancaria');
-      return 
-    } 
+    // if (this.formParams.value.nroCuentaDetraccion == '' || this.formParams.value.nroCuentaDetraccion == null) {
+    //   this.alertasService.Swal_alert('error','Por favor ingrese la cuenta de detraccion de Informacion bancaria');
+    //   return 
+    // } 
   
     if (this.formParams.value.check1_UDP == '0' || this.formParams.value.check1_UDP == false) {
       this.alertasService.Swal_alert('error','Por favor marque el Uso de sus datos personales');
@@ -394,7 +400,7 @@ export class RegisterComponent implements OnInit {
               $('#txtRuc').addClass('disabledForm');      
             },0);
 
-            this.alertasService.Swal_Success('Proveedor registrado correctamente..');
+            this.alertasService.Swal_Success('Registro Guardado con Exito. Favor ingresar la información Bancaria');
             this.blank_bancos();
          }else{
            this.alertasService.Swal_alert('error', JSON.stringify(res.data));
@@ -799,8 +805,7 @@ export class RegisterComponent implements OnInit {
     })
   }
 
-  
-
+ 
 
 }
 

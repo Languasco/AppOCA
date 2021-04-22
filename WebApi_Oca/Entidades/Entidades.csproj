@@ -70,10 +70,14 @@
       <DependentUpon>OcaModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Proveedores\Procesos\AprobarPagos_E.cs" />
     <Compile Include="Proveedores\Procesos\CajaChica_E.cs" />
     <Compile Include="Proveedores\Procesos\Proveedor_E.cs" />
     <Compile Include="Proveedores\Procesos\RegistroFacturas_E.cs" />
     <Compile Include="Pub_Monedas.cs">
+      <DependentUpon>OcaModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Pub_Tipo_Documento.cs">
       <DependentUpon>OcaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Pub_Usuarios.cs">

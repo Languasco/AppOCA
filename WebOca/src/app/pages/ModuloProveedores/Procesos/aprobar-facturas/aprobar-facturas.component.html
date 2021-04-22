@@ -10,6 +10,13 @@
                 <div class="col-sm-12 col-md-12 col-lg-7">
                     <div class="row">
                         <div class="col-md-3">
+                            <label for=""> Centro Costo</label>
+                            <select class="form-control comboBox" formControlName="idCentroCostro">
+                                <option value="0"> [ -- TODOS -- ]</option>
+                                <option [value]="item.codigo" *ngFor="let item of centroCostro">{{item.descripcion}}</option> 
+                            </select>
+                        </div>
+                        <div class="col-md-3">
                             <label> Nro Factura  </label>
                             <input type="text" class="form-control " maxlength="30" formControlName="nroFactura">
                         </div>
@@ -21,31 +28,31 @@
                             <label> Proveedor  </label>
                             <input type="text" class="form-control " maxlength="250" formControlName="Proveedor">
                         </div>
-                        <div class="col-md-3">
-                            <label for=""> Forma Pago</label>
-                            <select class="form-control comboBox" formControlName="idFormaPago">
-                                <option value="0"> [ -- TODOS -- ]</option>
-                                <option [value]="item.Pub_FoPa_Codigo" *ngFor="let item of formaPagos">{{item.Pub_FoPa_Descripcion}}</option> 
-                        </select>
-                        </div>
                     </div>
 
                 </div>
 
                 <div class="col-sm-12 col-md-12 col-lg-5">
                     <div class="row">
-                        <div class="col-md-5">
+                        <div class="col-md-4">
+                            <label for=""> Forma Pago</label>
+                            <select class="form-control comboBox" formControlName="idFormaPago">
+                                <option value="0"> [ -- TODOS -- ]</option>
+                                <option [value]="item.Pub_FoPa_Codigo" *ngFor="let item of formaPagos">{{item.Pub_FoPa_Descripcion}}</option> 
+                                </select>
+                        </div>
+                        <div class="col-md-4">
                             <label for=""> Estado</label>
                             <select class="form-control comboBox" formControlName="idEstado">
                                 <option value="0"> [ -- TODOS -- ]</option>
                                 <option [value]="item.Pub_Esta_Codigo" *ngFor="let item of estados">{{item.Pub_Esta_Nombre}}</option> 
-                        </select>
+                            </select>
                         </div>
 
-                        <div class="col-md-7">
+                        <div class="col-md-4">
                             <br>
-                            <button class="btn btn-primary " (click)="mostrarInformacion()" style="font-size: 13px;">  <i class="fas fa-search"> Mostrar</i> </button>
-                            <button class="btn btn-success ml-1" style="font-size: 13px;" (click)="aprobarMasivo()">  <i class="fas fa-vote-yea"> </i> Aprobar </button>
+                            <button class="btn btn-sm btn-primary " (click)="mostrarInformacion()" style="font-size: 13px;">  <i class="fas fa-search"> Mostrar</i> </button>
+                            <!-- <button class="btn btn-success ml-1" style="font-size: 13px;" (click)="aprobarMasivo()">  <i class="fas fa-vote-yea"> </i> Aprobar </button> -->
                         </div>
                     </div>
                 </div>
@@ -80,14 +87,19 @@
                         <th scope="col">sub total</th>
                         <th scope="col">igv</th>
                         <th class="text-center">total</th>
+
+
+                        <th class="text-center"> % DETRACCION </th>
+                        <th class="text-center"> TOTAL DETRACCION</th>
+                        <th class="text-center"> TOTAL PAGAR</th>
+
                         <th class="text-center">Nro Orden C.</th>
 
                         <th scope="col">tipo OC</th>
                         <th scope="col">forma Pago</th>
                         <th scope="col">fecha Aproximada pago</th>
-
                         <th scope="col">estado</th>
-                        <th scope="col">usuario aprobador 1</th>
+                        <!-- <th scope="col">usuario aprobador 1</th>
                         <th scope="col">fecha aprobacion 1</th>
 
 
@@ -95,7 +107,7 @@
                         <th scope="col">fecha aprobacion 2</th>
 
                         <th scope="col">usuario devuelve</th>
-                        <th scope="col">fecha devuelve</th>
+                        <th scope="col">fecha devuelve</th> -->
                     </tr>
                 </thead>
                 <tbody>
@@ -107,7 +119,11 @@
                             </div>
                         </th>
 
-                        <td>{{item.nroFactura}} </td>
+                        <td>
+                            <div style="width: 120px;">
+                                {{item.nroFactura}}
+                            </div>
+                        </td>
                         <td>
                             <div style="width: 120px;">
                                 {{item.fecha}}
@@ -116,11 +132,21 @@
                         <td class="text-center">
                             <span class="badge badge-warning puntero" style="padding: 5px;" (click)="verFactura(item)">  Ver Factura </span>
                         </td>
-                        <td>{{item.proveedor}} </td>
+                        <td>
+                            <div style="width: 300px;">
+                                {{item.proveedor}}
+                            </div>
+                        </td>
 
-                        <td>{{item.subTotal}} </td>
-                        <td>{{item.igv}} </td>
-                        <td>{{item.total}} </td>
+                        <td class="text-right">{{item.subTotal | number:'1.2-2' }} </td>
+                        <td class="text-right">{{item.igv | number:'1.2-2' }} </td>
+                        <td class="text-right">{{item.total | number:'1.2-2' }} </td>
+
+                        <td class="text-right">{{item.porDetraccion | number:'1.2-2'}}</td>
+                        <td class="text-right">{{item.totDetraccion | number:'1.2-2'}}</td>
+                        <td class="text-right">{{item.totalPagar | number:'1.2-2'}}</td>
+
+
                         <td>
                             <div style="width: 120px;">
                                 {{item.nroOC}}
@@ -140,14 +166,14 @@
                         </td>
 
                         <td>{{item.descripcionEstado}} </td>
-                        <td>{{item.usuarioAprobador1}} </td>
+                        <!-- <td>{{item.usuarioAprobador1}} </td>
                         <td>{{item.fechaAprobacion1}} </td>
 
                         <td>{{item.usuarioAprobador2}} </td>
                         <td>{{item.fechaAprobacion2}} </td>
 
                         <td>{{item.usuarioDevuelve}} </td>
-                        <td>{{item.fechaDevuelve}} </td>
+                        <td>{{item.fechaDevuelve}} </td> -->
 
                     </tr>
                 </tbody>
@@ -156,7 +182,6 @@
 
     </div>
 </div>
-
 
 
 <div class="modal fade " id="modal_aprobacion" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel  " aria-hidden="true">
@@ -168,7 +193,8 @@
                         <i class="fas fa-arrow-circle-left  fa-2x puntero" title="Retornar" (click)="cerrarModal()">  </i>
                     </div>
                     <div class=" bd-highlight">
-                        <h5 class="headerTitleModal"> APROBACION DE FACTURAS </h5>
+                        <!-- <h5 class="headerTitleModal"> APROBACION DE FACTURAS </h5> -->
+                        <h5 class="headerTitleModal"> FACTURA REGISTRADA - APROBADA </h5>
                     </div>
                     <div class=" bd-highlight">
                         <i class="far fa-times-circle fa-2x puntero" title="Retornar" (click)="cerrarModal()">  </i>
@@ -177,152 +203,187 @@
             </div>
             <div class="modal-body ">
 
-                <fieldset class="shadow" style="margin-top: -15px; ">
-                    <legend> DATOS DE LA ORDEN DE COMPRA </legend>
-                    <div class="panel panel-default ">
-                        <div class="panel-body">
+                <div class="row" style="margin-top: -15px; ">
+                    <div class="col-sm-12 col-md-9 col-lg-9  ">
+                        <fieldset class="shadow">
+                            <legend style="  width: 90%;"> DATOS DE LA ORDEN DE COMPRA </legend>
+                            <div class="panel panel-default ">
+                                <div class="panel-body">
 
-                            <div class="row" style="margin-top: -15px;">
-                                <div class="col-md-4">
-                                    <label> Nro OC </label>
-                                    <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.nroOC">
-                                </div>
-                                <div class="col-md-4">
-                                    <label> Tipo OC </label>
-                                    <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.tipoOC">
-                                </div>
-                                <div class="col-md-4">
-                                    <label> Fecha OC </label>
-                                    <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.fechaOC ">
+                                    <div class="row" style="margin-top: -15px;">
+                                        <div class="col-md-4">
+                                            <label> Nro OC </label>
+                                            <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.nroOC">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label> Tipo OC </label>
+                                            <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.tipoOC">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label> Fecha OC </label>
+                                            <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.fechaOC ">
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label> Centro Costo </label>
+                                            <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.centroCosto">
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label> Proveedor </label>
+                                            <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.proveedor">
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label> Forma Pago </label>
+                                            <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.formaPago">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label> Moneda </label>
+                                            <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.moneda">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row mt-1">
+                                        <div class="col-md-4">
+                                            <label> Sub Total </label>
+                                            <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.subTotalOC |number:'3.1-5'">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label> IGV </label>
+                                            <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.igvOC |number:'3.1-5' ">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label> Total </label>
+                                            <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.totalOC |number:'3.1-5'">
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label> Centro Costo </label>
-                                    <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.centroCosto">
-                                </div>
-                                <div class="col-md-6">
-                                    <label> Proveedor </label>
-                                    <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.proveedor">
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label> Forma Pago </label>
-                                    <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.formaPago">
-                                </div>
-                                <div class="col-md-6">
-                                    <label> Moneda </label>
-                                    <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.moneda">
-                                </div>
-                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="col-sm-12 col-md-3 col-lg-3  ">
 
 
-                            <div class="row mt-1">
-                                <div class="col-md-4">
-                                    <label> Sub Total </label>
-                                    <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.subTotalOC">
-                                </div>
-                                <div class="col-md-4">
-                                    <label> IGV </label>
-                                    <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.igvOC">
-                                </div>
-                                <div class="col-md-4">
-                                    <label> Total </label>
-                                    <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.totalOC ">
-                                </div>
-                            </div>
+                        <div class="styleContacto mt-2">
+                            <fieldset class="shadow  ">
+                                <legend style="  width: 90%;"> TOTAL FACTURADO </legend>
+                                <div class="panel panel-default ">
+                                    <div class="panel-body ">
 
+                                        <div class="row ">
+                                            <div class="col-md-12">
+                                                <label> Sub Total </label>
+                                                <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.subtotalFacturado |number:'3.1-5' ">
+                                            </div>
+                                        </div>
+
+                                        <div class="row ">
+                                            <div class="col-md-12">
+                                                <label> IGV </label>
+                                                <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.igvFacturado |number:'3.1-5'">
+                                            </div>
+                                        </div>
+
+                                        <div class="row ">
+                                            <div class="col-md-12">
+                                                <label> Total </label>
+                                                <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.totalFacturado |number:'3.1-5' ">
+                                            </div>
+                                        </div>
+
+                                        <div class="row ">
+                                            <div class="col-md-12">
+                                                <label> Cantidad Facturas </label>
+                                                <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.cantFacturas ">
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+                            </fieldset>
                         </div>
                     </div>
-                </fieldset>
-
-                <div class="styleContacto mt-2">
-                    <fieldset class="shadow  ">
-                        <legend> TOTAL FACTURADO </legend>
-                        <div class="panel panel-default ">
-                            <div class="panel-body ">
-
-
-                                <div class="row ">
-                                    <div class="col-md-3">
-                                        <label> Sub Total </label>
-                                        <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.subtotalFacturado">
-                                    </div>
-                                    <div class="col-md-3">
-                                        <label> IGV </label>
-                                        <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.igvFacturado">
-                                    </div>
-                                    <div class="col-md-3">
-                                        <label> Total </label>
-                                        <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.totalFacturado ">
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <label> Cantidad Facturas </label>
-                                        <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.cantFacturas ">
-                                    </div>
-
-                                </div>
-
-                            </div>
-                        </div>
-                    </fieldset>
                 </div>
 
-                <fieldset class="shadow mt-2">
-                    <legend> DATOS DEL DOCUMENTO </legend>
-                    <div class="panel panel-default ">
-                        <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <fieldset class="shadow mt-2">
+                            <legend> DATOS DEL DOCUMENTO </legend>
+                            <div class="panel panel-default ">
+                                <div class="panel-body">
 
 
-                            <div class="row" style="margin-top: -15px; ">
-                                <div class="col-md-4">
-                                    <label> Nro Factura </label>
-                                    <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.nroFactura">
-                                </div>
-                                <div class="col-md-4">
-                                    <label> Fecha </label>
-                                    <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.fechaFactura">
-                                </div>
-                                <div class="col-md-4">
-                                    <label> Nro-Guia </label>
-                                    <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.nroGuiaFactura">
+                                    <div class="row" style="margin-top: -15px; ">
+                                        <div class="col-md-4">
+                                            <label> Nro Factura </label>
+                                            <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.nroFactura">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label> Fecha </label>
+                                            <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.fechaFactura">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label> Nro-Guia </label>
+                                            <input type="text" class="form-control disabledForm" [value]="objFacturacionGlobal.nroGuiaFactura">
+                                        </div>
+                                    </div>
+
+                                    <div class="row ">
+                                        <div class="col-md-4">
+                                            <label> Sub Total </label>
+                                            <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.subTotalFactura |number:'3.1-5'">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label> IGV </label>
+                                            <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.igvFactura |number:'3.1-5'">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label> Total </label>
+                                            <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.totalFactura  |number:'3.1-5'">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-
-                            <div class="row ">
-                                <div class="col-md-4">
-                                    <label> Sub Total </label>
-                                    <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.subTotalFactura">
-                                </div>
-                                <div class="col-md-4">
-                                    <label> IGV </label>
-                                    <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.igvFactura">
-                                </div>
-                                <div class="col-md-4">
-                                    <label> Total </label>
-                                    <input type="text" class="form-control disabledForm text-right" [value]="objFacturacionGlobal.totalFactura ">
+                        </fieldset>
+                    </div>
+                    <div class="col-md-4 mt-3">
+                        <div class="row ">
+                            <div class="col-md-12 text-center">
+                                <div class="custom-control custom-checkbox custom-control-inline   ">
+                                    <input type="checkbox" [id]="9999" [(ngModel)]="facturaCancelada" class="custom-control-input">
+                                    <label class="custom-control-label" [for]="9999" style="color:red !important"> FACTURA CANCELADA </label>
                                 </div>
                             </div>
+                        </div>
 
-                            <div class="row mt-1">
-                                <div class="col-md-12 text-center">
-                                    <button class="btn  btn-sm  btn-success" title="Aprobar la Orden de Trabajo" (click)="aprobarDevolver(1)">
-                                        <i class="fas fa-save"></i>  Aprobar
-                                    </button>
-                                    <button class="btn  btn-sm  btn-danger ml-2" title="Aprobar la Orden de Trabajo" (click)="aprobarDevolver(2)">
-                                        <i class="fas fa-save"> </i> Devolver
-                                    </button>
-                                </div>
+                        <div class="row mt-1" *ngIf="idEstado_Global ==231">
+                            <div class="col-md-12 text-center">
+                                <button class="btn  btn-sm btn-block  btn-success" title="Aprobar la Orden de Trabajo" (click)="aprobarDevolver(1)">
+                                    <i class="fas fa-save"></i>  Aprobar / Guardar
+                                </button>
                             </div>
+                        </div>
 
-
+                        <div class="row mt-1" *ngIf="idEstado_Global ==231">
+                            <div class="col-md-12 text-center">
+                                <button class="btn  btn-sm btn-block btn-danger" title="Aprobar la Orden de Trabajo" (click)="aprobarDevolver(2)">
+                                    <i class="fas fa-save"> </i> Devolver
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </fieldset>
+                </div>
 
                 <div class="row mt-3">
                     <div class="col-12">
@@ -333,6 +394,14 @@
                             </li>
                             <li class="nav-item TabControl">
                                 <a class="nav-link active" style="color:white" (click)="selectedTabControlDetalle = 'LISTA DOCUMENTOS ADJUNTOS' " data-toggle="pill" [class.active]="selectedTabControlDetalle==='LISTA DOCUMENTOS ADJUNTOS'" role="tab" aria-controls="pills-home" aria-selected="true"> LISTA DOCUMENTOS ADJUNTOS</a>
+                            </li>
+                            <li class="nav-item TabControl">
+                                <a class="nav-link active" style="color:white" (click)="selectedTabControlDetalle = 'CUENTAS CONTABLES' " data-toggle="pill" [class.active]="selectedTabControlDetalle==='CUENTAS CONTABLES'" role="tab" aria-controls="pills-home" aria-selected="true"> CUENTAS CONTABLES</a>
+                            </li>
+
+                            <li class="nav-item TabControl">
+                                <a class="nav-link active" style="color:white" (click)="selectedTabControlDetalle = 'DISTRIBUCION DE CENTRO DE COSTO' " data-toggle="pill" [class.active]="selectedTabControlDetalle==='DISTRIBUCION DE CENTRO DE COSTO'" role="tab" aria-controls="pills-home"
+                                    aria-selected="true"> DISTRIBUCION DE CENTRO DE COSTO</a>
                             </li>
 
                         </ul>
@@ -417,6 +486,195 @@
                                         </div>
                                     </div>
                                 </div>
+
+
+                                <!-- cuentas contables -->
+                                <div *ngIf="selectedTabControlDetalle === tabControlDetalle[2] " role="tabpanel" class="tab-pane active">
+
+                                    <div class="card border-primary ">
+                                        <div class="card-body ">
+
+                                            <fieldset class="shadow">
+                                                <legend> REGISTRO DE CUENTAS CONTABLES </legend>
+                                                <div class="panel panel-default ">
+                                                    <div class="panel-body">
+
+                                                        <form [formGroup]="formParamsContabilidad">
+                                                            <div class="row" style="margin-top: -15px;">
+                                                                <div class="col-md-4">
+                                                                    <label> Importe Asignado </label>
+                                                                    <input type="text" (keypress)="keyPress($event)" class="form-control " formControlName='importeDocumento'>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <label> Glosa </label>
+                                                                    <input type="text" class="form-control  " formControlName='Glosa'>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row">
+                                                                <div class="col-sm-6 col-lg-3 ">
+                                                                    <label> Cuenta Gastos </label> <i class=" ml-2 puntero fa fa-plus-circle" style="color: red;" (click)="abrir_modalAgregarCuentaContable('GASTOS')"> </i>
+                                                                    <select class="form-control comboBox" formControlName="CtaGastos">
+                                                                        <option value="0"> [ -- SELECCIONE -- ]</option>
+                                                                        <option [value]="item.idCuenta" *ngFor="let item of cuentaContableGastos">{{item.descripcionCuenta}}</option> 
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-sm-6 col-lg-3 ">
+                                                                    <label> Cuenta IGV </label> <i class=" ml-2 puntero fa fa-plus-circle" style="color: green;" (click)="abrir_modalAgregarCuentaContable('IGV')"> </i>
+                                                                    <select class="form-control comboBox" formControlName="CtaIGV">
+                                                                        <option value="0"> [ -- SELECCIONE -- ]</option>
+                                                                        <option [value]="item.Id_GrupoDetalle" *ngFor="let item of cuentaContableIGV">{{item.codigo_detalleTabla}}</option> 
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-sm-6 col-lg-3 ">
+                                                                    <label> Cuenta Pagar </label> <i class=" ml-2 puntero fa fa-plus-circle" style="color: blue;" (click)="abrir_modalAgregarCuentaContable('PAGAR')"> </i>
+                                                                    <select class="form-control comboBox" formControlName="CtaxPagar">
+                                                                        <option value="0"> [ -- SELECCIONE -- ]</option>
+                                                                        <option [value]="item.Id_GrupoDetalle" *ngFor="let item of cuentaContablePagar">{{item.codigo_detalleTabla}}</option> 
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-sm-6 col-lg-3 ">
+                                                                    <label> Cuenta Detracción </label> <i class=" ml-2 puntero fa fa-plus-circle" style="color: #ffc107;" (click)="abrir_modalAgregarCuentaContable('DETRACCION')"> </i>
+                                                                    <select class="form-control comboBox" formControlName="CtaDetraccion">
+                                                                        <option value="0"> [ -- SELECCIONE -- ]</option>
+                                                                        <option [value]="item.Id_GrupoDetalle" *ngFor="let item of cuentaContableDetraccion">{{item.codigo_detalleTabla}}</option> 
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+
+                                                        </form>
+
+                                                        <div class="row">
+                                                            <div class="col-md-12 text-center mt-2">
+                                                                <button class="btn btn-sm btn-success" (click)="almacenarCuentasContables()">  <i class="fas fa-save"> Grabar</i> </button>
+                                                                <button class="btn btn-sm btn-warning ml-2" (click)="blank_DetalleCuentasContables()">  <i class="fa fa-plus-circle"> Nuevo</i> </button>
+
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+
+                                                        <div class=" table-responsive">
+                                                            <table class="table table-hover table-bordered table-sm">
+                                                                <thead class="theadTableModal">
+                                                                    <tr>
+                                                                        <th scope="col">#</th>
+                                                                        <th scope="col">Total Asignado</th>
+                                                                        <th scope="col">Cta Gastos</th>
+                                                                        <th scope="col">Cta Igv</th>
+                                                                        <th scope="col">Cta x Pagar</th>
+                                                                        <th scope="col">Glosa</th>
+                                                                        <th scope="col">Accion</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr *ngFor="let item of  detalleCuentaContables; index as i">
+                                                                        <th scope="row"> {{i + 1}} </th>
+                                                                        <td>{{item.importeDocumento}}</td>
+                                                                        <td>{{item.CtaGastos}}</td>
+                                                                        <td>{{item.CtaIGV}}</td>
+                                                                        <td>{{item.CtaxPagar}}</td>
+                                                                        <td>
+                                                                            <div style="width: 450px;">
+                                                                                {{item.Glosa}}
+                                                                            </div>
+                                                                        </td>
+                                                                        <td class="text-center">
+                                                                            <span class="badge badge-primary puntero" style="padding: 5px;" (click)="modificarRegistroCuentaContable(item)">  Editar </span>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+
+                                                            </table>
+                                                        </div>
+
+
+
+
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- centro de costo -->
+                                <div *ngIf="selectedTabControlDetalle === tabControlDetalle[3] " role="tabpanel" class="tab-pane active">
+
+                                    <div class="card border-primary ">
+                                        <div class="card-body ">
+
+                                            <fieldset class="shadow">
+                                                <legend style="width: 80%;"> REGISTRO DE DISTRIBUCION DE CENTRO DE COSTO </legend>
+                                                <div class="panel panel-default ">
+                                                    <div class="panel-body">
+                                                        <form [formGroup]="formParamsCentroCosto">
+                                                            <div class="row" style="margin-top: -15px;">
+                                                                <div class="col-sm-6 col-lg-3 ">
+                                                                    <label> Centro de Costo </label>
+                                                                    <select class="form-control comboBox" formControlName="idCentroCosto">
+                                                                            <option value="0"> [ -- SELECCIONE -- ]</option>
+                                                                            <option [value]="item.idCentroCosto" *ngFor="let item of centroCostos">{{item.descripcionCentroCosto}}</option> 
+                                                                     </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-4">
+                                                                    <label> % distribución </label>
+                                                                    <input type="text" (keypress)="keyPress($event)" (blur)="onBlurPorcentaje()" (keyup.enter)="onBlurPorcentaje()" class="form-control " formControlName='porcentaje'>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <label> Importe </label>
+                                                                    <input type="text" class="form-control  " (keypress)="keyPress($event)" formControlName='total_importe'>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+
+                                                        <div class="row">
+                                                            <div class="col-md-12 text-center mt-2">
+                                                                <button class="btn btn-sm btn-success" (click)="almacenarDistribucion_centroCosto()">  <i class="fas fa-save"> Agregar </i> </button>
+                                                                <button class="btn btn-sm btn-warning ml-2" (click)="blank_DetalleDistribucionCCentro()">  <i class="fa fa-plus-circle"> Nuevo</i> </button>
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+
+                                                        <div class=" table-responsive">
+                                                            <table class="table table-hover table-bordered table-sm">
+                                                                <thead class="theadTableModal">
+                                                                    <tr>
+                                                                        <th scope="col">#</th>
+                                                                        <th scope="col">Centro de Costo</th>
+                                                                        <th scope="col">Importe Total </th>
+                                                                        <th scope="col">% Distribucion</th>
+                                                                        <th scope="col">Total Distribucion</th>
+                                                                        <th scope="col">Accion</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr *ngFor="let item of  detalleCentroCosto; index as i">
+                                                                        <th scope="row"> {{i + 1}} </th>
+                                                                        <td>{{item.descripcionCentroCosto}}</td>
+                                                                        <td class="text-right">{{item.total_importe}}</td>
+                                                                        <td class="text-right">{{item.porcentaje}}</td>
+                                                                        <td class="text-right">{{item.total}}</td>
+                                                                        <td class="text-center">
+                                                                            <span class="badge badge-primary puntero" style="padding: 5px;" (click)="modificarRegistro_distribucion_CCosto(item)">  Editar </span>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
 
@@ -429,4 +687,44 @@
             </div>
         </div>
     </div>
+</div>
+
+<div class="modal fade " id="modal_agregar" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel  " aria-hidden="true">
+    <div class="modal-dialog  modal-dialog-centered " role="document">
+        <div class="modal-content" style="border: solid red;">
+            <div class="modal-header">
+                <h5 class="headerTitleModal_Secundario"> AGREGANDO NUEVA CUENTA CONTABLE </h5>
+                <button type="button" class="close" (click)="cerrarModal_agregarCuentaContable()">  <span aria-hidden="true">&times;</span> </button>
+            </div>
+            <div class="modal-body">
+                <fieldset class="shadow">
+                    <legend style="width: 80%;"> Cuenta Contable - {{tipoCuentaContable}} </legend>
+                    <div class="panel panel-default ">
+                        <div class="panel-body">
+
+                            <form [formGroup]="formParamsAgregar">
+                                <div class="row">
+                                    <div class="col-md-8 mt-1">
+                                        <input type="text" class="form-control  " (keypress)="keyPress2($event)" formControlName='valorCuentaContable'>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-12 mt-1">
+                                        <button class="btn btn-info btn-sm btn-block" title="guardar" (click)="guardarCuentaContable()">   <i class="fas fa-save"> </i>  Guardar </button>
+                                    </div>
+                                </div>
+                                <br>
+                            </form>
+
+
+                        </div>
+                    </div>
+                </fieldset>
+
+            </div>
+
+        </div>
+    </div>
+
 </div>

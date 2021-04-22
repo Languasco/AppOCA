@@ -12,7 +12,7 @@
                     <select class="form-control comboBox" formControlName="idCentroCostro">
                             <option value="0"> [ -- TODOS -- ]</option>
                             <option [value]="item.codigo" *ngFor="let item of centroCostro">{{item.descripcion}}</option> 
-                        </select>
+                    </select>
                 </div>
 
                 <div class="col-md-3 ">
@@ -104,7 +104,7 @@
                         <i class="fas fa-arrow-circle-left  fa-2x puntero" title="Retornar" (click)="cerrarModal_registro()">  </i>
                     </div>
                     <div class=" bd-highlight">
-                        <h5 class="headerTitleModal"> REGISTRO DE LIQUIDACION CAJA CHICA </h5>
+                        <h5 class="headerTitleModal"> REGISTRO DE LIQUIDACIÓN CAJA CHICA </h5>
                     </div>
                     <div class=" bd-highlight">
                         <i class="far fa-times-circle fa-2x puntero" title="Retornar" (click)="cerrarModal_registro()">  </i>
@@ -113,7 +113,7 @@
             </div>
             <div class="modal-body">
 
-                <div class="row">
+                <div class="row" style=" margin-top: -10px;">
                     <div class="col-md-12">
                         <fieldset class="shadow">
                             <legend>DATOS DE LIQUIDACION </legend>
@@ -175,7 +175,7 @@
                 <div class="row" style="margin-top: -10px;" *ngIf="flagExpandirComprimir">
                     <div class="col-md-12">
                         <fieldset class="shadow">
-                            <legend> REGISTRO COMPROBANTES </legend>
+                            <legend> REGISTRO COMPROBANTES</legend>
                             <div class="panel panel-default ">
                                 <div class="panel-body">
 
@@ -252,87 +252,225 @@
                 <div class="row mt-2" *ngIf="flagComprobante == 1">
                     <div class="col-md-12" *ngIf="flagExpandirComprimir">
                         <fieldset class="shadow">
-                            <legend> REGISTRO DE COMPROBANTES </legend>
+                            <legend>
+
+                                <div class="clearfix">
+                                    <div class="float-left">
+                                        REGISTRO DE COMPROBANTES
+                                    </div>
+
+                                    <div class="float-right " style="cursor: pointer;">
+                                        <i class="fas fa-compress-arrows-alt" style="color: red;" (click)="verRegistros() "> {{flagVer}} </i>
+                                    </div>
+                                </div>
+
+                            </legend>
                             <div class="panel panel-default ">
-                                <div class="panel-body">
+                                <div class="panel-body" *ngIf="flagVer =='Ver'? false : true">
 
-                                    <form [formGroup]="formParamsManual">
-                                        <div class="row" style="margin-top: -15px;">
-                                            <div class="col-md-4">
-                                                <label> Interno </label>
-                                                <input type="text" class="form-control disabledForm" formControlName='id_LiquidacionCaja_Det'>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label> Tipo Documento </label>
 
-                                                <select class="form-control comboBox" formControlName="Pub_TiDo_Codigo">
-                                                    <option value="0"> [ -- SELECCIONE -- ]</option>
-                                                    <option [value]="doc.id_TipoDocFile" *ngFor="let doc of tiposDocumentosFiles">{{doc.nombreFile}}</option> 
-                                                </select>
+                                    <div class="row">
+                                        <div class=" col-sm-12  col-lg-7">
+                                            <form [formGroup]="formParamsManual">
+                                                <div class="row" style="margin-top: -15px;">
+                                                    <div class="col-md-4">
+                                                        <label> Interno </label>
+                                                        <input type="text" class="form-control disabledForm" formControlName='id_LiquidacionCaja_Det'>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label> Tipo Documento </label>
+                                                        <select class="form-control comboBox" formControlName="Pub_TiDo_Codigo">
+                                                            <option value="0"> [ -- SELECCIONE -- ]</option>
+                                                            <option [value]="doc.id_TipoDocumento" *ngFor="let doc of tiposDocumentosCajaChica">{{doc.Pub_TiDo_Descripcion}}</option> 
+                                                        </select>
+                                                    </div>
+                                                </div>
 
-                                            </div>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <label> Serie </label>
+                                                        <input type="text" class="form-control  " formControlName='nroSerie_Doc'>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label> Numero </label>
+                                                        <input type="text" class="form-control  " formControlName='numero_Doc'>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <label> Fecha Emision </label>
+                                                        <input class="form-control" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fechaEmision_Doc" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY'  }">
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <label> Ruc </label>
+                                                        <input type="text" class="form-control " formControlName='nro_RUC' (blur)="buscarRuc($event.target.value)" (keydown.enter)="buscarRuc($event.target.value )">
+
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <label> Proveedor </label>
+                                                        <input type="text" class="form-control disabledForm" formControlName='razonsocial'>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <label> Concepto </label>
+                                                        <input type="text" class="form-control " formControlName='concepto_Doc'>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <label> Importe No Afecto </label>
+                                                        <input type="text" class="form-control " (keypress)="keyPress($event)" (keyup.enter)="getGenerarCalculos()" (blur)="getGenerarCalculos()" formControlName='subTotal_Doc'>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label> Igv </label>
+                                                        <input type="text" class="form-control " (keypress)="keyPress($event)" formControlName='IgvTotal_Doc'>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label> Percepciones </label>
+                                                        <input type="text" class="form-control " (keypress)="keyPress($event)" (keyup.enter)="getGenerarCalculos()" (blur)="getGenerarCalculos()" formControlName='percepciones_Doc'>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label> Otros Cargos </label>
+                                                        <input type="text" class="form-control " (keypress)="keyPress($event)" (keyup.enter)="getGenerarCalculos()" (blur)="getGenerarCalculos()" formControlName='otrosG_Doc'>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label> Total </label>
+                                                        <input type="text" class="form-control " (keypress)="keyPress($event)" formControlName='total_Doc'>
+                                                    </div>
+
+                                                </div>
+
+                                            </form>
+
                                         </div>
+                                        <div class=" col-sm-12  col-lg-5" style="margin-top: -15px;">
 
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <label> Serie </label>
-                                                <input type="text" class="form-control  " formControlName='nroSerie_Doc'>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label> Numero </label>
-                                                <input type="text" class="form-control  " formControlName='numero_Doc'>
-                                            </div>
+                                            <fieldset class="shadow">
+                                                <legend style="width: 80%;"> DOCUMENTOS ADJUNTADOS </legend>
+                                                <div class="panel panel-default ">
+                                                    <div class="panel-body">
+                                                        <!-- 
+                                                        <form [formGroup]="formParamsDoc" *ngIf="idLiquidacionCaja_Cab_Global > 0">
+                                                            <div class="row">
+                                                                <div class="col-md-9 mt-1">
+                                                                    <div class="botonFile ">
+                                                                        <input type="file" class="form-control-file btn" formControlName="file" (change)="onDocumentChange($event)" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-3" *ngIf="idEstado_Global == 240">
+                                                                    <div class="mt-2 text-center">
+                                                                        <button class="btn btn-info btn-sm btn-block" (click)="guardar_documentosCajaChica()" title="guardar">  <i class="fas fa-save"> </i>  Cargar </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
 
-                                            <div class="col-md-4">
-                                                <label> Fecha Emision </label>
-                                                <input class="form-control" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fechaEmision_Doc" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY'  }">
-                                            </div>
+                                                        <div class="card border-left-warning shadow  mt-2 ">
+                                                            <div class=" tableFixHead" style="max-height: 200px;">
+                                                                <table class="table  table-bordered table-hover table-sm ">
+                                                                    <thead class="theadTable">
+                                                                        <tr>
+                                                                            <th scope="col">#</th>
+                                                                            <th scope="col">NOMBRE ARCHIVOS</th>
+                                                                            <th scope="col">FECHA REGISTRO</th>
+                                                                            <th class="text-center">Eliminar</th>
+                                                                            <th class="text-center">Descargar</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr *ngFor="let item of documentosCajaChica; index as j">
+                                                                            <th scope="row"> {{j + 1}} </th>
+                                                                            <td>{{item.nombreArchivo}}</td>
+                                                                            <td>{{item.fechaRegistro}}</td>
+                                                                            <td class="text-center">
+                                                                                <a class="puntero linkOpcion" (click)=" eliminarArchivoSeleccionado(item) " title="quitar el registro"> Eliminar</a>
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <a class="puntero linkOpcion" (click)=" downloadFileExport(item.id_Liquidacion_Archivo) " title="descargar"> Descargar</a>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+
+                                                        </div> -->
+
+
+                                                        <!-- AL DETALLLE  -->
+
+
+                                                        <form [formGroup]="formParamsDocDet" *ngIf="idLiquidacionCaja_Det_Global > 0 &&  flagModo_EdicionDet == true">
+                                                            <div class="row">
+                                                                <div class="col-md-9 ">
+                                                                    <div class="botonFile ">
+                                                                        <input type="file" class="form-control-file btn" formControlName="file" (change)="onDocumentChange_importacion($event)" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <div class="mt-2 text-center">
+                                                                        <button class="btn btn-info btn-sm btn-block" (click)="guardar_documentosCajaChica_Det()" title="guardar">  <i class="fas fa-save"> </i>  Cargar </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div *ngFor="let fil of filesDoc_Det; let i=index">
+                                                                    <div class="alert alert-danger text-center" *ngIf="fil.status === 'error'">
+                                                                        <h5>Sistemas</h5>
+                                                                        <hr>
+                                                                        <p><small>{{fil.message}}</small></p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="card border-left-warning shadow  mt-1 " *ngIf="idLiquidacionCaja_Det_Global > 0 &&  flagModo_EdicionDet == true">
+                                                            <div class=" tableFixHead" style="max-height: 200px;">
+                                                                <table class="table  table-bordered table-hover table-sm ">
+                                                                    <thead class="theadTable">
+                                                                        <tr style="    font-size: 11px;">
+                                                                            <th scope="col">#</th>
+                                                                            <th scope="col">NOMBRE_ARCHIVO</th>
+                                                                            <th scope="col">FECHA_REGISTRO</th>
+                                                                            <th class="text-center">Eliminar</th>
+                                                                            <th class="text-center">Descargar</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr *ngFor="let item of documentosCajaChica_Det; index as j">
+                                                                            <th scope="row"> {{j + 1}} </th>
+                                                                            <td>{{item.nombreArchivo}}</td>
+                                                                            <td>{{item.fechaRegistro}}</td>
+                                                                            <td class="text-center">
+                                                                                <a class="puntero linkOpcion" (click)=" eliminarArchivoSeleccionado_Det(item) " title="quitar el registro"> Eliminar</a>
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <a class="puntero linkOpcion" (click)=" downloadFileExport_Det(item.id_Liquidacion_Archivo) " title="descargar"> Descargar</a>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+
+                                                        </div>
+
+
+
+
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+
                                         </div>
-
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <label> Ruc </label>
-                                                <input type="text" class="form-control " formControlName='nro_RUC' (keydown.enter)="buscarRuc($event.target.value )">
-
-                                            </div>
-                                            <div class="col-md-8">
-                                                <label> Proveedor </label>
-                                                <input type="text" class="form-control disabledForm" formControlName='razonsocial'>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <label> Concepto </label>
-                                                <input type="text" class="form-control " formControlName='concepto_Doc'>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md-2">
-                                                <label> Importe No Afecto </label>
-                                                <input type="text" class="form-control " (keypress)="keyPress($event)" (keyup.enter)="getGenerarCalculos()" (blur)="getGenerarCalculos()" formControlName='subTotal_Doc'>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <label> Igv </label>
-                                                <input type="text" class="form-control " (keypress)="keyPress($event)" formControlName='IgvTotal_Doc'>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <label> Percepciones </label>
-                                                <input type="text" class="form-control " (keypress)="keyPress($event)" (keyup.enter)="getGenerarCalculos()" (blur)="getGenerarCalculos()" formControlName='percepciones_Doc'>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <label> Otros Cargos </label>
-                                                <input type="text" class="form-control " (keypress)="keyPress($event)" (keyup.enter)="getGenerarCalculos()" (blur)="getGenerarCalculos()" formControlName='otrosG_Doc'>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <label> Total </label>
-                                                <input type="text" class="form-control " (keypress)="keyPress($event)" formControlName='total_Doc'>
-                                            </div>
-
-                                        </div>
-
-                                    </form>
+                                    </div>
+                                    <hr>
 
                                     <div class="row" *ngIf="idEstado_Global == 240">
                                         <div class="col-md-12 text-center mt-2">
@@ -340,13 +478,13 @@
                                             <button class="btn btn-sm btn-warning ml-2" (click)="blank_Detalle()">  <i class="fa fa-plus-circle"> Nuevo</i> </button>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                         </fieldset>
                     </div>
                     <br>
                 </div>
-
 
                 <div class="row mt-2" id="formDetalle" *ngIf="flagExpandirComprimir">
                     <div class="col-md-12">
@@ -356,12 +494,12 @@
                                 <div class="panel-body">
 
                                     <label for=""> * Una vez que termine de ingresar el valor presionar la techa enter para Grabar</label>
-
                                     <div class="search-results tableFixHead">
                                         <table class="table  table-bordered table-hover table-sm ">
                                             <thead class="theadTable thead-dark">
+
                                                 <tr style="height: 40px !important;">
-                                                    <th scope="col">ITEM</th>
+                                                    <th scope="col">NRO</th>
                                                     <th> TIPO DOC </th>
                                                     <th> SERIE </th>
                                                     <th> NUMERO </th>
@@ -372,36 +510,71 @@
                                                     <th> NRO AFECTO </th>
                                                     <th> IGV </th>
 
-                                                    <th> PERCEPCIONES </th>
+                                                    <th> PERC </th>
                                                     <th> OTROS CARGOS </th>
                                                     <th> TOTAL </th>
-                                                    <th colspan="2"> ACCIONES </th>
+                                                    <th colspan="3" class="text-center"> ACCIONES </th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr *ngFor="let item of liquidacionesDet ; index as j">
+                                                <tr *ngFor="let item of liquidacionesDet ; index as j" [ngStyle]="item.tieneArchivo == 0 && {'color': 'red'}">
                                                     <td scope="row"> {{j + 1}} </td>
-                                                    <td> {{item.tipoDocumento}} </td>
+                                                    <td>
+                                                        <div style="width:120px">
+                                                            {{item.tipoDocumento}}
+                                                        </div>
+                                                    </td>
                                                     <td>{{item.nroSerie_Doc}}</td>
-                                                    <td>{{item.numero_Doc}}</td>
-                                                    <td>{{item.fechaEmision_Doc}}</td>
+                                                    <td>
+                                                        <div style="width:90px">
+                                                            {{item.numero_Doc}}
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div style="width:130px">
+                                                            {{item.fechaEmision_Doc}}
+                                                        </div>
+                                                    </td>
 
-                                                    <td>{{item.razonSocial}} </td>
-                                                    <td>{{item.concepto_Doc}}</td>
-                                                    <td>{{item.subTotal_Doc}}</td>
-                                                    <td>{{item.IgvTotal_Doc}}</td>
+                                                    <td>
+                                                        <div style="width:250px">
+                                                            {{item.razonSocial}}
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div style="width:130px">
+                                                            {{item.concepto_Doc}}
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-right">{{item.subTotal_Doc | number:'1.2-2' }}</td>
+                                                    <td class="text-right">{{item.IgvTotal_Doc | number:'1.2-2'}}</td>
 
-                                                    <td>{{item.percepciones_Doc}}</td>
-                                                    <td>{{item.otrosG_Doc}}</td>
-                                                    <td>{{item.total_Doc}}</td>
+                                                    <td class="text-right">{{item.percepciones_Doc | number:'1.2-2'}}</td>
+                                                    <td class="text-right">{{item.otrosG_Doc | number:'1.2-2'}}</td>
+                                                    <td class="text-right">{{item.total_Doc | number:'1.2-2'}} </td>
                                                     <td class="text-right">
                                                         <span class="badge badge-primary puntero" (click)="modificar_detalleLiquidacion(item)" style="padding: 5px;">  Editar </span>
                                                     </td>
                                                     <td class="text-right">
                                                         <span class="badge badge-danger puntero" (click)="eliminar_detalleLiquidacion(item)" style="padding: 5px;">  Eliminar </span>
                                                     </td>
+                                                    <td class="text-right">
+                                                        <span class="badge badge-info puntero" (click)="abrirModal_importacion(item)" style="padding: 5px;">  Adjuntar </span>
+                                                    </td>
                                                 </tr>
                                             </tbody>
+                                            <tfoot>
+                                                <tr style="height: 40px !important; font-family: 'Montserrat', sans-serif;font-size: 12px;">
+                                                    <th colspan="6"> </th>
+                                                    <th> TOTALES : </th>
+                                                    <th class="text-right"> {{totalesNoAfecto | number:'1.2-2'}} </th>
+                                                    <th class="text-right"> {{totalesIgv | number:'1.2-2'}} </th>
+                                                    <th class="text-right"> {{totalesPercepciones | number:'1.2-2'}} </th>
+                                                    <th class="text-right"> {{totalesOtros | number:'1.2-2'}} </th>
+                                                    <th class="text-right"> {{totalesGeneral | number:'1.2-2'}} </th>
+                                                    <th colspan="3"> </th>
+                                                </tr>
+                                            </tfoot>
                                         </table>
                                     </div>
 
@@ -413,9 +586,7 @@
                     <br>
                 </div>
 
-
-
-                <div class="row mt-2" id="formDetalle" *ngIf="flagExpandirComprimir">
+                <!-- <div class="row mt-2" id="formDetalle" *ngIf="flagExpandirComprimir">
                     <div class="col-md-12">
                         <fieldset class="shadow">
                             <legend> IMPORTAR DOCUMENTOS </legend>
@@ -467,16 +638,99 @@
 
                                     </div>
 
-
                                 </div>
                             </div>
                         </fieldset>
                     </div>
 
-                </div>
+                </div> -->
 
             </div>
 
         </div>
     </div>
+</div>
+
+
+
+
+<div class="modal fade " id="modal_importacion" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel  " aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered " role="document">
+        <div class="modal-content" style="border: solid red;">
+            <div class="modal-header">
+                <h5 class="headerTitleModal_Secundario"> ADJUNTAR ARCHIVO </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">  <span aria-hidden="true">&times;</span> </button>
+            </div>
+            <div class="modal-body">
+                <fieldset class="shadow">
+                    <legend style="width: 80%;"> Nro Documento - {{numeroDoc_Global}} </legend>
+                    <div class="panel panel-default ">
+                        <div class="panel-body">
+
+                            <form [formGroup]="formParamsDocDet">
+                                <div class="row">
+                                    <div class="col-md-9 mt-1">
+                                        <div class="botonFile ">
+                                            <input type="file" class="form-control-file btn" formControlName="file" (change)="onDocumentChange_importacion($event)" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="mt-2 text-center">
+                                            <button class="btn btn-info btn-sm btn-block" (click)="guardar_documentosCajaChica_Det()" title="guardar">  <i class="fas fa-save"> </i>  Cargar </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div *ngFor="let fil of filesDoc_Det; let i=index">
+                                        <div class="alert alert-danger text-center" *ngIf="fil.status === 'error'">
+                                            <h5>Sistemas</h5>
+                                            <hr>
+                                            <p><small>{{fil.message}}</small></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card border-left-warning shadow  mt-2 ">
+                                <div class=" tableFixHead" style="max-height: 200px;">
+                                    <table class="table  table-bordered table-hover table-sm ">
+                                        <thead class="theadTable">
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">NOMBRE ARCHIVOS</th>
+                                                <th scope="col">FECHA REGISTRO</th>
+                                                <th class="text-center">Eliminar</th>
+                                                <th class="text-center">Descargar</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of documentosCajaChica_Det; index as j">
+                                                <th scope="row"> {{j + 1}} </th>
+                                                <td>{{item.nombreArchivo}}</td>
+                                                <td>{{item.fechaRegistro}}</td>
+                                                <td class="text-center">
+                                                    <a class="puntero linkOpcion" (click)=" eliminarArchivoSeleccionado_Det(item) " title="quitar el registro"> Eliminar</a>
+                                                </td>
+                                                <td class="text-center">
+                                                    <a class="puntero linkOpcion" (click)=" downloadFileExport_Det(item.id_Liquidacion_Archivo) " title="descargar"> Descargar</a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </fieldset>
+
+            </div>
+
+        </div>
+    </div>
+
 </div>

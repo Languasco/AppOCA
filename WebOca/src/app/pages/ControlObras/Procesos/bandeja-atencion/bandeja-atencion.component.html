@@ -340,8 +340,8 @@
                                                             <td class="text-right">{{item.unidadBaremo}}</td>
                                                             <td class="text-right">{{item.cantidadMovil }}</td>
                                                             <td class="text-right">{{item.cantidad }}</td>
-                                                            <td class="text-right">{{item.precio | number}}</td>
-                                                            <td class="text-right">{{item.importe | number:'0.1-5'}}</td>
+                                                            <td class="text-right">{{item.precio | number:'1.2-2' }}</td>
+                                                            <td class="text-right">{{item.importe | number:'1.2-2' }}</td>
                                                             <td class="text-center">
                                                                 <i class="puntero linkOpcion" title="Modificar" (click)="modificar_actividadDetalle(item)"> Modificar</i>
                                                             </td>
@@ -452,8 +452,8 @@
                                                             <td class="text-right">{{item.unidadMedida}}</td>
                                                             <td class="text-right">{{item.guiaIngreso }}</td>
                                                             <td class="text-right">{{item.guiaSalida }}</td>
-                                                            <td class="text-right">{{item.cantidadMovil | number}}</td>
-                                                            <td class="text-right">{{item.cantidadAprobada | number}}</td>
+                                                            <td class="text-right">{{item.cantidadMovil | number:'1.2-2' }}</td>
+                                                            <td class="text-right">{{item.cantidadAprobada | number:'1.2-2' }}</td>
                                                             <td class="text-center">
                                                                 <i class="puntero linkOpcion" title="Modificar" (click)="modificar_materialesDetalle(item)"> Modificar</i>
                                                             </td>

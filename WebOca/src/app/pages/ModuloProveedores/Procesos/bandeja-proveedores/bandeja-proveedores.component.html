@@ -7,10 +7,13 @@
 
             <form [formGroup]="formParamsFiltro">
                 <div class="row">
-                    <div class="col-md-4">
-                        <!-- <label class="control-label"> Nro Obra </label>
-                        <input type="text" class="form-control form-control-sm " maxlength="50" formControlName="nroObra"> -->
-                    </div>
+                    <!-- <div class="col-md-4">
+                        <label for=""> Centro Costo</label>
+                        <select class="form-control comboBox" formControlName="idCentroCostro">
+                                <option value="0"> [ -- TODOS -- ]</option>
+                                <option [value]="item.codigo" *ngFor="let item of centroCostro">{{item.descripcion}}</option> 
+                            </select>
+                    </div> -->
                     <div class="col-md-4 ">
                         <label for=""> Estado</label>
                         <select class="form-control comboBox" formControlName="idEstado">
@@ -150,14 +153,14 @@
                                                     <label> Ruc</label>
                                                     <input type="text" id="txtRuc" class="form-control disabledForm" (blur)="onBlurRuc()" maxlength="20" formControlName="nro_RUC">
                                                 </div>
-                                                <div class="col-md-4">
+                                                <!-- <div class="col-md-4">
                                                     <label> Estado</label>
                                                     <input type="text" class="form-control " formControlName="xxxxx">
                                                 </div>
                                                 <div class="col-md-4">
                                                     <label> Condicion</label>
                                                     <input type="text" class="form-control " formControlName="xxxxx">
-                                                </div>
+                                                </div> -->
                                             </div>
 
 
@@ -352,7 +355,7 @@
                                                                                 <div class="row mb-2">
                                                                                     <div class="col-md-4">
                                                                                         <label> Teléfono Celular </label>
-                                                                                        <input type="number" class="form-control " formControlName="xxxxx">
+                                                                                        <input type="number" class="form-control " formControlName="celular_T">
                                                                                     </div>
                                                                                     <div class="col-md-8">
                                                                                         <label> Correo Electronico </label>
@@ -438,7 +441,7 @@
                                                                 </form>
 
                                                                 <div *ngIf="idProveedor_Global>0">
-                                                                    <form [formGroup]="formParamsBanco">
+                                                                    <!-- <form [formGroup]="formParamsBanco">
                                                                         <div class="row">
                                                                             <div class="col-md-4">
                                                                                 <label> Nombre Banco </label>
@@ -490,14 +493,14 @@
                                                                         </div>
 
                                                                     </form>
-                                                                    <!-- 
+                                                                    
                                                                     <div class="row mt-2 mb-3">
                                                                         <div class="col-md-12 text-center">
                                                                             <button type="button" class="btn btn-sm btn-dark " (click)="saveUpdate_bancos();" tooltip="Grabar informacion bancaria">   <i class="fas fa-save"></i> Grabar</button>
                                                                         </div>
-                                                                    </div> -->
+                                                                    </div>
 
-                                                                    <hr>
+                                                                    <hr> -->
 
                                                                     <div class="search-results tableFixHead">
                                                                         <table id="tbl_datasolesOt" class="table table-bordered  table-hover table-sm">
@@ -615,10 +618,7 @@
                                                         <div class="panel panel-default  ">
                                                             <div class="panel-body ">
 
-
-
-                                                                <form [formGroup]="formParamsFiles">
-
+                                                                <!-- <form [formGroup]="formParamsFiles">
                                                                     <div class="row">
                                                                         <div class="col-md-8">
                                                                             <label> Tipo Archivo </label>
@@ -642,23 +642,24 @@
                                                                                 <input type="file" class="form-control-file btn" formControlName="file" (change)="onFileChange($event,1)" />
                                                                             </div>
                                                                         </div>
-                                                                        <!-- <div class="col-md-4 pt-1 text-center">
+                                                                        <div class="col-md-4 pt-1 text-center">
                                                                             <button class="btn btn-sm btn-success" (click)="subirArchivo_new()">  <i class="fas fa-cloud-upload-alt"> Cargar</i> </button>
-                                                                        </div> -->
+                                                                        </div>
                                                                     </div>
                                                                 </form>
-                                                                <hr>
+                                                                <hr> -->
+
 
                                                                 <div class=" tableFixHead">
                                                                     <table class="table table-hover table-sm">
-                                                                        <thead class="theadTableModal">
+                                                                        <thead class="theadTable">
                                                                             <tr>
                                                                                 <th scope="col">#</th>
                                                                                 <th scope="col">Tipo Documento</th>
                                                                                 <th scope="col">Nombre</th>
                                                                                 <th scope="col">Fecha</th>
                                                                                 <th class="text-center">Descargar</th>
-                                                                                <!--<th class="text-center">Eliminar</th> -->
+                                                                                <!-- <th class="text-center">Eliminar</th> -->
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
@@ -671,7 +672,7 @@
                                                                                 <td class="text-center">
                                                                                     <a class="puntero linkOpcion" (click)=" descargarArchivo_proveedor( item.id_Proveedor_Archivo ) " title="descargar"> Descargar</a>
                                                                                 </td>
-                                                                                <!--    <td class="text-center">
+                                                                                <!-- <td class="text-center">
                                                                                     <a class="puntero linkOpcion" (click)=" eliminarArchivo_proveedor(item) " title="quitar el registro"> Eliminar</a>
                                                                                 </td> -->
                                                                             </tr>
@@ -690,6 +691,7 @@
                                         </div>
 
                                     </div>
+
                                     <br>
 
 

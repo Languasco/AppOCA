@@ -271,6 +271,96 @@ namespace Negocio.Uploads
             }
             return resultado;
         }
+               
+        public string setAlmacenandoFile_Excel_liquidacionesCab(string fileLocation, string nombreArchivo, int idLiquidacionCaja_Cab, string idUsuario)
+        {
+            string resultado = "";
+            DataTable dt = new DataTable();
+
+            try
+            {
+                dt = ListaExcel(fileLocation);
+
+                using (SqlConnection con = new SqlConnection(bdConexion.cadenaBDcx()))
+                {
+                    con.Open();
+
+                    using (SqlCommand cmd = new SqlCommand("DSIGE_PROY_W_CAJA_CHICA_DELETE_TEMPORAL_LIQUIDACIONES", con))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_usuario", SqlDbType.VarChar).Value = idUsuario;
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    //guardando al informacion de la importacion
+                    using (SqlBulkCopy bulkCopy = new SqlBulkCopy(con))
+                    {
+
+                        bulkCopy.BatchSize = 500;
+                        bulkCopy.NotifyAfter = 1000;
+                        bulkCopy.DestinationTableName = "TEMPORAL_LIQUIDACIONES";
+                        bulkCopy.WriteToServer(dt);
+
+                        //Actualizando campos 
+
+                        string Sql = "UPDATE TEMPORAL_LIQUIDACIONES SET nombreArchivo='" + nombreArchivo + "',  usuario_importacion='" + idUsuario + "', fechaBD=getdate() WHERE usuario_importacion IS NULL    ";
+
+                        using (SqlCommand cmd = new SqlCommand(Sql, con))
+                        {
+                            cmd.CommandTimeout = 0;
+                            cmd.CommandType = CommandType.Text;
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        using (SqlCommand cmd = new SqlCommand("DSIGE_PROY_W_CAJA_CHICA_GRABAR_EXCEL_CTA_CONTABLE", con))
+                        {
+                            cmd.CommandTimeout = 0;
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.Add("@idLiquidacionCaja_Cab", SqlDbType.Int).Value = idLiquidacionCaja_Cab;
+                            cmd.Parameters.Add("@id_usuario", SqlDbType.VarChar).Value = idUsuario;
+
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                    resultado = "OK";
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return resultado;
+        }
+
+        public int crear_documentosCajaChica_det(int idLiquidacionCaja_det, string nombreArchivo, string idUsuario)
+        {
+            int resultado = 0;
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("DSIGE_PROY_W_CAJA_CHICA_FILE_DOCUMENTOS_DET_GRABAR", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@idLiquidacionCaja_det", SqlDbType.Int).Value = idLiquidacionCaja_det;
+                        cmd.Parameters.Add("@nombreArchivo", SqlDbType.VarChar).Value = nombreArchivo;
+                        cmd.Parameters.Add("@idUsuario", SqlDbType.VarChar).Value = idUsuario;
+                        cmd.Parameters.Add("@name_bd", SqlDbType.Int).Direction = ParameterDirection.Output;
+
+                        cmd.ExecuteNonQuery();
+                        resultado = Convert.ToInt32(cmd.Parameters["@name_bd"].Value);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return resultado;
+        }
 
 
     }

@@ -112,6 +112,8 @@ export class ActualizarProveedorComponent implements OnInit {
       email_RLC  : new FormControl('' , [ Validators.required,Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]), 
 
       nroCuentaDetraccion : new FormControl(''), 
+      celular_T: new FormControl(''), 
+
       check1_UDP : new FormControl(''), 
       check2_UDP : new FormControl(''), 
       estado : new FormControl('203'), 
@@ -196,17 +198,23 @@ export class ActualizarProveedorComponent implements OnInit {
       return
     }
     const IdPais = this.formParams.value.id_Pais;
-    this.get_departamentos(IdPais,idCiudad);
+    this.get_departamentos(IdPais,idCiudad,0);
 
   }
 
-  get_departamentos(IdPais,idCiudad){
+  get_departamentos(IdPais,idCiudad, idDepartamento){
     this.spinner.show();
 
     this.registerService.get_departamentos(IdPais,idCiudad).subscribe((res:RespuestaServer)=>{
       this.spinner.hide();
       if (res.ok) { 
           this.departamentos = res.data;
+
+          if (idDepartamento > 0) {
+            console.log('idDepartamento')
+            console.log(idDepartamento)
+            this.formParams.patchValue({ "id_Departamento": idDepartamento  });            
+          }
       }else{
         this.alertasService.Swal_alert('error', JSON.stringify(res.data));
         alert(JSON.stringify(res.data));
@@ -779,7 +787,8 @@ export class ActualizarProveedorComponent implements OnInit {
     this.registerService.get_detalleProveedor(this.idProveedor_Global).subscribe((res:RespuestaServer)=>{
  
      if (res.ok) {               
-      const { id_Proveedor, id_TipoProveedor, id_TipoPersona, nro_RUC, razonsocial, nombreComercial, vtaProductos, vtaServicios, vtaotros, vtaotrosDetalle,  direcion, id_Pais, id_Ciudad, id_Departamento, telefonoFijo, celular, fax, personalContacto_IG, cargo_IG, email_IG, personalContacto_T, cargo_T, email_T, personalContacto_RLC, cargo_RLC, id_TipoDoc_RLC, nro_RLC, email_RLC, nroCuentaDetraccion, check1_UDP, check2_UDP, estado  } :any = res.data[0] ;
+      const { id_Proveedor, id_TipoProveedor, id_TipoPersona, nro_RUC, razonsocial, nombreComercial, vtaProductos, vtaServicios, vtaotros, vtaotrosDetalle,  direcion, id_Pais, id_Ciudad, id_Departamento, telefonoFijo, celular, fax, personalContacto_IG, cargo_IG, email_IG, personalContacto_T, cargo_T, email_T, personalContacto_RLC, cargo_RLC, id_TipoDoc_RLC, nro_RLC, email_RLC, nroCuentaDetraccion, check1_UDP, check2_UDP, estado, celular_T } :any = res.data[0] ;
+ 
 
       this.formParams.patchValue({ 
             "id_Proveedor": id_Proveedor , 
@@ -818,11 +827,12 @@ export class ActualizarProveedorComponent implements OnInit {
             "nroCuentaDetraccion": nroCuentaDetraccion , 
             "check1_UDP": (check1_UDP == 1)? true:false ,  
             "check2_UDP": (check2_UDP == 1)? true:false ,  
-            "estado": estado 
+            "estado": estado,
+            "celular_T" : celular_T 
       });
 
       this.get_ciudades(id_Pais);
-      this.get_departamentos(id_Pais, id_Ciudad);
+      this.get_departamentos(id_Pais, id_Ciudad, id_Departamento);
  
      }else{
        this.alertasService.Swal_alert('error', JSON.stringify(res.data));

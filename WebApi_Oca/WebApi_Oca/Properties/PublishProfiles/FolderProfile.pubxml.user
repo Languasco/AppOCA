@@ -15,6 +15,12 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
     <File Include="Archivos/CajaChica/xxx.txt">
       <publishTime>11/09/2020 16:28:27</publishTime>
     </File>
+    <File Include="Archivos/CajaChicaDet/Descargas/xxx.txt">
+      <publishTime>02/17/2021 12:25:11</publishTime>
+    </File>
+    <File Include="Archivos/CajaChicaDet/xxx.txt">
+      <publishTime>02/17/2021 12:25:11</publishTime>
+    </File>
     <File Include="Archivos/Documentos/Descargas/xx.txt">
       <publishTime>10/19/2020 15:36:03</publishTime>
     </File>
@@ -121,13 +127,13 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>01/04/2016 05:14:48</publishTime>
     </File>
     <File Include="bin/Entidades.dll">
-      <publishTime>12/23/2020 16:25:42</publishTime>
+      <publishTime>04/19/2021 09:11:11</publishTime>
     </File>
     <File Include="bin/Entidades.dll.config">
       <publishTime>10/02/2020 13:09:34</publishTime>
     </File>
     <File Include="bin/Entidades.pdb">
-      <publishTime>12/23/2020 16:25:42</publishTime>
+      <publishTime>04/19/2021 09:11:11</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>03/15/2020 23:13:05</publishTime>
@@ -190,10 +196,10 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>03/15/2020 23:13:05</publishTime>
     </File>
     <File Include="bin/Negocio.dll">
-      <publishTime>12/23/2020 16:25:43</publishTime>
+      <publishTime>04/19/2021 15:34:18</publishTime>
     </File>
     <File Include="bin/Negocio.pdb">
-      <publishTime>12/23/2020 16:25:43</publishTime>
+      <publishTime>04/19/2021 15:34:18</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>03/15/2020 23:13:05</publishTime>
@@ -394,10 +400,10 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/WebApi_Oca.dll">
-      <publishTime>12/23/2020 16:25:43</publishTime>
+      <publishTime>04/19/2021 15:34:18</publishTime>
     </File>
     <File Include="bin/WebApi_Oca.pdb">
-      <publishTime>12/23/2020 16:25:43</publishTime>
+      <publishTime>04/19/2021 15:34:18</publishTime>
     </File>
     <File Include="bin/WebApi_Trinidad.dll">
       <publishTime>05/26/2020 19:44:32</publishTime>
@@ -520,7 +526,7 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>03/15/2020 23:13:04</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>11/09/2020 16:29:47</publishTime>
+      <publishTime>02/24/2021 15:00:17</publishTime>
     </File>
   </ItemGroup>
 </Project>

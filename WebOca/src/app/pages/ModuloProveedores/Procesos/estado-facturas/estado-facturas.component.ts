@@ -29,8 +29,9 @@ export class EstadoFacturasComponent implements OnInit {
   filtrarCab = '';
   documentosCab :any [] = []; 
   estados:any [] = []; 
+  centroCostro:any [] = []; 
 
-  constructor(private router:Router, private spinner: NgxSpinnerService, private alertasService : AlertasService, private localeService: BsLocaleService, private loginService: LoginService, private funcionGlobalServices : FuncionesglobalesService,  private registroFacturasService : RegistroFacturasService) { 
+  constructor(private router:Router, private spinner: NgxSpinnerService, private alertasService : AlertasService, private localeService: BsLocaleService, private loginService: LoginService, private funcionGlobalServices : FuncionesglobalesService,  private registroFacturasService : RegistroFacturasService, private registerService : RegisterService) { 
       
       this.idUserGlobal = this.loginService.get_idUsuario();
       this.idProveedor_Global =  this.loginService.get_idProveedor(); 
@@ -47,24 +48,23 @@ export class EstadoFacturasComponent implements OnInit {
       fecha_ini : new FormControl(new Date()),
       fecha_fin : new FormControl(new Date()),
       nroOC : new FormControl(''),
-      idEstado : new FormControl('0')
+      idEstado : new FormControl('0'),
+      idCentroCostro: new FormControl('0')
      }) 
   }
 
   getCargarCombos(){ 
     this.spinner.show(); 
-    combineLatest([ this.registroFacturasService.get_estado()])
-     .subscribe(([ _estados]) =>{
+    combineLatest([ this.registroFacturasService.get_estado_estadofacturacion(), this.registerService.get_centroCosto(this.idUserGlobal)])
+     .subscribe(([ _estados, _centroCostro]) =>{
         this.spinner.hide(); 
           this.estados = _estados; 
+          this.centroCostro =_centroCostro;
       })
   }
 
 
-  mostrarInformacion_estadoProveedoresCab(){
-
-
-    
+  mostrarInformacion_estadoProveedoresCab(){    
     if (this.formParamsFiltro.value.fecha_ini == '' || this.formParamsFiltro.value.fecha_ini == null ) {
       this.alertasService.Swal_alert('error','Por favor seleccione la fecha inicial');
       return 
@@ -78,7 +78,7 @@ export class EstadoFacturasComponent implements OnInit {
     const fechaFin = this.funcionGlobalServices.formatoFecha(this.formParamsFiltro.value.fecha_fin);
 
     this.spinner.show();
-    this.registroFacturasService.get_estadosDocumentosCab(  fechaIni , fechaFin , this.formParamsFiltro.value.nroOC , this.formParamsFiltro.value.idEstado, this.idProveedor_Global ).subscribe((res:RespuestaServer)=>{
+    this.registroFacturasService.get_estadosDocumentosCab(  fechaIni , fechaFin , this.formParamsFiltro.value.nroOC , this.formParamsFiltro.value.idEstado, this.idProveedor_Global , this.formParamsFiltro.value.idCentroCostro).subscribe((res:RespuestaServer)=>{
       this.spinner.hide();
       if (res.ok) { 
         this.documentosCab = res.data;

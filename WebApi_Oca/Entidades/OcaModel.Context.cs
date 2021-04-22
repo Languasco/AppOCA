@@ -55,7 +55,6 @@ namespace Entidades
         public virtual DbSet<Tbl_Instalacion_SIGETRAMA> Tbl_Instalacion_SIGETRAMA { get; set; }
         public virtual DbSet<TBL_Recupero_TMP> TBL_Recupero_TMP { get; set; }
         public virtual DbSet<TBL_SED_ZONA> TBL_SED_ZONA { get; set; }
-        public virtual DbSet<Tbl_Proveedor> Tbl_Proveedor { get; set; }
         public virtual DbSet<Pub_Monedas> Pub_Monedas { get; set; }
         public virtual DbSet<tbl_Proveedor_Archivos> tbl_Proveedor_Archivos { get; set; }
         public virtual DbSet<tbl_Proveedor_Banco> tbl_Proveedor_Banco { get; set; }
@@ -68,5 +67,7 @@ namespace Entidades
         public virtual DbSet<tbl_Liquidacion_Caja_Det> tbl_Liquidacion_Caja_Det { get; set; }
         public virtual DbSet<tbl_Proveedor_Evalucion_Det> tbl_Proveedor_Evalucion_Det { get; set; }
         public virtual DbSet<tbl_Proveedor_Incidencia> tbl_Proveedor_Incidencia { get; set; }
+        public virtual DbSet<Tbl_Proveedor> Tbl_Proveedor { get; set; }
+        public virtual DbSet<Pub_Tipo_Documento> Pub_Tipo_Documento { get; set; }
     }
 }

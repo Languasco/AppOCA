@@ -24,8 +24,12 @@ export class RegistroFacturasService {
   estados :any [] =[];
   estadosEvaluacion :any [] =[];
   estadosCajaChica :any [] =[];
-
+  estadosFacturacion :any [] =[];
+  
   tiposDocumentosFiles :any [] =[];
+  tiposDocumentosCajaChica :any [] =[];
+  estadosEvaluacionAprobar :any [] =[];
+  proveedores :any [] =[];
   
   constructor(private http:HttpClient) { }
 
@@ -45,6 +49,22 @@ export class RegistroFacturasService {
     }
   } 
 
+  get_estado_estadofacturacion(){
+    if (this.estadosFacturacion.length > 0) {
+      return of( this.estadosFacturacion )
+    }else{
+      let parametros = new HttpParams();
+      parametros = parametros.append('opcion', '32');
+      parametros = parametros.append('filtro', '');
+  
+      return this.http.get( this.URL + 'RegistroFacturas' , {params: parametros})
+                 .pipe(map((res:any)=>{
+                       this.estadosFacturacion = res.data;
+                       return res.data;
+                  }) );
+    }
+  }
+
 
   get_estado_evaluacion(){
     if (this.estadosEvaluacion.length > 0) {
@@ -57,6 +77,22 @@ export class RegistroFacturasService {
       return this.http.get( this.URL + 'RegistroFacturas' , {params: parametros})
                  .pipe(map((res:any)=>{
                        this.estadosEvaluacion = res.data;
+                       return res.data;
+                  }) );
+    }
+  } 
+
+  get_estado_AprobacionEvaluacion(){
+    if (this.estadosEvaluacionAprobar.length > 0) {
+      return of( this.estadosEvaluacionAprobar )
+    }else{
+      let parametros = new HttpParams();
+      parametros = parametros.append('opcion', '37');
+      parametros = parametros.append('filtro', '');
+  
+      return this.http.get( this.URL + 'RegistroFacturas' , {params: parametros})
+                 .pipe(map((res:any)=>{
+                       this.estadosEvaluacionAprobar = res.data;
                        return res.data;
                   }) );
     }
@@ -94,12 +130,45 @@ export class RegistroFacturasService {
                   }) );
     }
   } 
+
+  get_proveedores(idUsuario: string){
+    if (this.proveedores.length > 0) {
+      return of( this.proveedores )
+    }else{
+      let parametros = new HttpParams();
+      parametros = parametros.append('opcion', '39');
+      parametros = parametros.append('filtro', idUsuario);
+  
+      return this.http.get( this.URL + 'RegistroFacturas' , {params: parametros})
+                 .pipe(map((res:any)=>{
+                       this.proveedores = res.data;
+                       return res.data;
+                  }) );
+    }
+  } 
+
+
+
+  get_tipoDocumento_cajaChica(){
+    if (this.tiposDocumentosCajaChica.length > 0) {
+      return of( this.tiposDocumentosCajaChica )
+    }else{
+      let parametros = new HttpParams();
+      parametros = parametros.append('opcion', '31');
+      parametros = parametros.append('filtro', '');
+  
+      return this.http.get( this.URL + 'RegistroFacturas' , {params: parametros})
+                 .pipe(map((res:any)=>{
+                       this.tiposDocumentosCajaChica = res.data;
+                       return res.data;
+                  }) );
+    }
+  } 
  
-  get_ordenesCompraCab(fechaIni : string, fechaFin : string, idEstado :string, idProveedor  : number  ){
+  get_ordenesCompraCab(fechaIni : string, fechaFin : string, idEstado :string, idProveedor  : number , nroOC:string, isProveedor: number , idCentroCostro:string ){
     let parametros = new HttpParams();
     parametros = parametros.append('opcion', '2');
-    parametros = parametros.append('filtro',  fechaIni + '|'+ fechaFin + '|'+ idEstado  + '|'+ idProveedor  );
-
+    parametros = parametros.append('filtro',  fechaIni + '|'+ fechaFin + '|'+ idEstado  + '|'+ idProveedor   + '|'+ nroOC + '|'+ isProveedor  + '|'+ idCentroCostro    );
     return this.http.get( this.URL + 'RegistroFacturas' , {params: parametros});
   }
 
@@ -116,6 +185,8 @@ export class RegistroFacturasService {
     let parametros = new HttpParams();
     parametros = parametros.append('opcion', '4');
     parametros = parametros.append('filtro',  String(idDocumentoCab) );
+
+    console.log(idDocumentoCab)
 
     return this.http.get( this.URL + 'RegistroFacturas' , {params: parametros});
   }
@@ -183,10 +254,10 @@ export class RegistroFacturasService {
     return this.http.get( this.URL + 'RegistroFacturas' , {params: parametros});
   }
 
-  get_estadosDocumentosCab( fechaIni :string,   fechaFin :string,  nroOC :string,  estado :string,  idProveedor : number ){
+  get_estadosDocumentosCab( fechaIni :string,   fechaFin :string,  nroOC :string,  estado :string,  idProveedor : number, idCentroCostro :string  ){
     let parametros = new HttpParams();
     parametros = parametros.append('opcion', '13');
-    parametros = parametros.append('filtro',  String(fechaIni)  + '|' +  String(fechaFin) + '|' +  String(nroOC)  + '|' +  String(estado) + '|' +  String(idProveedor)    );
+    parametros = parametros.append('filtro',  String(fechaIni)  + '|' +  String(fechaFin) + '|' +  String(nroOC)  + '|' +  String(estado) + '|' +  String(idProveedor) + '|' +  String(idCentroCostro)     );
 
     return this.http.get( this.URL + 'RegistroFacturas' , {params: parametros});
   }
@@ -209,10 +280,10 @@ export class RegistroFacturasService {
   // APROBACION DE FACTURAS
  //////------------------------
 
-   get_aprobacionFacturasCab( { nroFactura, nroOC,  Proveedor,  idFormaPago, idEstado  }  , usuario :string  ){
+   get_aprobacionFacturasCab( { nroFactura, nroOC,  Proveedor,  idFormaPago, idEstado, idCentroCostro  }  , usuario :string  ){
     let parametros = new HttpParams();
     parametros = parametros.append('opcion', '18');
-    parametros = parametros.append('filtro',  nroFactura  + '|' +  nroOC  + '|' +   Proveedor  + '|' +  idFormaPago  + '|' +  idEstado   + '|' +  usuario  );
+    parametros = parametros.append('filtro',  nroFactura  + '|' +  nroOC  + '|' +   Proveedor  + '|' +  idFormaPago  + '|' +  idEstado   + '|' +  usuario   + '|' +  idCentroCostro  );
   
     return this.http.get( this.URL + 'RegistroFacturas' , {params: parametros});
   }
@@ -233,10 +304,11 @@ export class RegistroFacturasService {
     return this.http.get( this.URL + 'RegistroFacturas' , {params: parametros});
   }
 
-  get_aprobarDevolverFactura( idFacturaCab : number , opcionProceso: number, usuario :string  ){
+  // caja chica
+  get_aprobarDevolverFactura( idFacturaCab : number , opcionProceso: number, usuario :string, facturaCancelada : number  ){
     let parametros = new HttpParams();
     parametros = parametros.append('opcion', '21');
-    parametros = parametros.append('filtro',  idFacturaCab   + '|' +  opcionProceso + '|' +  usuario   );
+    parametros = parametros.append('filtro',  idFacturaCab   + '|' +  opcionProceso + '|' +  usuario + '|' +  facturaCancelada    );
   
     return this.http.get( this.URL + 'RegistroFacturas' , {params: parametros});
   }
@@ -258,10 +330,57 @@ export class RegistroFacturasService {
     return this.http.get( this.URL + 'RegistroFacturas' , {params: parametros});
   }
 
+
+  set_saveUpdate_cuentasContables( {id_Glosa, id_Documento, importeDocumento, Glosa, CtaGastos, CtaIGV, CtaxPagar, CtaDetraccion} , idUser : string  ){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '27');
+    parametros = parametros.append('filtro',  String(id_Glosa)  + '|' + String(id_Documento)  + '|' + String(importeDocumento)  + '|' +  String(Glosa)   + '|' +  String(CtaGastos)   + '|' +  String(CtaIGV)  + '|' +  String(CtaxPagar)  + '|' +  String(idUser) + '|' + String(CtaDetraccion)  );
+
+    return this.http.get( this.URL + 'RegistroFacturas' , {params: parametros});
+  }
+
+   get_datosContables( idFacturaCab : number , usuario :string  ){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '28');
+    parametros = parametros.append('filtro',  idFacturaCab   + '|' +  usuario   );
+  
+    return this.http.get( this.URL + 'RegistroFacturas' , {params: parametros});
+  }
+
+
+  set_saveUpdate_cuentasContables_cajaChica( {  id_LiquidacionCaja_Det  , Glosa, CtaGastos, CtaIGV, CtaxPagar } , idUser : string  ){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '29');
+    parametros = parametros.append('filtro',  String(id_LiquidacionCaja_Det)  + '|' +  String(Glosa)   + '|' +  String(CtaGastos)   + '|' +  String(CtaIGV)  + '|' +  String(CtaxPagar)  + '|' +  String(idUser));
  
+    return this.http.get( this.URL + 'RegistroFacturas' , {params: parametros});
+  }
 
+  set_saveUpdate_distribucionCentroCosto( {id_documento_cc, id_documento, idCentroCosto, total_importe, porcentaje} , idUser : string  ){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '36');
+    parametros = parametros.append('filtro',  String(id_documento_cc)  + '|' + String(id_documento)  + '|' + String(idCentroCosto)  + '|' +  String(total_importe)   + '|' +  String(porcentaje) + '|' +  String(idUser) );
 
+ 
+    return this.http.get( this.URL + 'RegistroFacturas' , {params: parametros});
+  }
 
+  get_detalleDistribucion_CCosto( idFacturaCab : number , usuario :string  ){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '35');
+    parametros = parametros.append('filtro',  idFacturaCab   + '|' +  usuario   );
+  
+    return this.http.get( this.URL + 'RegistroFacturas' , {params: parametros});
+  }
+
+  set_save_cuentaContable( valorCuentaContable : string, tipoCuentaContable :string,  idUser : string  ){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '38');
+    parametros = parametros.append('filtro',  String(valorCuentaContable)  + '|' + String(tipoCuentaContable) + '|' +  String(idUser) );
+
+ 
+    return this.http.get( this.URL + 'RegistroFacturas' , {params: parametros});
+  }
 
 
 }

@@ -84,8 +84,8 @@
                             <td class="text-right">{{item.ProveedorA}}</td>
                             <td class="text-right">{{item.ProveedorB}}</td>
                             <td class="text-right">{{item.ProveedorC}}</td>
-                            <td class="text-right">{{item.descripcionEstado}}</td>
-                            <td class="text-right">
+                            <td class="text-center">{{item.descripcionEstado}}</td>
+                            <td class="text-center">
                                 <span class="badge badge-primary puntero" (click)="editar_evaluacionCab(item)" style="padding: 5px;">  Visualizar </span>
                             </td>
                         </tr>
@@ -149,11 +149,9 @@
                             </div>
                         </fieldset>
                     </div>
-
                 </div>
 
-
-                <div class="d-flex justify-content-center" *ngIf="idEstadoCab_Global == '215'">
+                <div class="d-flex justify-content-center" *ngIf="idEstadoCab_Global == '216'">
                     <div class="p-2 bd-highlight">
                         <button class="btn btn-success" title="Aprobar" (click)="aprobarRechazarEvaluacion('A')"> <i class="far fa-check-circle"> Aprobar </i></button>
                         <button class="btn btn-danger ml-2" title="Rechazar" (click)="aprobarRechazarEvaluacion('R')"> <i class="fas fa-window-close"> Rechazar </i></button>
@@ -169,7 +167,7 @@
 
                                     <label for=""> * Una vez que termine de ingresar el valor presionar la techa enter para Grabar</label>
 
-                                    <div class="search-results tableFixHead">
+                                    <div class="tableFixHead_modal">
                                         <table class="table  table-bordered table-hover table-sm ">
                                             <thead class="theadTable thead-dark">
                                                 <tr style="height: 40px !important;">

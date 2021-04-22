@@ -159,10 +159,69 @@ namespace WebApi_Oca.Controllers.Proveedores
                     res.ok = true;
                     res.data = obj_negocio.get_aprobacion_liquidacionCajaChicaCab(idCentroCosto, fechaIni, fechaFin, idEstado, IdUsuarios);
                     res.totalpage = 0;
+                    resul = res;
+                }
+                else if (opcion == 12)
+                {
+                    string[] parametros = filtro.Split('|');
+                    int idLiquidacionCaja_Cab = Convert.ToInt32(parametros[0].ToString());
+
+                    res.ok = true;
+                    res.data = obj_negocio.get_detalleCajaChica(idLiquidacionCaja_Cab);
+                    res.totalpage = 0;
 
                     resul = res;
                 }
+                else if (opcion == 13)
+                {
+                    string[] parametros = filtro.Split('|');
+                    int id_Liquidacion_Archivo = Convert.ToInt32(parametros[0].ToString());
 
+                    res.ok = true;
+                    res.data = obj_negocio.set_Eliminar_archivosCajaChica(id_Liquidacion_Archivo);
+                    res.totalpage = 0;
+                    resul = res;
+                }
+                else if (opcion == 14)
+                {
+                    string[] parametros = filtro.Split('|');
+                    int idLiquidacionCaja_Cab = Convert.ToInt32(parametros[0].ToString());
+
+                    res.ok = true;
+                    res.data = obj_negocio.get_detalleCajaChica_archivos(idLiquidacionCaja_Cab);
+                    res.totalpage = 0;
+
+                    resul = res;
+                }
+                else if (opcion == 15)
+                {
+                    string[] parametros = filtro.Split('|');
+                    int idLiquidacionCaja_Det = Convert.ToInt32(parametros[0].ToString());
+
+                    res.ok = true;
+                    res.data = obj_negocio.get_documentosCajaChica_Det(idLiquidacionCaja_Det);
+                    res.totalpage = 0;
+
+                    resul = res;
+                }
+                else if (opcion == 16)
+                {
+                    string[] parametros = filtro.Split('|');
+                    int idLiquidacion_Archivo = Convert.ToInt32(parametros[0].ToString());
+
+                    resul = obj_negocio.get_eliminarDocumentoCajaChica_Det(idLiquidacion_Archivo);
+                }
+                else if (opcion == 17)
+                {
+                    string[] parametros = filtro.Split('|');
+                    int idLiquidacion_Archivo = Convert.ToInt32(parametros[0].ToString());
+                    string idUsuario = parametros[1].ToString();
+
+                    res.ok = true;
+                    res.data = obj_negocio.get_download_documentoCajaChica_Det(idLiquidacion_Archivo, idUsuario);
+                    res.totalpage = 0;
+                    resul = res;
+                }
                 else
                 {
                     res.ok = false;

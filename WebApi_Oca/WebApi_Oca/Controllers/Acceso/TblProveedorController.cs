@@ -291,11 +291,12 @@ namespace WebApi_Oca.Controllers.Acceso
 
                     string nroObra = parametros[0].ToString();
                     string idEstado = parametros[1].ToString();
+                    string idCentroCostro = parametros[2].ToString();
 
                     Proveedores_BL obj_negocio = new Proveedores_BL();
 
                     res.ok = true;
-                    res.data = obj_negocio.get_nuevosProveedoresCab(nroObra, idEstado);
+                    res.data = obj_negocio.get_nuevosProveedoresCab(nroObra, idEstado, idCentroCostro);
                     res.totalpage = 0;
 
                     resul = res;
@@ -315,19 +316,25 @@ namespace WebApi_Oca.Controllers.Acceso
                 }
                 else if (opcion == 19)
                 {
+                    string[] parametros = filtro.Split('|');
+                    string idUser = parametros[0].ToString();
+
                     Proveedores_BL obj_negocio = new Proveedores_BL();
 
                     res.ok = true;
-                    res.data = obj_negocio.get_centroCostro();
+                    res.data = obj_negocio.get_centroCostro(idUser);
                     res.totalpage = 0;
                     resul = res;
                 }
                 else if (opcion == 20)
                 {
+                    string[] parametros = filtro.Split('|');
+                    string idUser = parametros[0].ToString();
+
                     Proveedores_BL obj_negocio = new Proveedores_BL();
 
                     res.ok = true;
-                    res.data = obj_negocio.get_tipoResultado();
+                    res.data = obj_negocio.get_tipoResultado(idUser);
                     res.totalpage = 0;
                     resul = res;
                 }
@@ -460,10 +467,11 @@ namespace WebApi_Oca.Controllers.Acceso
                     string fechaIni = parametros[0].ToString();
                     string fechaFin = parametros[1].ToString();
                     string idUsuario = parametros[2].ToString();
+                    string idCentroCosto = parametros[3].ToString();
 
 
                     Proveedores_BL obj_negocio = new Proveedores_BL();
-                    resul = obj_negocio.GenerarReporte_incidencias(fechaIni, fechaFin, idUsuario); ;
+                    resul = obj_negocio.GenerarReporte_incidencias(fechaIni, fechaFin, idUsuario, idCentroCosto); 
                 }
                 else if (opcion == 30)
                 {
@@ -586,6 +594,7 @@ namespace WebApi_Oca.Controllers.Acceso
             objReemplazar.check1_UDP = Tbl_Proveedor.check1_UDP;
             objReemplazar.check2_UDP = Tbl_Proveedor.check2_UDP;
             objReemplazar.estado = Tbl_Proveedor.estado;
+            objReemplazar.celular_T = Tbl_Proveedor.celular_T;
 
             objReemplazar.usuario_edicion = Tbl_Proveedor.usuario_creacion;
             objReemplazar.fecha_edicion = DateTime.Now;

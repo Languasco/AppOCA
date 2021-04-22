@@ -50,5 +50,11 @@ namespace Entidades
         public string usuario_edicion { get; set; }
         public Nullable<System.DateTime> fecha_edicion { get; set; }
         public Nullable<int> Log_OCom_Identidad { get; set; }
+        public Nullable<decimal> porcentajeDescto { get; set; }
+        public Nullable<decimal> totalDescuento { get; set; }
+        public Nullable<decimal> totalaPagar { get; set; }
+        public Nullable<int> factura_CanceladaPrioridad { get; set; }
+        public Nullable<int> factura_marcaContable { get; set; }
+        public Nullable<int> factura_pago { get; set; }
     }
 }

@@ -346,6 +346,117 @@ namespace WebApi_Oca.Controllers.Upload
             }
             return res;
         }
+        
+
+        [HttpPost]
+        [Route("api/Uploads/post_archivoExcel_liquidacion")]
+        public object post_archivoExcel_liquidacion(string filtros)
+        {
+            Resultado res = new Resultado();
+            var nombreFile = "";
+            string sPath = "";
+
+            try
+            {
+                //--- obteniendo los parametros que vienen por el FormData
+
+                var file = HttpContext.Current.Request.Files["file"];
+                //--- obteniendo los parametros que vienen por el FormData
+                string extension = Path.GetExtension(file.FileName);
+
+                string[] parametros = filtros.Split('|');
+                int idLiquidacionCaja_Cab = Convert.ToInt32(parametros[0].ToString());
+                string idUsuario = parametros[1].ToString();
+
+                //-----generando clave unica---
+                var guid = Guid.NewGuid();
+                var guidB = guid.ToString("B");
+                nombreFile = idUsuario + "_ImportacionLiquidacion" + Guid.Parse(guidB) + extension;
+
+                //-------almacenando la archivo---
+                sPath = HttpContext.Current.Server.MapPath("~/Archivos/Excel/" + nombreFile);
+                //if (System.IO.File.Exists(sPath))
+                //{
+                //    System.IO.File.Delete(sPath);
+                //}
+                file.SaveAs(sPath);
+
+                //-------almacenando la archivo---
+                if (File.Exists(sPath))
+                {
+                    Upload_BL obj_negocio = new Upload_BL();
+
+                    res.ok = true;
+                    res.data = obj_negocio.setAlmacenandoFile_Excel_liquidacionesCab(sPath, file.FileName, idLiquidacionCaja_Cab, idUsuario);
+                    res.totalpage = 0;
+                }
+                else
+                {
+                    res.ok = false;
+                    res.data = "No se pudo almacenar el archivo en el servidor";
+                    res.totalpage = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                res.ok = false;
+                res.data = ex.Message;
+                res.totalpage = 0;
+            }
+            return res;
+        }
+
+        [HttpPost]
+        [Route("api/Uploads/post_archivosDocumentos_cajaChica_Det")]
+        public object post_archivosDocumentos_cajaChica_Det(string filtros)
+        {
+            Resultado res = new Resultado();
+            int nombreFileBD;
+            string sPath = "";
+
+            try
+            {
+                //--- obteniendo los parametros que vienen por el FormData
+
+                var file = HttpContext.Current.Request.Files["file"];
+                //--- obteniendo los parametros que vienen por el FormData
+                string extension = Path.GetExtension(file.FileName);
+                string[] parametros = filtros.Split('|');
+
+                int idLiquidacionCaja_det = Convert.ToInt32(parametros[0].ToString());
+                string idUsuario = parametros[1].ToString();
+
+
+                Upload_BL obj_negocios = new Upload_BL();
+                nombreFileBD = obj_negocios.crear_documentosCajaChica_det(idLiquidacionCaja_det, file.FileName, idUsuario);
+
+                //-------almacenando la archivo---
+                sPath = HttpContext.Current.Server.MapPath("~/Archivos/CajaChicaDet/" + nombreFileBD);
+                file.SaveAs(sPath);
+
+                //-------almacenando la archivo---
+                if (File.Exists(sPath))
+                {
+                    res.ok = true;
+                    res.data = "OK";
+                    res.totalpage = 0;
+                }
+                else
+                {
+                    res.ok = false;
+                    res.data = "No se pudo almacenar el archivo en el servidor";
+                    res.totalpage = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                res.ok = false;
+                res.data = ex.Message;
+                res.totalpage = 0;
+            }
+            return res;
+        }
+
 
 
 

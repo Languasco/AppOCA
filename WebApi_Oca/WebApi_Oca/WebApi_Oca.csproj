@@ -207,6 +207,8 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Logistica\Procesos\OrdenCompraAdjuntarController.cs" />
     <Compile Include="Controllers\Logistica\Procesos\OrdenCompraAprobarController.cs" />
+    <Compile Include="Controllers\Proveedores\AprobarContabilidadController.cs" />
+    <Compile Include="Controllers\Proveedores\AprobarPagosController.cs" />
     <Compile Include="Controllers\Proveedores\RegistroFacturasController.cs" />
     <Compile Include="Controllers\Proveedores\tblLiquidacion_Caja_DetController.cs" />
     <Compile Include="Controllers\Proveedores\tblProveedor_Evalucion_DetController.cs" />
@@ -220,6 +222,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Archivos\CajaChicaDet\Descargas\xxx.txt" />
+    <Content Include="Archivos\CajaChicaDet\xxx.txt" />
     <Content Include="Archivos\CajaChica\Descargas\xxx.txt" />
     <Content Include="Archivos\CajaChica\xxx.txt" />
     <Content Include="Archivos\Documentos\Descargas\xx.txt" />

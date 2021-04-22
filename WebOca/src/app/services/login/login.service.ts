@@ -47,7 +47,8 @@ export class LoginService {
                       let infoUser = {
                         id_usuario:res.data.id_usuario,                        
                         nombre_usuario : res.data.nombre_usuario,
-                        id_proveedor:res.data.id_proveedor,
+                        id_proveedor : res.data.id_proveedor,
+                        observacion_usuario : res.data.observacion_usuario,
                         // id_perfil:res.data.id_perfil,
                          menu_permisos : res.data.menuPermisos,
                         // menu_eventos : res.data.menuEventos
@@ -191,5 +192,16 @@ export class LoginService {
       return 0;
     }
   }
+
+  get_observacionProveedor(): string{
+    if (localStorage.getItem('data_OCA_usuario')) { 
+       this.dataLogeado =  JSON.parse(localStorage.getItem("data_OCA_usuario"));
+      return this.dataLogeado['observacion_usuario'];
+    }else{
+      return '';
+    }
+  }
+
+  
 
 }

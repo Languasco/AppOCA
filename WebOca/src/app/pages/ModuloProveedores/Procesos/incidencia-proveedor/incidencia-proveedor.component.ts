@@ -39,7 +39,7 @@ export class IncidenciaProveedorComponent implements OnInit {
   }
  
  ngOnInit(): void {
-   this.getCargarCombos();
+  //  this.getCargarCombos();
    this.inicializarFormularioFiltro();
    this.inicializarFormulario(); 
  }
@@ -67,7 +67,7 @@ export class IncidenciaProveedorComponent implements OnInit {
 
  getCargarCombos(){ 
   this.spinner.show(); 
-  combineLatest([this.registerService.get_centroCosto() ])
+  combineLatest([this.registerService.get_centroCosto(this.idUserGlobal) ])
    .subscribe(([ _centroCostro ]) =>{
       this.spinner.hide(); 
         this.centroCostro =_centroCostro;
@@ -279,7 +279,7 @@ export class IncidenciaProveedorComponent implements OnInit {
       icon: 'info', allowOutsideClick: false, allowEscapeKey: false, text: 'Espere por favor'
     })
     Swal.showLoading();
-    this.proveedorService.get_descargarIncidencias(fechaIni, fechaFin, this.idUserGlobal).subscribe((res:RespuestaServer)=>{
+    this.proveedorService.get_descargarIncidencias(fechaIni, fechaFin, this.idUserGlobal, this.formParamsFiltro.value.idCentroCostro).subscribe((res:RespuestaServer)=>{
       Swal.close();
       console.log(res);
       if (res.ok) { 

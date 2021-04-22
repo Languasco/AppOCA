@@ -63,8 +63,6 @@ namespace WebApi_Oca.Controllers.Acceso
                                              parent_id_principal = od.parentID,
                                              urlmagene_principal = od.urlImagen_Opcion
 
-
-
                                          }).Distinct();
 
                         foreach (var item in listaModulos)
@@ -115,6 +113,7 @@ namespace WebApi_Oca.Controllers.Acceso
                         listamenu.id_usuario = objUsuario.Pub_Usua_Codigo;
                         listamenu.nombre_usuario = objUsuario.Pub_Usua_Nombre;
                         listamenu.id_proveedor = Convert.ToInt32( objUsuario.pub_dni) ;
+                        listamenu.observacion_usuario = objUsuario.Pub_Usua_Obs;
                         //listamenu.id_perfil = objUsuario.id_Perfil;
                         res.ok = true;
                         res.data = listamenu;

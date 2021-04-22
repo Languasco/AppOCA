@@ -98,6 +98,22 @@ export class FuncionesglobalesService {
     }
   }
 
+
+  verificar_soloNumeros_sinPunto(e){
+    const key = window.event ? e.which : e.keyCode;
+    if (key < 48 || key > 57) {
+      e.preventDefault();
+    }
+  }
+
+  verificar_tamanioArchivo(fileSize: number, maximoBytes : number ){
+    if (fileSize > maximoBytes) {
+      return true; 
+    }else{
+      return false; 
+    } 
+  }
+
  
   
 

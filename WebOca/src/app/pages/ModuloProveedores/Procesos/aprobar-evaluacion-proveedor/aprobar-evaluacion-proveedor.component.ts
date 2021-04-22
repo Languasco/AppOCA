@@ -89,7 +89,7 @@ export class AprobarEvaluacionProveedorComponent implements OnInit {
   
   getCargarCombos(){ 
     this.spinner.show(); 
-    combineLatest([ this.registroFacturasService.get_estado_evaluacion(), this.registerService.get_centroCosto() ])
+    combineLatest([ this.registroFacturasService.get_estado_AprobacionEvaluacion(), this.registerService.get_centroCosto(this.idUserGlobal) ])
      .subscribe(([ _estados, _centroCostro ]) =>{
         this.spinner.hide(); 
           this.estados = _estados; 
@@ -161,7 +161,7 @@ export class AprobarEvaluacionProveedorComponent implements OnInit {
              console.log(this.idEstadoCab_Global );
             if (opcion == 'E') { 
 
-              if (this.idEstadoCab_Global != '215') {
+              if (this.idEstadoCab_Global != '216') {
                 $('#formDetalle').addClass('disabledForm');  
               }else{
                  $('#formDetalle').removeClass('disabledForm');  

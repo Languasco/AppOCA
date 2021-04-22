@@ -45,6 +45,33 @@ namespace Negocio.Proveedores
             return dt_detalle;
         }
 
+
+        public DataTable get_estado_estadoFacturas()
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("DSIGE_PROY_W_ESTADO_FACTURAS_COMBO_ESTADO", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return dt_detalle;
+        }
+
         public DataTable get_estadoEvaluacion()
         {
             DataTable dt_detalle = new DataTable();
@@ -71,7 +98,33 @@ namespace Negocio.Proveedores
             return dt_detalle;
         }
 
-        public object get_ordenCompraCab(  string fechaIni, string fechaFin , string idEstado, string Id_Proveedor)
+        public DataTable get_estadoEvaluacion_aprobacion()
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("DSIGE_PROY_W_APROBACION_PROVEEDORES_COMBO_ESTADO", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return dt_detalle;
+        }
+
+        public object get_ordenCompraCab(  string fechaIni, string fechaFin , string idEstado, string Id_Proveedor, string nroOC, int isProveedor, string idCentroCosto)
         {
             List<RegistroFacturas_E> list_cabecera = new List<RegistroFacturas_E>();
             try
@@ -87,6 +140,9 @@ namespace Negocio.Proveedores
                         cmd.Parameters.Add("@fechaFin", SqlDbType.VarChar).Value = fechaFin; 
                         cmd.Parameters.Add("@idEstado", SqlDbType.VarChar).Value = idEstado;
                         cmd.Parameters.Add("@Id_Proveedor", SqlDbType.Int).Value = Id_Proveedor;
+                        cmd.Parameters.Add("@nroOC", SqlDbType.VarChar).Value = nroOC;
+                        cmd.Parameters.Add("@esProveedor", SqlDbType.Int).Value = isProveedor;
+                        cmd.Parameters.Add("@idCentroCosto", SqlDbType.VarChar).Value = idCentroCosto;
 
                         using (SqlDataReader dr = cmd.ExecuteReader())
                         {
@@ -109,6 +165,10 @@ namespace Negocio.Proveedores
                                 obj_entidad.subTotalFactura = dr["subTotalFactura"].ToString();
                                 obj_entidad.igvFactura = dr["igvFactura"].ToString();
                                 obj_entidad.TotalFactura = dr["TotalFactura"].ToString();
+
+                                obj_entidad.porDetraccion = dr["porDetraccion"].ToString();
+                                obj_entidad.totDetraccion = dr["totDetraccion"].ToString();
+                                obj_entidad.totalPagar = dr["totalPagar"].ToString();
 
                                 list_cabecera.Add(obj_entidad);
                             }
@@ -152,6 +212,12 @@ namespace Negocio.Proveedores
                                 obj_entidad.subTotal = dr["subTotal"].ToString();
                                 obj_entidad.igv = dr["igv"].ToString();
                                 obj_entidad.total = dr["total"].ToString();
+
+                                obj_entidad.porDetraccion = dr["porDetraccion"].ToString();
+                                obj_entidad.totDetraccion = dr["totDetraccion"].ToString();
+                                obj_entidad.totalPagar = dr["totalPagar"].ToString();
+
+                                obj_entidad.idEstado = Convert.ToInt32(dr["idEstado"].ToString());
                                 obj_entidad.descripcionEstado = dr["descripcionEstado"].ToString();
 
                                 list_cabecera.Add(obj_entidad);
@@ -308,8 +374,7 @@ namespace Negocio.Proveedores
             }
             return res;
         }
-
-
+        
         public class download
         {
             public string nombreFile { get; set; }
@@ -584,7 +649,7 @@ namespace Negocio.Proveedores
             return res;
         }
         
-        public object get_estadosDocumentosCab(string fechaIni, string fechaFin,string nroOC, string idEstado, int idProveedor)
+        public object get_estadosDocumentosCab(string fechaIni, string fechaFin,string nroOC, string idEstado, int idProveedor, string idCentroCostro)
         {
             List<EstadosDocumentos_E> list_cabecera = new List<EstadosDocumentos_E>();
             try
@@ -601,6 +666,7 @@ namespace Negocio.Proveedores
                         cmd.Parameters.Add("@nroOC", SqlDbType.VarChar).Value = nroOC;
                         cmd.Parameters.Add("@idEstado", SqlDbType.VarChar).Value = idEstado;
                         cmd.Parameters.Add("@idProveedor", SqlDbType.Int).Value = idProveedor;
+                        cmd.Parameters.Add("@idCentroCosto", SqlDbType.VarChar).Value = idCentroCostro;
 
                         using (SqlDataReader dr = cmd.ExecuteReader())
                         {
@@ -626,6 +692,11 @@ namespace Negocio.Proveedores
                                 obj_entidad.nroVoucher = dr["nroVoucher"].ToString();
                                 obj_entidad.fechaPago = dr["fechaPago"].ToString();
                                 obj_entidad.comentariosPago = dr["comentariosPago"].ToString();
+
+
+                                obj_entidad.porDetraccion = dr["porDetraccion"].ToString();
+                                obj_entidad.totDetraccion = dr["totDetraccion"].ToString();
+                                obj_entidad.totalPagar = dr["totalPagar"].ToString();
 
 
                                 list_cabecera.Add(obj_entidad);
@@ -725,7 +796,7 @@ namespace Negocio.Proveedores
             return dt_detalle;
         }
                 
-        public object get_aprobacionFacturasCab(string nroFactura, string nroOC, string Proveedor,string idFormaPago,string idEstado,string idUsuario )
+        public object get_aprobacionFacturasCab(string nroFactura, string nroOC, string Proveedor,string idFormaPago,string idEstado,string idUsuario , string idCentroCostro)
         {
             List<AprobarFacturas_E> list_cabecera = new List<AprobarFacturas_E>();
             try
@@ -743,6 +814,7 @@ namespace Negocio.Proveedores
                         cmd.Parameters.Add("@idFormaPago", SqlDbType.VarChar).Value = idFormaPago;
                         cmd.Parameters.Add("@idEstado", SqlDbType.VarChar).Value = idEstado;
                         cmd.Parameters.Add("@idUsuario", SqlDbType.VarChar).Value = idUsuario;
+                        cmd.Parameters.Add("@idCentroCosto", SqlDbType.VarChar).Value = idCentroCostro;
 
                         using (SqlDataReader dr = cmd.ExecuteReader())
                         {
@@ -775,6 +847,10 @@ namespace Negocio.Proveedores
                                 obj_entidad.fechaAprobacion2 = dr["fechaAprobacion2"].ToString();
                                 obj_entidad.usuarioDevuelve = dr["usuarioDevuelve"].ToString();
                                 obj_entidad.fechaDevuelve = dr["fechaDevuelve"].ToString();
+
+                                obj_entidad.porDetraccion = dr["porDetraccion"].ToString();
+                                obj_entidad.totDetraccion = dr["totDetraccion"].ToString();
+                                obj_entidad.totalPagar = dr["totalPagar"].ToString();
 
                                 list_cabecera.Add(obj_entidad);
                             }
@@ -849,7 +925,7 @@ namespace Negocio.Proveedores
             return dt_detalle;
         }
         
-        public object set_aprobarDevolverFacturacion( int idFacturaCab, int opcionProceso , string idUser)
+        public object set_aprobarDevolverFacturacion( int idFacturaCab, int opcionProceso , string idUser, int facturaCancelada)
         {
             Resultado res = new Resultado();
 
@@ -865,6 +941,7 @@ namespace Negocio.Proveedores
                         cmd.Parameters.Add("@idFacturaCab", SqlDbType.Int).Value = idFacturaCab;
                         cmd.Parameters.Add("@opcionProceso", SqlDbType.Int).Value = opcionProceso;
                         cmd.Parameters.Add("@idUser", SqlDbType.VarChar).Value = idUser;
+                        cmd.Parameters.Add("@facturaCancelada", SqlDbType.Int).Value = facturaCancelada;
 
                         cmd.ExecuteNonQuery();
 
@@ -923,6 +1000,406 @@ namespace Negocio.Proveedores
                         cmd.CommandTimeout = 0;
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@idFacturaCab", SqlDbType.Int).Value = idFacturaCab;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return dt_detalle;
+        }
+
+
+        public DataTable get_cuentaContable_gastos()
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("DSIGE_PROY_W_APROBAR_FACTURAS_COMBO_CTA_GASTOS", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return dt_detalle;
+        }
+        
+        public DataTable get_cuentaContable_igv()
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("DSIGE_PROY_W_APROBAR_FACTURAS_COMBO_CTA_IGV", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return dt_detalle;
+        }
+
+        public DataTable get_cuentaContable_pagar()
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("DSIGE_PROY_W_APROBAR_FACTURAS_COMBO_CTA_PAGAR", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return dt_detalle;
+        }
+
+        public DataTable get_cuentaContable_detraccion()
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("DSIGE_PROY_W_APROBAR_FACTURAS_COMBO_CTA_DETRACCION", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return dt_detalle;
+        }
+
+
+        public object set_saveUpdate_cuentasContables(int id_Glosa, int id_Documento, string importeDocumento, string Glosa, string CtaGastos, string CtaIGV, string CtaxPagar, string idUser, string CtaDetraccion)
+        {
+            Resultado res = new Resultado();
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("DSIGE_PROY_W_APROBAR_FACTURAS_SAVE_UPDATE_CTA_CONTABLES", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_Glosa", SqlDbType.Int).Value = id_Glosa;
+                        cmd.Parameters.Add("@id_Documento", SqlDbType.Int).Value = id_Documento;
+                        cmd.Parameters.Add("@importeDocumento", SqlDbType.VarChar).Value = importeDocumento;
+
+                        cmd.Parameters.Add("@Glosa", SqlDbType.VarChar).Value = Glosa;
+                        cmd.Parameters.Add("@CtaGastos", SqlDbType.VarChar).Value = CtaGastos;
+                        cmd.Parameters.Add("@CtaIGV", SqlDbType.VarChar).Value = CtaIGV;
+                        cmd.Parameters.Add("@CtaxPagar", SqlDbType.VarChar).Value = CtaxPagar;                   
+                        cmd.Parameters.Add("@idUser", SqlDbType.VarChar).Value = idUser;
+                        cmd.Parameters.Add("@CtaDetraccion", SqlDbType.VarChar).Value = CtaDetraccion;
+
+                        cmd.ExecuteNonQuery();
+
+                        res.ok = true;
+                        res.data = "OK";
+                        res.totalpage = 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                res.ok = false;
+                res.data = ex.Message;
+            }
+            return res;
+        }
+        
+        public DataTable get_detalle_cuentasContables(int idFacturaCab, string idUser)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("DSIGE_PROY_W_APROBAR_FACTURAS_LISTADO_CTAS_CONTABLES", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@idFacturaCab", SqlDbType.Int).Value = idFacturaCab;
+                        cmd.Parameters.Add("@idUser", SqlDbType.VarChar).Value = idUser;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return dt_detalle;
+        }
+               
+        public object set_saveUpdate_cuentasContables_cajaChica(int id_LiquidacionCaja_Det , string Glosa, int CtaGastos, int CtaIGV, int CtaxPagar, string idUser)
+        {
+            Resultado res = new Resultado();
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("DSIGE_PROY_W_APROBAR_CAJA_CHICA_UPDATE_CTA_CONTABLES", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_LiquidacionCaja_Det", SqlDbType.Int).Value = id_LiquidacionCaja_Det;
+                        cmd.Parameters.Add("@Glosa", SqlDbType.VarChar).Value = Glosa;
+                        cmd.Parameters.Add("@CtaGastos", SqlDbType.Int).Value = CtaGastos;
+                        cmd.Parameters.Add("@CtaIGV", SqlDbType.Int).Value = CtaIGV;
+                        cmd.Parameters.Add("@CtaxPagar", SqlDbType.Int).Value = CtaxPagar;
+                        cmd.Parameters.Add("@idUser", SqlDbType.VarChar).Value = idUser;
+
+                        cmd.ExecuteNonQuery();
+
+                        res.ok = true;
+                        res.data = "OK";
+                        res.totalpage = 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                res.ok = false;
+                res.data = ex.Message;
+            }
+            return res;
+        }
+
+        public DataTable get_documentosVencidos()
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("DSIGE_PROY_W_APROBAR_PAGOS_COMBO_DOC_VENCIDOS", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return dt_detalle;
+        }
+
+
+        public DataTable get_centroCosto_distribucion( string idUser)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("DSIGE_PROY_W_APROBAR_FACTURAS_COMBO_CC", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@idUsuario", SqlDbType.Int).Value = idUser;
+
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return dt_detalle;
+        }
+
+
+        public DataTable get_detalle_distribucionCCosto(int idFacturaCab, string idUser)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("DSIGE_PROY_W_APROBAR_FACTURAS_LISTADO_DISTRIBUCION_CC", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@idFacturaCab", SqlDbType.Int).Value = idFacturaCab;
+                        cmd.Parameters.Add("@idUser", SqlDbType.VarChar).Value = idUser;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return dt_detalle;
+        }
+        
+        public object set_saveUpdate_distribucion_centroCosto(int id_documento_cc, int  id_documento, string idCentroCosto, string total_importe,string porcentaje, string idUser )
+        {
+            Resultado res = new Resultado();
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("DSIGE_PROY_W_APROBAR_FACTURAS_SAVE_UPDATE_DISTRIBUCION_CC", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_documento_cc", SqlDbType.Int).Value = id_documento_cc;
+                        cmd.Parameters.Add("@id_documento", SqlDbType.Int).Value = id_documento;
+                        cmd.Parameters.Add("@idCentroCosto", SqlDbType.VarChar).Value = idCentroCosto;
+
+                        cmd.Parameters.Add("@total_importe", SqlDbType.VarChar).Value = total_importe;
+                        cmd.Parameters.Add("@porcentaje", SqlDbType.VarChar).Value = porcentaje; 
+                        cmd.Parameters.Add("@idUser", SqlDbType.VarChar).Value = idUser; 
+
+                        cmd.ExecuteNonQuery();
+
+                        res.ok = true;
+                        res.data = "OK";
+                        res.totalpage = 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                res.ok = false;
+                res.data = ex.Message;
+            }
+            return res;
+        }
+
+        public object set_saveCuentaContable(string valorCuentaContable,string tipoCuentaContable,string idUser )
+        {
+            Resultado res = new Resultado();
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("DSIGE_PROY_W_APROBAR_FACTURAS_SAVE_CUENTA_CONTABLE", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@tipoCuentaContable", SqlDbType.VarChar).Value = tipoCuentaContable;
+                        cmd.Parameters.Add("@valorCuentaContable", SqlDbType.VarChar).Value = valorCuentaContable;
+                        cmd.Parameters.Add("@idUsuario", SqlDbType.VarChar).Value = idUser;
+
+                        cmd.ExecuteNonQuery();
+
+                        res.ok = true;
+                        res.data = "OK";
+                        res.totalpage = 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                res.ok = false;
+                res.data = ex.Message;
+            }
+            return res;
+        }
+
+        public DataTable get_proveedoresUsuario( string idUsuario)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("DSIGE_PROY_W_REGISTRO_FACTURAS_COMBO_PROVEEDORES", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@idUsuario", SqlDbType.VarChar).Value = idUsuario;
 
                         using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                         {

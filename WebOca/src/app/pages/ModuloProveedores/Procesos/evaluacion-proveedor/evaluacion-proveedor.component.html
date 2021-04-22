@@ -1,3 +1,22 @@
+<!-- <div class="col-md-6">
+    <div class="form-group">
+        <textarea rows="10" class="form-control" id="txtMensaje" (drop)="drop($event)" (dragover)="dragOver($event)">
+       </textarea>
+    </div>
+    <button class="btn btn-primary" (click)="submit();">Agregar</button>
+    <br />
+    <div class="alert alert-info">Mis Cursos</div>
+    <div id="result"></div>
+    <br /><br />
+    <button class="btn btn-success" id="btn_reset" style="display:none;" onclick="reset();">Reset</button>
+</div>
+<div class="col-md-6">
+    <h4 id="Nombre" draggable="true" (dragstart)="drag($event)"> Nombre </h4>
+    <h4 id="Link" draggable="true" (dragstart)="drag($event)"> Link </h4>
+    <h4 id="Servicio" draggable="true" (dragstart)="drag($event)"> Servicio </h4>
+</div>
+ -->
+
 <div class="row mt-2">
     <div class="col-12">
         <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist" style=" background-color: #003575;  margin-bottom: 1px !important;">
@@ -25,10 +44,15 @@
                                     </div>
                                     <div class="col-md-4 ">
                                         <label for=""> Tipo Resultado</label>
-                                        <select class="form-control comboBox" formControlName="idTipoResultado">
+                                        <!-- <select class="form-control comboBox" formControlName="idTipoResultado">
                                                 <option value="0"> [ -- SELECCIONE -- ]</option>
                                                 <option [value]="item.codigo" *ngFor="let item of tipoResultado">{{item.descripcion}}</option> 
-                                            </select>
+                                         </select> -->
+                                        <select class="form-control comboBox" formControlName="idTipoResultado">
+                                            <option value="0"> [ -- SELECCIONE -- ]</option>
+                                            <option value="1">  ORDEN COMPRA </option>
+                                            <option value="2">  INGRESO COMPRA </option>
+                                        </select>
                                     </div>
                                     <div class="col-md-4">
                                         <label class="control-label"> Rango Fechas </label>
@@ -226,16 +250,12 @@
                 </div>
                 <br>
 
-
                 <div class="text-center">
                     <div>
                         <!-- <button type="button" class="btn btn-sm btn-success " (click)="abrir_modalAprobar('A');" tooltip="Grabar">   <i class="fas fa-save fa-2x"></i> Aprobar</button>
                             <button type="button" class="btn btn-sm btn-danger ml-2 " (click)="abrir_modalAprobar('R');" tooltip="Grabar">   <i class="fas fa-save fa-2x"></i> Rechazar</button> -->
                     </div>
-
                 </div>
-
-
             </div>
         </div>
 
@@ -267,7 +287,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <fieldset class="shadow">
-                            <legend>DATOS DE EVALUACION</legend>
+                            <legend> <i class="fas fa-barcode"></i> DATOS DE EVALUACION</legend>
                             <div class="panel panel-default ">
                                 <div class="panel-body">
 
@@ -343,13 +363,13 @@
                 <div class="row mt-2" id="formDetalle">
                     <div class="col-md-12">
                         <fieldset class="shadow">
-                            <legend> DETALLE DE EVALUACION </legend>
+                            <legend> <i class="fas fa-list-ol"></i> DETALLE DE EVALUACION </legend>
                             <div class="panel panel-default ">
                                 <div class="panel-body" style="margin-top: -15px;">
 
                                     <label for=""> * Una vez que termine de ingresar el valor presionar la techa enter para Grabar</label>
 
-                                    <div class="search-results tableFixHead">
+                                    <div class="tableFixHead_modal">
                                         <table class="table  table-bordered table-hover table-sm ">
                                             <thead class="theadTable thead-dark">
                                                 <tr style="height: 40px !important;">

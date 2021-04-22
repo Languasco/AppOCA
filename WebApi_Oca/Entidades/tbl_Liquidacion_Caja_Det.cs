@@ -41,5 +41,12 @@ namespace Entidades
         public Nullable<System.DateTime> fecha_creacion { get; set; }
         public string usuario_edicion { get; set; }
         public Nullable<System.DateTime> fecha_edicion { get; set; }
+        public Nullable<decimal> porcentajeDescto { get; set; }
+        public Nullable<decimal> totalDescuento { get; set; }
+        public Nullable<decimal> totalaPagar { get; set; }
+        public string Glosa { get; set; }
+        public string CtaGastos { get; set; }
+        public string CtaIGV { get; set; }
+        public string CtaxPagar { get; set; }
     }
 }

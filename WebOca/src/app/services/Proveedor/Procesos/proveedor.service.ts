@@ -49,10 +49,10 @@ export class ProveedorService {
     return this.http.get( this.URL + 'tblProveedor_Incidencia' , {params: parametros});
   }
 
-  get_descargarIncidencias( fechaIni : string, fechaFin : string, idUsuario : string){
+  get_descargarIncidencias( fechaIni : string, fechaFin : string, idUsuario : string, idcentroCosto: string){
     let parametros = new HttpParams();
     parametros = parametros.append('opcion', '29');
-    parametros = parametros.append('filtro',  String(fechaIni)  + '|' +  String(fechaFin) + '|' +  String(idUsuario) );
+    parametros = parametros.append('filtro',  String(fechaIni)  + '|' +  String(fechaFin) + '|' +  String(idUsuario)  + '|' +  String(idcentroCosto) );
 
     return this.http.get( this.URL + 'TblProveedor' , {params: parametros});
   }

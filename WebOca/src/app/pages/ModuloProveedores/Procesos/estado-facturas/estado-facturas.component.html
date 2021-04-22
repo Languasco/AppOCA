@@ -7,6 +7,14 @@
 
             <form [formGroup]="formParamsFiltro" style="    margin-top: -10px;">
                 <div class="row">
+                    <div class="col-md-2">
+                        <label for=""> Centro Costo</label>
+                        <select class="form-control comboBox" formControlName="idCentroCostro">
+                                <option value="0"> [ -- TODOS -- ]</option>
+                                <option [value]="item.codigo" *ngFor="let item of centroCostro">{{item.descripcion}}</option> 
+                            </select>
+                    </div>
+
                     <div class="col-md-3">
                         <label class="control-label"> Rango Fechas </label>
                         <div class="input-group">
@@ -15,19 +23,18 @@
                             <input class="form-control" #datepickerYMD="bsDatepicker" bsDatepicker formControlName="fecha_fin" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
                         </div>
                     </div>
-                    <div class="col-md-3 ">
+                    <div class="col-md-2 ">
                         <label for=""> Orden Compra</label>
                         <input type="text" class="form-control " formControlName="nroOC">
                     </div>
-                    <div class="col-md-3 ">
+                    <div class="col-md-2 ">
                         <label for=""> Estado</label>
                         <select class="form-control comboBox" formControlName="idEstado">
                             <option value="0"> [ -- TODOS -- ]</option>
                             <option [value]="item.Pub_Esta_Codigo" *ngFor="let item of estados">{{item.Pub_Esta_Nombre}}</option> 
                         </select>
                     </div>
-
-                    <div class="col-md-3 ">
+                    <div class="col-md-2 ">
                         <div class="text-center mt-3">
                             <button class="btn   btn-outline-primary btn-block" (click)="mostrarInformacion_estadoProveedoresCab()" title="Mostrar la informacion">
                             <i class="fas fa-search"> </i> Mostrar </button>
@@ -35,7 +42,6 @@
                     </div>
                 </div>
             </form>
-
             <hr>
 
             <div class="row mb-2">
@@ -61,11 +67,15 @@
                             <th class="text-center"> IGV </th>
                             <th class="text-center"> TOTAL </th>
 
+
+                            <th class="text-center"> % DETRACCION </th>
+                            <th class="text-center"> TOTAL DETRACCION</th>
+                            <th class="text-center"> TOTAL PAGAR</th>
+
                             <th> NRO OC </th>
                             <th> TIPO OC </th>
                             <th> FORMA PAGO</th>
                             <th> FECHA APROX. PAGO </th>
-
 
                             <th> ESTADO </th>
                             <th> NRO VOUCHER </th>
@@ -78,9 +88,13 @@
                             <td scope="row"> {{j + 1}} </td>
                             <td>{{item.nroFactura}}</td>
                             <td>{{item.fecha}}</td>
-                            <td class="text-right">{{item.subTotal | number:'0.1-5' }}</td>
+                            <td class="text-right">{{item.subTotal |number:'3.1-5' }}</td>
                             <td class="text-right">{{item.igv}}</td>
-                            <td class="text-right">{{item.total | number:'0.1-5' }}</td>
+                            <td class="text-right">{{item.total |number:'3.1-5' }}</td>
+
+                            <td class="text-right">{{item.porDetraccion |number:'3.1-5'}}</td>
+                            <td class="text-right">{{item.totDetraccion |number:'3.1-5'}}</td>
+                            <td class="text-right">{{item.totalPagar |number:'3.1-5'}}</td>
 
                             <td>{{item.nroOC}}</td>
                             <td>{{item.tipoOC}}</td>

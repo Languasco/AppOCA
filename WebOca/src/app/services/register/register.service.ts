@@ -37,6 +37,15 @@ export class RegisterService {
   tipoResultado:any[]= [];
   formaPagos:any[]= [];
   estadosAprobarFacturas:any[]= [];
+
+
+  cuentaContableGastos:any[]= [];
+  cuentaContableIGV:any[]= [];
+  cuentaContablePagar:any[]= [];
+  cuentaContableDetraccion:any[]= [];
+  centroCostoDistribucion:any[]= [];
+
+  docVencidos:any[]= [];
   
   constructor(private http:HttpClient) { }
 
@@ -154,13 +163,15 @@ export class RegisterService {
   }
 
   
-  get_centroCosto(){
+  get_centroCosto(idUsuario:string){
+
+
     if (this.centroCostro.length > 0) {
       return of( this.centroCostro )
     }else{
       let parametros = new HttpParams();
       parametros = parametros.append('opcion', '19');
-      parametros = parametros.append('filtro', '');
+      parametros = parametros.append('filtro', String(idUsuario));
   
       return this.http.get( this.URL + 'TblProveedor' , {params: parametros})
                  .pipe(map((res:any)=>{
@@ -170,13 +181,13 @@ export class RegisterService {
     }
   }
 
-  get_tipoResultado(){
+  get_tipoResultado(idUsuario:string){
     if (this.tipoResultado.length > 0) {
       return of( this.tipoResultado )
     }else{
       let parametros = new HttpParams();
       parametros = parametros.append('opcion', '20');
-      parametros = parametros.append('filtro', '');
+      parametros = parametros.append('filtro', String(idUsuario));
   
       return this.http.get( this.URL + 'TblProveedor' , {params: parametros})
                  .pipe(map((res:any)=>{
@@ -217,6 +228,170 @@ export class RegisterService {
     }
   }
 
+
+  
+
+  get_cuentaContable_gastos(flagNew?:boolean){ 
+
+    if (flagNew) {
+      let parametros = new HttpParams();
+      parametros = parametros.append('opcion', '24');
+      parametros = parametros.append('filtro', '');
+  
+      return this.http.get( this.URL + 'RegistroFacturas' , {params: parametros})
+                 .pipe(map((res:any)=>{
+                       this.cuentaContableGastos = res.data;
+                       return res.data;
+                  }) );
+    }else{
+      if (this.cuentaContableGastos.length > 0) {
+        return of( this.cuentaContableGastos)
+      }else{
+        let parametros = new HttpParams();
+        parametros = parametros.append('opcion', '24');
+        parametros = parametros.append('filtro', '');
+    
+        return this.http.get( this.URL + 'RegistroFacturas' , {params: parametros})
+                   .pipe(map((res:any)=>{
+                         this.cuentaContableGastos = res.data;
+                         return res.data;
+                    }) );
+      }
+    }
+
+
+
+  }
+
+  
+  get_cuentaContable_igv(flagNew?:boolean){
+
+    if (flagNew) {
+      let parametros = new HttpParams();
+      parametros = parametros.append('opcion', '25');
+      parametros = parametros.append('filtro', '');
+  
+      return this.http.get( this.URL + 'RegistroFacturas' , {params: parametros})
+                 .pipe(map((res:any)=>{
+                       this.cuentaContableIGV = res.data;
+                       return res.data;
+                  }) );
+    }else{
+      if (this.cuentaContableIGV.length > 0) {
+        return of( this.cuentaContableIGV )
+      }else{
+        let parametros = new HttpParams();
+        parametros = parametros.append('opcion', '25');
+        parametros = parametros.append('filtro', '');
+    
+        return this.http.get( this.URL + 'RegistroFacturas' , {params: parametros})
+                   .pipe(map((res:any)=>{
+                         this.cuentaContableIGV = res.data;
+                         return res.data;
+                    }) );
+      }
+    }
+
+
+  }
+
+  get_cuentaContable_pagar(flagNew?:boolean){
+
+    if (flagNew) {
+      let parametros = new HttpParams();
+      parametros = parametros.append('opcion', '26');
+      parametros = parametros.append('filtro', '');
+  
+      return this.http.get( this.URL + 'RegistroFacturas' , {params: parametros})
+                 .pipe(map((res:any)=>{
+                       this.cuentaContablePagar = res.data;
+                       return res.data;
+                  }) );
+    }else{
+      if (this.cuentaContablePagar.length > 0) {
+        return of( this.cuentaContablePagar )
+      }else{
+        let parametros = new HttpParams();
+        parametros = parametros.append('opcion', '26');
+        parametros = parametros.append('filtro', '');
+    
+        return this.http.get( this.URL + 'RegistroFacturas' , {params: parametros})
+                   .pipe(map((res:any)=>{
+                         this.cuentaContablePagar = res.data;
+                         return res.data;
+                    }) );
+      }
+    }
+
+
+  }
+
+  get_cuentaContable_detraccion(flagNew?:boolean){
+
+    if (flagNew) {
+
+ 
+      let parametros = new HttpParams();
+      parametros = parametros.append('opcion', '33');
+      parametros = parametros.append('filtro', '');
+  
+      return this.http.get( this.URL + 'RegistroFacturas' , {params: parametros})
+                 .pipe(map((res:any)=>{
+                       this.cuentaContableDetraccion = res.data;
+                       return res.data;
+                  }) );
+    }else{
+      if (this.cuentaContableDetraccion.length > 0) {
+        return of( this.cuentaContableDetraccion )
+      }else{
+        let parametros = new HttpParams();
+        parametros = parametros.append('opcion', '33');
+        parametros = parametros.append('filtro', '');
+    
+        return this.http.get( this.URL + 'RegistroFacturas' , {params: parametros})
+                   .pipe(map((res:any)=>{
+                         this.cuentaContableDetraccion = res.data;
+                         return res.data;
+                    }) );
+      }
+    }
+
+
+  }
+  
+
+  
+  get_centroCostoDistribucion(idusuario:string){
+    if (this.centroCostoDistribucion.length > 0) {
+      return of( this.centroCostoDistribucion )
+    }else{
+      let parametros = new HttpParams();
+      parametros = parametros.append('opcion', '34');
+      parametros = parametros.append('filtro', idusuario);
+  
+      return this.http.get( this.URL + 'RegistroFacturas' , {params: parametros})
+                 .pipe(map((res:any)=>{
+                       this.centroCostoDistribucion = res.data;
+                       return res.data;
+                  }) );
+    }
+  }
+  
+  get_documentosVencidos(){
+    if (this.docVencidos.length > 0) {
+      return of( this.docVencidos )
+    }else{
+      let parametros = new HttpParams();
+      parametros = parametros.append('opcion', '30');
+      parametros = parametros.append('filtro', '');
+  
+      return this.http.get( this.URL + 'RegistroFacturas' , {params: parametros})
+                 .pipe(map((res:any)=>{
+                       this.docVencidos = res.data;
+                       return res.data;
+                  }) );
+    }
+  }
  
 
   set_save_registroProveedor(objProveedor:any){
@@ -326,11 +501,10 @@ export class RegisterService {
     return this.http.get( this.URL + 'TblProveedor' , {params: parametros});
   }
 
-  get_Informacion_nuevosProveedoresCab({nroObra, idEstado}){
+  get_Informacion_nuevosProveedoresCab({nroObra, idEstado, idCentroCostro}){
     let parametros = new HttpParams();
     parametros = parametros.append('opcion', '17');
-    parametros = parametros.append('filtro',  nroObra + '|'+ idEstado );
-
+    parametros = parametros.append('filtro',  nroObra + '|'+ idEstado  + '|'+ idCentroCostro  );
     return this.http.get( this.URL + 'TblProveedor' , {params: parametros});
   }
 
