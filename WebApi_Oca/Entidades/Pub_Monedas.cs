@@ -26,5 +26,6 @@ namespace Entidades
         public string Pub_Mone_UsuModi { get; set; }
         public Nullable<System.DateTime> Pub_Mone_FecModi { get; set; }
         public string Pub_Mone_Identidad { get; set; }
+        public string Pub_Mone_Abreviatura { get; set; }
     }
 }

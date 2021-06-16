@@ -8,6 +8,8 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -399,6 +401,9 @@ namespace Negocio.Proveedores.Procesos
 
                         cmd.ExecuteNonQuery();
 
+                        //---- enviando el correo de notificacion
+                        set_envioCorreo_cajaChica(idLiquidacionCaja_Cab, idUser );
+
                         res.ok = true;
                         res.data = "OK";
                         res.totalpage = 0;
@@ -614,8 +619,7 @@ namespace Negocio.Proveedores.Procesos
             }
             return res;
         }
-
-
+        
         public string get_download_documentoCajaChica_Det(int idLiquidacion_Archivo, string iduser)
         {
             DataTable dt_detalle = new DataTable();
@@ -697,6 +701,128 @@ namespace Negocio.Proveedores.Procesos
                 throw;
             }
             return ruta_descarga;
+        }
+
+
+        public DataTable get_datosEnviosCorreo_cajaChica(int idLiquidacionCaja_Cab, string idUser)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("DSIGE_PROY_W_CAJA_CHICA_ENVIAR_CORREO", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@idLiquidacionCaja_Cab", SqlDbType.Int).Value = idLiquidacionCaja_Cab;
+                        cmd.Parameters.Add("@idUser", SqlDbType.VarChar).Value = idUser;
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+                return dt_detalle;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
+        public void set_envioCorreo_cajaChica(int idLiquidacionCaja_Cab, string idUser)
+        {
+            DataTable dt_detalleMail = new DataTable();
+            try
+            {
+                ///---obtenere la informacion para el llenado del correo ---
+                dt_detalleMail = get_datosEnviosCorreo_cajaChica(idLiquidacionCaja_Cab, idUser);
+
+                if (dt_detalleMail.Rows.Count > 0)
+                {
+                    if (dt_detalleMail.Rows[0]["destinatario"].ToString().Length > 0)
+                    {
+                        var message = new MailMessage();
+                        message.From = new MailAddress(dt_detalleMail.Rows[0]["remitente"].ToString());
+                        message.To.Add(new MailAddress(dt_detalleMail.Rows[0]["destinatario"].ToString()));
+                        message.Subject = dt_detalleMail.Rows[0]["asunto"].ToString();
+                        message.Body = dt_detalleMail.Rows[0]["cuerpoMensaje"].ToString();
+                        message.IsBodyHtml = true;
+                        message.Priority = MailPriority.Normal;
+
+                        //---agregando la copia del correo 
+                        if (dt_detalleMail.Rows[0]["copiaDestinatario"].ToString().Length > 0)
+                        {
+                            //message.CC.Add(new MailAddress(dt_detalleMail.Rows[0]["copiaDestinatario"].ToString()));
+                            string[] Emailcopias = dt_detalleMail.Rows[0]["copiaDestinatario"].ToString().Split(';');
+                            string corr = "";
+                            foreach (var email in Emailcopias)
+                            {
+                                corr = email.Replace(" ", String.Empty);
+                                message.CC.Add(new MailAddress(corr));
+                            }
+                        }
+                        using (var smtp = new SmtpClient())
+                        {
+                            smtp.EnableSsl = true;
+                            smtp.UseDefaultCredentials = false;
+
+                            var credential = new NetworkCredential(dt_detalleMail.Rows[0]["remitente"].ToString(), dt_detalleMail.Rows[0]["remitentePass"].ToString());
+                            smtp.Credentials = credential;
+                            smtp.Host = "smtp.gmail.com";
+                            smtp.Port = 587;
+                            smtp.Send(message);
+                        }
+                    }
+                    else
+                    {
+                        throw new System.ArgumentException("Error al envio de correo no hay correo de destinatario");
+                    }
+                }
+                else
+                {
+                    throw new System.ArgumentException("Error al envio de correo no hay informacion para enviar");
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
+        public object guardar_excelCajaChica(int idLiquidacionCaja_Cab, string idUser)
+        {
+            Resultado res = new Resultado();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("DSIGE_PROY_W_CAJA_CHICA_GRABAR_EXCEL", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@idLiquidacionCaja_Cab", SqlDbType.Int).Value = idLiquidacionCaja_Cab;
+                        cmd.Parameters.Add("@id_usuario", SqlDbType.VarChar).Value = idUser;
+                        cmd.ExecuteNonQuery();
+ 
+                        res.ok = true;
+                        res.data = "OK";
+                        res.totalpage = 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                res.ok = false;
+                res.data = ex.Message;
+            }
+            return res;
         }
 
 

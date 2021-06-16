@@ -45,6 +45,8 @@ export class CajaChicaService {
   }
 
   set_update_LiquidacionDet(objLiquidacionDet :any, idLiquidacionCaja_Det :number){
+
+    console.log(JSON.stringify(objLiquidacionDet))
     return this.http.put(this.URL + 'tblLiquidacion_Caja_Det/' + idLiquidacionCaja_Det , JSON.stringify(objLiquidacionDet), httpOptions);
   }
 
@@ -201,6 +203,23 @@ export class CajaChicaService {
   }
 
 
+  get_descargarContabilidadCajaChica( id_LiquidacionCaja_Cab: number, idUsuario : string){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '32');
+    parametros = parametros.append('filtro',    String(id_LiquidacionCaja_Cab) + '|' +  String(idUsuario) );
+
+    console.log(parametros)
+
+    return this.http.get( this.URL + 'TblProveedor' , {params: parametros});
+  }
+
+   guardar_excelCajaChica( id_LiquidacionCaja_Cab : number, idusuario:string){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '18');
+    parametros = parametros.append('filtro',  String(id_LiquidacionCaja_Cab) + '|' +  String(idusuario) );
+
+    return this.http.get( this.URL + 'tbl_Liquidacion_Caja_Cab' , {params: parametros});
+  }
 
 
 }

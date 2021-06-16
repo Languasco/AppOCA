@@ -136,6 +136,11 @@ export class RegistroFacturasComponent implements OnInit {
       this.alertasService.Swal_alert('error','Por favor seleccione la fecha final');
       return 
     } 
+
+    if (this.formParamsFiltro.value.idEstado == '0' || this.formParamsFiltro.value.idEstado == 0 ) {
+      this.alertasService.Swal_alert('error','Por favor seleccione el Estado..');
+      return 
+    } 
   
     const fechaIni = this.funcionGlobalServices.formatoFecha(this.formParamsFiltro.value.fecha_ini);
     const fechaFin = this.funcionGlobalServices.formatoFecha(this.formParamsFiltro.value.fecha_fin);

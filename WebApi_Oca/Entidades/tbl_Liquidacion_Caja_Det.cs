@@ -48,5 +48,6 @@ namespace Entidades
         public string CtaGastos { get; set; }
         public string CtaIGV { get; set; }
         public string CtaxPagar { get; set; }
+        public Nullable<int> aplicaRetencion { get; set; }
     }
 }

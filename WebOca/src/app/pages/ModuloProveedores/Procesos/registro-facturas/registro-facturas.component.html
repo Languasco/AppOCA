@@ -39,7 +39,7 @@
                     <div class="col-md-2 ">
                         <label for=""> Estado</label>
                         <select class="form-control comboBox" formControlName="idEstado">
-                            <option value="0"> [ -- TODOS -- ]</option>
+                            <option value="0"> [ -- SELECCIONE -- ]</option>
                             <option [value]="item.Pub_Esta_Codigo" *ngFor="let item of estados">{{item.Pub_Esta_Nombre}}</option> 
                         </select>
                     </div>
@@ -113,19 +113,19 @@
                             <td>{{item.fechaOC}}</td>
                             <td>{{item.moneda}}</td>
 
-                            <td class="text-right">{{item.subtotal |number:'3.1-5'}}</td>
-                            <td class="text-right">{{item.igv |number:'3.1-5' }}</td>
-                            <td class="text-right">{{item.total |number:'3.1-5' }}</td>
+                            <td class="text-right">{{item.subtotal |number:'1.2-3'}}</td>
+                            <td class="text-right">{{item.igv |number:'1.2-3' }}</td>
+                            <td class="text-right">{{item.total |number:'1.2-3' }}</td>
 
                             <td>{{item.formaPago}}</td>
 
-                            <td class="text-right">{{item.subTotalFactura |number:'3.1-5' }}</td>
-                            <td class="text-center">{{item.igvFactura |number:'3.1-5' }}</td>
-                            <td class="text-right">{{item.TotalFactura |number:'3.1-5' }}</td>
+                            <td class="text-right">{{item.subTotalFactura |number:'1.2-3' }}</td>
+                            <td class="text-center">{{item.igvFactura |number:'1.2-3' }}</td>
+                            <td class="text-right">{{item.TotalFactura |number:'1.2-3' }}</td>
 
-                            <td class="text-right">{{item.porDetraccion |number:'3.1-5' }}</td>
-                            <td class="text-right">{{item.totDetraccion |number:'3.1-5'}}</td>
-                            <td class="text-right">{{item.totalPagar |number:'3.1-5' }}</td>
+                            <td class="text-right">{{item.porDetraccion |number:'1.2-3' }}</td>
+                            <td class="text-right">{{item.totDetraccion |number:'1.2-3'}}</td>
+                            <td class="text-right">{{item.totalPagar |number:'1.2-3' }}</td>
 
                             <td class="text-center">
                                 <span class="badge badge-primary puntero btn-block" style="padding: 5px;" (click)="abrirModal_documentos(item)">  Registrar </span>
@@ -166,15 +166,15 @@
                             <td>{{item.serieFactura}}</td>
                             <td>{{item.nroFactura}}</td>
                             <td>{{item.nroGuia}}</td>
-                            <td class="text-right">{{item.subTotal |number:'3.1-5' }}</td>
+                            <td class="text-right">{{item.subTotal |number:'1.2-3' }}</td>
 
-                            <td class="text-center">{{item.igv |number:'3.1-5' }}</td>
-                            <td class="text-right">{{item.total |number:'3.1-5'}}</td>
+                            <td class="text-center">{{item.igv |number:'1.2-3' }}</td>
+                            <td class="text-right">{{item.total |number:'1.2-3'}}</td>
 
 
-                            <td class="text-right">{{item.porDetraccion |number:'3.1-5'}}</td>
-                            <td class="text-right">{{item.totDetraccion |number:'3.1-5'}}</td>
-                            <td class="text-right">{{item.totalPagar |number:'3.1-5'}}</td>
+                            <td class="text-right">{{item.porDetraccion |number:'1.2-3'}}</td>
+                            <td class="text-right">{{item.totDetraccion |number:'1.2-3'}}</td>
+                            <td class="text-right">{{item.totalPagar |number:'1.2-3'}}</td>
 
                             <td>{{item.descripcionEstado}}</td>
 
@@ -241,15 +241,15 @@
                                         </div>
                                         <div class="col-md-3">
                                             <label> Sub Total </label>
-                                            <input type="text" class="form-control disabledForm text-right" [value]="objOrdenCompra_Global.subtotal |number:'3.1-5'">
+                                            <input type="text" class="form-control disabledForm text-right" [value]="objOrdenCompra_Global.subtotal |number:'1.2-3'">
                                         </div>
                                         <div class="col-md-3">
                                             <label> IGV </label>
-                                            <input type="text" class="form-control disabledForm text-right" [value]="objOrdenCompra_Global.igv |number:'3.1-5'">
+                                            <input type="text" class="form-control disabledForm text-right" [value]="objOrdenCompra_Global.igv |number:'1.2-3'">
                                         </div>
                                         <div class="col-md-3">
                                             <label> Total </label>
-                                            <input type="text" class="form-control disabledForm text-right " style="background-color: yellow;" [value]="objOrdenCompra_Global.total |number:'3.1-5' ">
+                                            <input type="text" class="form-control disabledForm text-right " style="background-color: yellow;" [value]="objOrdenCompra_Global.total |number:'1.2-3' ">
                                         </div>
                                     </div>
 
@@ -270,15 +270,15 @@
                                     <div class="row">
                                         <div class="col-md-3">
                                             <label> Sub Total </label>
-                                            <input type="text" class="form-control disabledForm text-right" [value]="objOrdenCompra_Global.subTotalFactura |number:'3.1-5'">
+                                            <input type="text" class="form-control disabledForm text-right" [value]="objOrdenCompra_Global.subTotalFactura |number:'1.2-3'">
                                         </div>
                                         <div class="col-md-3">
                                             <label> IGV </label>
-                                            <input type="text" class="form-control disabledForm text-right" [value]="objOrdenCompra_Global.igvFactura |number:'3.1-5'">
+                                            <input type="text" class="form-control disabledForm text-right" [value]="objOrdenCompra_Global.igvFactura |number:'1.2-3'">
                                         </div>
                                         <div class="col-md-3">
                                             <label> Total </label>
-                                            <input type="text" class="form-control disabledForm text-right " style="background-color: greenyellow;" [value]="objOrdenCompra_Global.TotalFactura |number:'3.1-5'">
+                                            <input type="text" class="form-control disabledForm text-right " style="background-color: greenyellow;" [value]="objOrdenCompra_Global.TotalFactura |number:'1.2-3'">
                                         </div>
                                         <div class="col-md-3">
                                             <div class="mt-3">
@@ -616,7 +616,7 @@
                                     <div class="d-flex justify-content-end">
                                         <div class="p-2 "> <b>  Sub Total Factura </b></div>
                                         <div class="p-2 ">
-                                            <label for=""> {{subTotalFactura  |number:'3.1-5'  }} </label>
+                                            <label for=""> {{subTotalFactura  |number:'1.2-3' }} </label>
                                         </div>
                                     </div>
 

@@ -264,21 +264,19 @@ namespace WebApi_Oca.Controllers.Upload
 
                 //-------almacenando la archivo---
                 sPath = HttpContext.Current.Server.MapPath("~/Archivos/Excel/" + nombreFile);
-                //if (System.IO.File.Exists(sPath))
-                //{
-                //    System.IO.File.Delete(sPath);
-                //}
                 file.SaveAs(sPath);
 
                 //-------almacenando la archivo---
                 if (File.Exists(sPath))
                 {
                     Upload_BL obj_negocio = new Upload_BL();
- 
-                    res.ok = true;
-                    res.data = obj_negocio.setAlmacenandoFile_Excel_cajaChica(sPath, file.FileName, idLiquidacionCaja_Cab, idUsuario);
-                    res.totalpage = 0;
-            
+                    string valor = obj_negocio.setAlmacenandoFile_Excel_cajaChica(sPath, file.FileName, idLiquidacionCaja_Cab, idUsuario);
+                    if (valor == "OK")
+                    {
+                        res.ok = true;
+                        res.data = obj_negocio.get_datosCargados_excelCajaChica(idUsuario);
+                        res.totalpage = 0;
+                    }
                 }
                 else
                 {

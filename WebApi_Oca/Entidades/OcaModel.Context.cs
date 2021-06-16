@@ -64,10 +64,10 @@ namespace Entidades
         public virtual DbSet<tbl_Documento_Cab> tbl_Documento_Cab { get; set; }
         public virtual DbSet<tbl_Documento_Det> tbl_Documento_Det { get; set; }
         public virtual DbSet<tbl_Liquidacion_Caja_Cab> tbl_Liquidacion_Caja_Cab { get; set; }
-        public virtual DbSet<tbl_Liquidacion_Caja_Det> tbl_Liquidacion_Caja_Det { get; set; }
         public virtual DbSet<tbl_Proveedor_Evalucion_Det> tbl_Proveedor_Evalucion_Det { get; set; }
         public virtual DbSet<tbl_Proveedor_Incidencia> tbl_Proveedor_Incidencia { get; set; }
         public virtual DbSet<Tbl_Proveedor> Tbl_Proveedor { get; set; }
         public virtual DbSet<Pub_Tipo_Documento> Pub_Tipo_Documento { get; set; }
+        public virtual DbSet<tbl_Liquidacion_Caja_Det> tbl_Liquidacion_Caja_Det { get; set; }
     }
 }

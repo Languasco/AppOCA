@@ -2020,16 +2020,16 @@ namespace Negocio.Proveedores.Procesos
                     oWs.Cells[_fila, pos].Value = " R.Fecha   "; pos += 1;
                     oWs.Cells[_fila, pos].Value = " D.Numero    "; pos += 1;
 
-                    oWs.Cells[_fila, pos].Value = " D.Fecha     "; pos += 1;
-                    oWs.Cells[_fila, pos].Value = " RUC         "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " D.Fecha "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " RUC  "; pos += 1;
                     oWs.Cells[_fila, pos].Value = " R.Social "; pos += 1;
                     oWs.Cells[_fila, pos].Value = " Tipo "; pos += 1;
                     oWs.Cells[_fila, pos].Value = " Tip.Doc.Iden "; pos += 1;
                     oWs.Cells[_fila, pos].Value = " Medio de Pago "; pos += 1;
-                    oWs.Cells[_fila, pos].Value = " Apellido 1    "; pos += 1;
-                    oWs.Cells[_fila, pos].Value = " Apellido 2    "; pos += 1;
-                    oWs.Cells[_fila, pos].Value = " Nombre        "; pos += 1;
-                    oWs.Cells[_fila, pos].Value = " T.Bien        "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " Apellido 1"; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " Apellido 2"; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " Nombre"; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " T.Bien"; pos += 1;
 
                     oWs.Cells[_fila, pos].Value = " P.origen  "; pos += 1;
                     oWs.Cells[_fila, pos].Value = " P.vou "; pos += 1;
@@ -2166,7 +2166,7 @@ namespace Negocio.Proveedores.Procesos
             return res;
         }
 
-        public object Generar_reporte_aprobacionPagos(string docIdentidad, string tipoDocumento, string centroCosto, string moneda, string facturaCancelada, string estado, string usuario, string docVencido)
+        public object Generar_reporte_aprobacionPagos(string docIdentidad, string tipoDocumento, string centroCosto, string moneda, string facturaCancelada, string estado, string usuario, string docVencido, string fechaCorte)
         {
             Resultado res = new Resultado();
             try
@@ -2189,6 +2189,7 @@ namespace Negocio.Proveedores.Procesos
                         cmd.Parameters.Add("@estado", SqlDbType.VarChar).Value = estado;
                         cmd.Parameters.Add("@usuario", SqlDbType.VarChar).Value = usuario;
                         cmd.Parameters.Add("@docVencido", SqlDbType.VarChar).Value = docVencido;
+                        cmd.Parameters.Add("@fechaCorte", SqlDbType.VarChar).Value = fechaCorte;
 
 
                         DataTable dt_detalle = new DataTable();
@@ -2216,8 +2217,7 @@ namespace Negocio.Proveedores.Procesos
             }
             return res;
         }
-
-
+        
         public string GenerarExcel_aprobacionPagos(DataTable listEvaluacion, string idUsuario)
         {
             string Res = "";
@@ -2323,6 +2323,273 @@ namespace Negocio.Proveedores.Procesos
             }
             return Res;
         }
+        
+        public object GenerarReporte_contabilidadCajaChica(int idLiquidacionCaja_Cab, string idusuario)
+        {
+            Resultado res = new Resultado();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("DSIGE_PROY_W_CAJA_CHICA_CONTABILIDAD_EXCEL", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@idLiquidacionCaja_Cab", SqlDbType.Int).Value = idLiquidacionCaja_Cab;
+                        cmd.Parameters.Add("@id_usuario", SqlDbType.VarChar).Value = idusuario;
+
+                        DataTable dt_detalle = new DataTable();
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                            if (dt_detalle.Rows.Count <= 0)
+                            {
+                                res.ok = false;
+                                res.data = "No hay informacion disponible";
+                            }
+                            else
+                            {
+                                res.ok = true;
+                                res.data = GenerarExcel_contabilidadCajaChica(dt_detalle, idusuario);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                res.ok = false;
+                res.data = ex.Message;
+            }
+            return res;
+        }
+
+
+        public string GenerarExcel_contabilidadCajaChica(DataTable listEvaluacion, string idUsuario)
+        {
+            string Res = "";
+            string FileRuta = "";
+            string ruta_descarga = "";
+            int _fila = 1;
+            int pos = 0;
+            int[] fil;
+            int[] col;
+
+            try
+            {
+                var guid = Guid.NewGuid();
+                var guidB = guid.ToString("B");
+                string nombreFile = idUsuario + "_cajaChica_Siscont_" + Guid.Parse(guidB) + ".xlsx";
+
+                FileRuta = System.Web.Hosting.HostingEnvironment.MapPath("~/Archivos/CajaChica/Descargas/" + nombreFile);
+                FileInfo _file = new FileInfo(FileRuta);
+                ruta_descarga = ConfigurationManager.AppSettings["ServerFiles"] + "CajaChica/Descargas/" + nombreFile;
+
+                using (Excel.ExcelPackage oEx = new Excel.ExcelPackage(_file))
+                {
+                    Excel.ExcelWorksheet oWs = oEx.Workbook.Worksheets.Add("sistCont");
+                    oWs.Cells.Style.Font.SetFromFont(new Font("Tahoma", 8));
+
+
+
+                    fil = new int[1] { _fila };
+                    funcionGlobal_centrarNegrita_Fila(oWs, fil);
+                    pos += 1;
+                    oWs.Cells[_fila, pos].Value = " Vou.Origen "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " Vou.Numero  "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " Vou.Fecha  "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " Doc  "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " Numero  "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " Fec.Doc  "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " Fec.Venc. "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " Codigo   "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " B.I.O.G y E. (A)  "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " B.I.O.G.y E. y NO GRA. (B)  "; pos += 1;
+
+                    oWs.Cells[_fila, pos].Value = " B.I.O.G.sin D.C.FIS(C)  "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " AD. NO GRAV.  "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " I.S.C.    "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " IGV (A)   "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " IGV (B)   "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " IGV (C)   "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " OTROS TRIB. "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " Moneda  "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " TC    "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " Glosa "; pos += 1;
+
+                    oWs.Cells[_fila, pos].Value = " Cta Gastos     "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " Cta IGV        "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " Cta O. Trib.   "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " Cta x Pagar    "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " C.Costo      "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " Presupuesto  "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " R.Doc  "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " R.numero   "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " R.Fecha   "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " D.Numero    "; pos += 1;
+
+                    oWs.Cells[_fila, pos].Value = " D.Fecha "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " RUC  "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " R.Social "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " Tipo "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " Tip.Doc.Iden "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " Medio de Pago "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " Apellido 1"; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " Apellido 2"; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " Nombre"; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " T.Bien"; pos += 1;
+
+                    oWs.Cells[_fila, pos].Value = " P.origen  "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " P.vou "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " P.fecha "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " P.fecha D. "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " P.fecha V. "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " P.cta cob "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " P.m.pago "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " P.doc "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " P.num doc "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " P.moneda "; pos += 1;
+
+                    oWs.Cells[_fila, pos].Value = " P.tc "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " P.monto "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " P.glosa "; pos += 1;
+                    oWs.Cells[_fila, pos].Value = " P.fe "; pos += 1;
+
+                    _fila += 1;
+                    pos = 1;
+                    foreach (DataRow item in listEvaluacion.Rows)
+                    {
+                        pos = 1;
+
+                        oWs.Cells[_fila, pos].Value = item["VouOrigen"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["VouNumero"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["VouFecha"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["Doc"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["Numero"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["FecDoc"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["FecVenc"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["Codigo"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["BIOG_E_A"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["BIOG_E_NO_GRA_B"].ToString(); pos += 1;
+
+                        oWs.Cells[_fila, pos].Value = item["BIOG_sin_DC_FIS_C"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["AD_NO_GRAV"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["ISC"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["IGV_A"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["IGV_B"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["IGV_C"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["OTROS_TRIB"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["Moneda"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["TC"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["Glosa"].ToString(); pos += 1;
+
+
+                        oWs.Cells[_fila, pos].Value = item["CtaGastos"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["CtaIGV"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["CtaOTrib"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["CtaxPagar"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["CCosto"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["Presupuesto"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["RDoc"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["Rnumero"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["RFecha"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["DNumero"].ToString(); pos += 1;
+
+                        oWs.Cells[_fila, pos].Value = item["DFecha"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["RUC"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["RSocial"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["Tipo"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["TipDocIden"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["MedioPago"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["Apellido1"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["Apellido2"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["Nombre"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["TBien"].ToString(); pos += 1;
+
+                        oWs.Cells[_fila, pos].Value = item["Porigen"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["Pvou"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["Pfecha"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["Pfecha_D"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["Pfecha_V"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["Pcta_cob"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["P_mpago"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["Pdoc"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["Pnumdoc"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["Pmoneda"].ToString(); pos += 1;
+
+                        oWs.Cells[_fila, pos].Value = item["Ptc"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["Pmonto"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["Pglosa"].ToString(); pos += 1;
+                        oWs.Cells[_fila, pos].Value = item["Pfe"].ToString(); pos += 1;
+
+                        _fila++;
+                    }
+
+                    oEx.Save();
+                    Res = ruta_descarga;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return Res;
+        }
+
+
+        public object GenerarReporte_detalleMacros_II(string idDocumentos, string docIdentidad, string tipoDocumento, string centroCosto, string moneda, string facturaCancelada, string estado, string usuario, string docVencido, string fechaCorte)
+        {
+            Resultado res = new Resultado();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("DSIGE_PROY_W_APROBAR_PAGOS_DETALLE_MACROS_EXCEL_II", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@idDocumentos", SqlDbType.VarChar).Value = idDocumentos;
+                        cmd.Parameters.Add("@docIdentidad", SqlDbType.VarChar).Value = docIdentidad;
+                        cmd.Parameters.Add("@tipoDocumento", SqlDbType.VarChar).Value = tipoDocumento;
+                        cmd.Parameters.Add("@centroCosto", SqlDbType.VarChar).Value = centroCosto;
+
+                        cmd.Parameters.Add("@moneda", SqlDbType.VarChar).Value = moneda;
+                        cmd.Parameters.Add("@facturaCancelada", SqlDbType.Int).Value = facturaCancelada;
+                        cmd.Parameters.Add("@estado", SqlDbType.VarChar).Value = estado;
+                        cmd.Parameters.Add("@usuario", SqlDbType.VarChar).Value = usuario;
+                        cmd.Parameters.Add("@docVencido", SqlDbType.VarChar).Value = docVencido;
+                        cmd.Parameters.Add("@fechaCorte", SqlDbType.VarChar).Value = fechaCorte;
+
+                        DataTable dt_detalle = new DataTable();
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                            if (dt_detalle.Rows.Count <= 0)
+                            {
+                                res.ok = false;
+                                res.data = "No hay informacion disponible";
+                            }
+                            else
+                            {
+                                res.ok = true;
+                                res.data = GenerarExcel_detalleMacros(dt_detalle, usuario);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                res.ok = false;
+                res.data = ex.Message;
+            }
+            return res;
+        }
+
+
 
     }
 }

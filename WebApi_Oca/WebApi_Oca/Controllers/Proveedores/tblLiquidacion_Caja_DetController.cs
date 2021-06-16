@@ -82,6 +82,8 @@ namespace WebApi_Oca.Controllers.Proveedores
 
             objReemplazar.otrosG_Doc = tbl_Liquidacion_Caja_Det.otrosG_Doc;
             objReemplazar.total_Doc = tbl_Liquidacion_Caja_Det.total_Doc;
+            objReemplazar.aplicaRetencion = tbl_Liquidacion_Caja_Det.aplicaRetencion;
+
             objReemplazar.Estado = tbl_Liquidacion_Caja_Det.Estado;
             objReemplazar.usuario_edicion = tbl_Liquidacion_Caja_Det.usuario_creacion;
             objReemplazar.fecha_edicion = DateTime.Now;

@@ -492,7 +492,16 @@ namespace WebApi_Oca.Controllers.Acceso
                     res.totalpage = 0;
                     resul = res;
                 }
+                else if (opcion == 32)
+                {
+                    string[] parametros = filtro.Split('|');
 
+                    int idLiquidacionCaja_Cab = Convert.ToInt32(parametros[0].ToString());
+                    string idUsuario = parametros[1].ToString();
+
+                    Proveedores_BL obj_negocio = new Proveedores_BL();
+                    resul = obj_negocio.GenerarReporte_contabilidadCajaChica(idLiquidacionCaja_Cab, idUsuario); ;
+                }
                 else
                 {
                     res.ok = false;

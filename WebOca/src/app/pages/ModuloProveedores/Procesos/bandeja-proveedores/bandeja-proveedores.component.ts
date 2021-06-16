@@ -848,7 +848,12 @@ export class BandejaProveedoresComponent implements OnInit {
   ///-----------------------------------------------------
   
 
-  mostrar_proveedoresNuevosCab(){    
+  mostrar_proveedoresNuevosCab(){   
+    if (this.formParamsFiltro.value.idEstado == '0' || this.formParamsFiltro.value.idEstado == 0 ) {
+      this.alertasService.Swal_alert('error','Por favor seleccione el Estado..');
+      return 
+    } 
+     
     this.spinner.show(); 
     this.registerService.get_Informacion_nuevosProveedoresCab( this.formParamsFiltro.value).subscribe((res:RespuestaServer)=>{ 
       this.spinner.hide(); 

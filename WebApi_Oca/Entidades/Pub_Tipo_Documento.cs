@@ -24,5 +24,6 @@ namespace Entidades
         public Nullable<int> Pub_TiDo_Identidad { get; set; }
         public string Pub_TiDo_Sunat { get; set; }
         public int id_TipoDocumento { get; set; }
+        public string Pub_TiDo_Abreviatura { get; set; }
     }
 }

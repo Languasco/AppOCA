@@ -56,5 +56,11 @@ namespace Entidades
         public Nullable<int> factura_CanceladaPrioridad { get; set; }
         public Nullable<int> factura_marcaContable { get; set; }
         public Nullable<int> factura_pago { get; set; }
+        public Nullable<System.DateTime> fecha_Vencimiento { get; set; }
+        public Nullable<decimal> porcentajeRetencion { get; set; }
+        public Nullable<decimal> TotalRetencion { get; set; }
+        public Nullable<decimal> porcentajeDetraccion { get; set; }
+        public Nullable<decimal> TotalDetraccion { get; set; }
+        public string pub_FoPa_Codigo { get; set; }
     }
 }

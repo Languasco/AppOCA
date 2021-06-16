@@ -34,6 +34,13 @@ export class  UploadService {
     return this.http.post(this.URL + 'Uploads/post_archivosAdicionalesCabProveedor?filtros=' + filtro, formData);
   }
 
+  upload_excelCajaChicaxx(file:any, idLiquidacionCaja_Cab : number, idusuario : string) { 
+    const formData = new FormData();   
+    formData.append('file', file);
+    const filtro =  idLiquidacionCaja_Cab  + '|' + idusuario ; 
+    return this.http.post(this.URL + 'Uploads/post_archivoExcel_cajaChica?filtros=' + filtro, formData);
+  }
+
   upload_excelCajaChica(file:any, idLiquidacionCaja_Cab : number, idusuario : string) { 
     const formData = new FormData();   
     formData.append('file', file);

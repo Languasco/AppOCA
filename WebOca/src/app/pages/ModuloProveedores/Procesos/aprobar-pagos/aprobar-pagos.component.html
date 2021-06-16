@@ -292,9 +292,12 @@
                                         <tr *ngFor="let item of  detalleCuentaContables; index as i">
                                             <th scope="row"> {{i + 1}} </th>
                                             <td class="text-right">{{item.importeDocumento | number:'1.2-2' }}</td>
-                                            <td>{{item.CtaGastos}}</td>
+                                            <!-- <td>{{item.CtaGastos}}</td>
                                             <td>{{item.CtaIGV}}</td>
-                                            <td>{{item.CtaxPagar}}</td>
+                                            <td>{{item.CtaxPagar}}</td> -->
+                                            <td>{{item.descripcionCtaGastos}}</td>
+                                            <td>{{item.descripcionCtaIGV}}</td>
+                                            <td>{{item.descripcionCtaxPagar}}</td>
                                             <td>
                                                 <div style="width: 450px;">
                                                     {{item.Glosa}}

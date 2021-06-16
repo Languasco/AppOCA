@@ -228,6 +228,7 @@
     <Content Include="Archivos\CajaChica\xxx.txt" />
     <Content Include="Archivos\Documentos\Descargas\xx.txt" />
     <Content Include="Archivos\Documentos\xx.txt" />
+    <Content Include="Archivos\Excel\Nuevo documento de texto.txt" />
     <Content Include="Archivos\Fotos\Descargas\read.txt" />
     <Content Include="Archivos\Fotos\parteDiario_foto1.jpg" />
     <Content Include="Archivos\Fotos\parteDiario_foto2.jpg" />

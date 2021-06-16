@@ -222,6 +222,14 @@ namespace WebApi_Oca.Controllers.Proveedores
                     res.totalpage = 0;
                     resul = res;
                 }
+                else if (opcion == 18)
+                {
+                    string[] parametros = filtro.Split('|');
+                    int idLiquidacionCaja_Cab = Convert.ToInt32(parametros[0].ToString());
+                    string idUser = parametros[1].ToString();
+
+                    resul = obj_negocio.guardar_excelCajaChica(idLiquidacionCaja_Cab, idUser);
+                }
                 else
                 {
                     res.ok = false;

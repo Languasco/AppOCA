@@ -121,27 +121,43 @@ export class AprobarPagosService {
     return this.http.post(this.URL + 'AprobarPagos/post_aprobacionPagosMasivos?filtro=' + filtro, JSON.stringify(idDocumentos) ,  httpOptions);
   }
 
-  get_descargarDetalleMacro( {  docIdentidad, tipoDocumento,  centroCosto,  moneda, facturaCancelada , Estado, docVencido }  , usuario :string  ){
-    let parametros = new HttpParams();
-    parametros = parametros.append('opcion', '6');
-    const facturaC =  (facturaCancelada==true) ? 1 : 0 ;
-    parametros = parametros.append('filtro',  docIdentidad  + '|' +  tipoDocumento  + '|' +   centroCosto     + '|' +  moneda  + '|' +  facturaC   + '|' +  Estado    + '|' +  usuario + '|' +  docVencido  );
+  // get_descargarDetalleMacro( {  docIdentidad, tipoDocumento,  centroCosto,  moneda, facturaCancelada , Estado, docVencido }  , usuario :string  ){
+  //   let parametros = new HttpParams();
+  //   parametros = parametros.append('opcion', '6');
+  //   const facturaC =  (facturaCancelada==true) ? 1 : 0 ;
+  //   const docVenc =  (docVencido==true) ? 1 : 0 ;
 
-    return this.http.get( this.URL + 'AprobarPagos' , {params: parametros});
+  //   parametros = parametros.append('filtro',  docIdentidad  + '|' +  tipoDocumento  + '|' +   centroCosto     + '|' +  moneda  + '|' +  facturaC   + '|' +  Estado    + '|' +  usuario + '|' +  docVenc  );
+
+  //   return this.http.get( this.URL + 'AprobarPagos' , {params: parametros});
+  // }
+
+  //--- masivos por Post
+   get_descargarDetalleMacro( {  docIdentidad, tipoDocumento,  centroCosto,  moneda, facturaCancelada , Estado, docVencido }  , usuario :string , fechaCorte :string  , idDocumentosMasivos :any ){
+
+    const facturaC =  (facturaCancelada==true) ? 1 : 0 ;
+    const docVenc =  (docVencido==true) ? 1 : 0 ;
+
+    const filtro =   docIdentidad  + '|' +  tipoDocumento  + '|' +   centroCosto     + '|' +  moneda  + '|' +  facturaC   + '|' +  Estado    + '|' +  usuario + '|' +  docVenc  + '|' +  fechaCorte ;
+    return this.http.post(this.URL + 'AprobarPagos/post_descargarDetalleMacro?filtro=' + filtro, JSON.stringify(idDocumentosMasivos) ,  httpOptions);
   }
 
 
   set_actualizando_flagPagos(idDocumentosMasivos :any, idusuario: string, idEstado: number){
     const filtro =   idusuario + '|' + idEstado ;
-    return this.http.post(this.URL + 'AprobarPagos/post_actualizando_flagPagos?filtro=' + filtro, JSON.stringify(idDocumentosMasivos) ,  httpOptions);
+    return this.http.post(this.URL + 'AprobarPagos/post_actualizando_flagPagos?filtro=' + filtro,JSON.stringify(idDocumentosMasivos) ,  httpOptions);
   }
 
 
-  get_descargarDetalle_aprobarPagos( {  docIdentidad, tipoDocumento,  centroCosto,  moneda, facturaCancelada , Estado, docVencido }  , usuario :string  ){
+  get_descargarDetalle_aprobarPagos( {  docIdentidad, tipoDocumento,  centroCosto,  moneda, facturaCancelada , Estado, docVencido }  , usuario :string, fechaCorte :string    ){
     let parametros = new HttpParams();
     parametros = parametros.append('opcion', '8');
+ 
+
     const facturaC =  (facturaCancelada==true) ? 1 : 0 ;
-    parametros = parametros.append('filtro',  docIdentidad  + '|' +  tipoDocumento  + '|' +   centroCosto     + '|' +  moneda  + '|' +  facturaC   + '|' +  Estado    + '|' +  usuario + '|' +  docVencido  );
+    const docVenc =  (docVencido==true) ? 1 : 0 ;
+
+    parametros = parametros.append('filtro',  docIdentidad  + '|' +  tipoDocumento  + '|' +   centroCosto     + '|' +  moneda  + '|' +  facturaC   + '|' +  Estado    + '|' +  usuario + '|' +  docVenc  + '|' +  fechaCorte  );
 
     return this.http.get( this.URL + 'AprobarPagos' , {params: parametros});
   }

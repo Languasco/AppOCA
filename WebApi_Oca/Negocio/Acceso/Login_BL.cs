@@ -160,7 +160,14 @@ namespace Negocio.Acceso
                         //---agregando la copia del correo 
                         if (dt_detalleMail.Rows[0]["copiaDestinatario"].ToString().Length > 0)
                         {
-                            message.CC.Add(new MailAddress(dt_detalleMail.Rows[0]["copiaDestinatario"].ToString()));
+                            //message.CC.Add(new MailAddress(dt_detalleMail.Rows[0]["copiaDestinatario"].ToString()));
+                            string[] Emailcopias = dt_detalleMail.Rows[0]["copiaDestinatario"].ToString().Split(';');
+                            string corr = "";
+                            foreach (var email in Emailcopias)
+                            {
+                                corr = email.Replace(" ", String.Empty);
+                                message.CC.Add(new MailAddress(corr));
+                            }
                         }
                         using (var smtp = new SmtpClient())
                         {

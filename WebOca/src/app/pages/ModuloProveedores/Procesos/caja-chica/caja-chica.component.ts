@@ -45,6 +45,7 @@ export class CajaChicaComponent implements OnInit {
   
   objLiquidacionesCab:any = {};
   liquidacionesDet :any[]=[]; 
+  alertasExcel :any[]=[]; 
 
 
   filtrarCab = "";
@@ -71,6 +72,9 @@ f
   totalesGeneral = '';
   numeroDoc_Global = '';
 
+  nombreImportes = 'Importe No Afecto';
+  nombreImpuestos = 'Igv';
+  flagError = false;
  
   constructor(private router:Router, private spinner: NgxSpinnerService, private alertasService : AlertasService, private localeService: BsLocaleService, private loginService: LoginService, private funcionGlobalServices : FuncionesglobalesService,private registerService : RegisterService, private registroFacturasService : RegistroFacturasService, private proveedorService:ProveedorService , private cajaChicaService : CajaChicaService, private uploadService : UploadService ) { 
     this.idUserGlobal = this.loginService.get_idUsuario();
@@ -135,6 +139,7 @@ inicializarFormularioDocAdicionales_Det(){
     otrosG_Doc : new FormControl(''), 
     total_Doc : new FormControl(''), 
     Estado : new FormControl('1'), 
+    aplicaRetencion : new FormControl(false), 
     usuario_creacion : new FormControl('0'), 
   }) 
   }
@@ -185,6 +190,11 @@ inicializarFormularioDocAdicionales_Det(){
     this.alertasService.Swal_alert('error','Por favor seleccione la fecha final');
     return 
   } 
+  
+  if (this.formParamsFiltro.value.idEstado == '0' || this.formParamsFiltro.value.idEstado == 0 ) {
+    this.alertasService.Swal_alert('error','Por favor seleccione el Estado');
+    return 
+  } 
 
   const fechaIni = this.funcionGlobalServices.formatoFecha(this.formParamsFiltro.value.fecha_ini);
   const fechaFin = this.funcionGlobalServices.formatoFecha(this.formParamsFiltro.value.fecha_fin);
@@ -219,6 +229,7 @@ inicializarFormularioDocAdicionales_Det(){
   this.inicializarFormulario();
   this.blank_Detalle();
   this.blankDoc();
+  this.blank();
   setTimeout(()=>{ // 
     $('#modal_registro').modal('show');  
   },0);
@@ -237,6 +248,7 @@ inicializarFormularioDocAdicionales_Det(){
     this.blankDoc();
     this.obtenerDatosLiquidacionCabDet(id_LiquidacionCaja_Cab);
     this.mostrarDocumentosCajaChica();
+    this.blank();
   }  
 
   obtenerDatosLiquidacionCabDet(idLiquidacionCaja_Cab : number ){
@@ -369,9 +381,15 @@ inicializarFormularioDocAdicionales_Det(){
   blank_Detalle(){
     this.flagModo_EdicionDet= false;
     this.idLiquidacionCaja_Det_Global = 0;
+    this.nombreImportes = 'Importe No Afecto';
+    this.nombreImpuestos = 'Igv';    
     this.inicializarFormularioManual();
     this.blank_Det()
     this.documentosCajaChica_Det = [];
+    setTimeout(()=>{ // 
+      $("#tipoDocDet").prop('disabled', false);
+    },0);
+
   }
 
   guardarDet_liquidacion(){
@@ -398,14 +416,20 @@ inicializarFormularioDocAdicionales_Det(){
       this.alertasService.Swal_alert('error', 'Ingrese por favor la fecha de emsion.');
       return 
     }
-    if (this.formParamsManual.value.id_Proveedor == '0' || this.formParamsManual.value.id_Proveedor == 0 || this.formParamsManual.value.id_Proveedor == null)  {
-      this.alertasService.Swal_alert('error', 'No se tiene el Id del Proveedor');
-      return 
-    }
 
-    if (this.formParamsManual.value.nro_RUC == '' || this.formParamsManual.value.nro_RUC == 0 || this.formParamsManual.value.nro_RUC == null)  {
-      this.alertasService.Swal_alert('error', 'Digite el nro de Ruc y luego presione la tecla Enter para buscar ..');
-      return 
+    // ----- Sin sustento
+    if (this.formParamsManual.value.Pub_TiDo_Codigo != '19' || this.formParamsManual.value.Pub_TiDo_Codigo != 19)  {
+ 
+      if (this.formParamsManual.value.id_Proveedor == '0' || this.formParamsManual.value.id_Proveedor == 0 || this.formParamsManual.value.id_Proveedor == null)  {
+        this.alertasService.Swal_alert('error', 'No se tiene el Id del Proveedor');
+        return 
+      }
+  
+      if (this.formParamsManual.value.nro_RUC == '' || this.formParamsManual.value.nro_RUC == 0 || this.formParamsManual.value.nro_RUC == null)  {
+        this.alertasService.Swal_alert('error', 'Digite el nro de Ruc y luego presione la tecla Enter para buscar ..');
+        return 
+      }
+
     }
 
     if (this.formParamsManual.value.concepto_Doc == '' || this.formParamsManual.value.concepto_Doc == 0 || this.formParamsManual.value.concepto_Doc == null)  {
@@ -432,9 +456,8 @@ inicializarFormularioDocAdicionales_Det(){
       this.alertasService.Swal_alert('error', 'Por favor ingresar el subTotal una cantidad positiva.');
       return 
     }
-
     
-    if ( Number(this.formParamsManual.value._)  < 0  )  {
+    if ( Number(this.formParamsManual.value.total_Doc)  < 0  )  {
       this.alertasService.Swal_alert('error', 'Por favor ingresar el Total una cantidad positiva.');
       return 
     }
@@ -443,29 +466,28 @@ inicializarFormularioDocAdicionales_Det(){
     // const precio = (String(this.formParamsActividadesDet.value.precioBaremo).length == 0)? 0: this.formParamsActividadesDet.value.precioBaremo ;
     // const total= (cantidad * precio);
 
-    this.formParamsManual.patchValue({"id_LiquidacionCaja_Cab":  this.idLiquidacionCaja_Cab_Global , "usuario_creacion" : this.idUserGlobal }); 
+    let flagRetencion =  (this.formParamsManual.value.aplicaRetencion == true) ? 1:0 ;
+     this.formParamsManual.patchValue({"aplicaRetencion" : flagRetencion,  "id_LiquidacionCaja_Cab":  this.idLiquidacionCaja_Cab_Global , "usuario_creacion" : this.idUserGlobal }); 
 
     Swal.fire({
       icon: 'info',allowOutsideClick: false, allowEscapeKey: false, text: 'Espere por favor'  })
     Swal.showLoading();
 
-    if (this.flagModo_EdicionDet ==false) { /// nuevo
-
-        // if (this.verificarBaremoYacargado( this.formParamsActividadesDet.value.idBaremo ) ==true) {
-        //   this.alertasService.Swal_alert('error', 'El Baremos ya se cargo, verifique ..');
-        //   return;
-        // }
+    if (this.flagModo_EdicionDet ==false) { /// nuevo 
 
         this.cajaChicaService.set_save_LiquidacionDet(this.formParamsManual.value).subscribe((res:RespuestaServer)=>{  
           Swal.close();
+
           if (res.ok) {   
 
              this.idLiquidacionCaja_Det_Global  = Number(res.data);
              this.flagModo_EdicionDet = true;
-             this.formParamsManual.patchValue({"id_LiquidacionCaja_Det  ": Number(res.data) });
+             this.formParamsManual.patchValue({"id_LiquidacionCaja_Det  ": Number(res.data) , "aplicaRetencion": (flagRetencion == 1) ? true: false });
              this.get_mostrarDetalle_liquidaciones();
 
           }else{
+
+            this.formParamsManual.patchValue({"aplicaRetencion": (flagRetencion == 1) ? true: false });
             this.alertasService.Swal_alert('error', JSON.stringify(res.data));
             alert(JSON.stringify(res.data));
           }    
@@ -478,7 +500,9 @@ inicializarFormularioDocAdicionales_Det(){
           return 
         }
         this.cajaChicaService.set_update_LiquidacionDet(this.formParamsManual.value  , this.idLiquidacionCaja_Det_Global ).subscribe((res:RespuestaServer)=>{  
+          
           Swal.close();
+          this.formParamsManual.patchValue({"aplicaRetencion": (flagRetencion == 1) ? true: false });
           if (res.ok) {        
  
            this.get_mostrarDetalle_liquidaciones();
@@ -506,8 +530,7 @@ inicializarFormularioDocAdicionales_Det(){
     })        
   }
 
-  modificar_detalleLiquidacion({id_LiquidacionCaja_Det, id_LiquidacionCaja_Cab, Pub_TiDo_Codigo, nroSerie_Doc, numero_Doc, fechaEmision_Doc, id_Proveedor, nro_RUC,  concepto_Doc, subTotal_Doc, IgvTotal_Doc, percepciones_Doc, otrosG_Doc, total_Doc}){  
-
+  modificar_detalleLiquidacion({id_LiquidacionCaja_Det, id_LiquidacionCaja_Cab, Pub_TiDo_Codigo, nroSerie_Doc, numero_Doc, fechaEmision_Doc, id_Proveedor, nro_RUC,  concepto_Doc, subTotal_Doc, IgvTotal_Doc, percepciones_Doc, otrosG_Doc, total_Doc, aplicaRetencion}){  
     this.formParamsManual.patchValue({ 
       "id_LiquidacionCaja_Det" : id_LiquidacionCaja_Det, 
       "id_LiquidacionCaja_Cab" : id_LiquidacionCaja_Cab, 
@@ -526,6 +549,7 @@ inicializarFormularioDocAdicionales_Det(){
       "percepciones_Doc" : percepciones_Doc, 
       "otrosG_Doc" : otrosG_Doc, 
       "total_Doc" : total_Doc, 
+      "aplicaRetencion" : (aplicaRetencion ==1) ? true:false ,
       "Estado" : '1', 
     }); 
   
@@ -534,6 +558,8 @@ inicializarFormularioDocAdicionales_Det(){
 
     setTimeout(() => {
       $("#100").prop("checked", true);
+      $("#tipoDocDet").prop('disabled', true);
+
       this.changeComprobante(1);  
     }, 100);
     this.mostrarDocumentosCajaChica_Det( false);
@@ -578,39 +604,12 @@ inicializarFormularioDocAdicionales_Det(){
 
   blank(){
     this.filesExcel = [];
+    this.alertasExcel = [];
+    this.flagError = false;
     this.inicializarFile()
  }
 
- subirArchivo(){
 
-  if (!this.formParamsFile.value.file) {
-    this.alertasService.Swal_alert('error', 'Por favor seleccione el archivo excel.');
-    return;
-  }
-  
-  this.spinner.show();
-  this.uploadService.upload_excelCajaChica( this.filesExcel[0].file , this.idLiquidacionCaja_Cab_Global, this.idUserGlobal ).subscribe(
-    (res:RespuestaServer) =>{
-
-      this.spinner.hide();
-      if (res.ok==true) { 
-        this.alertasService.Swal_Success('Se grabó correctamente el archivo..');
-        this.blank(); 
-        ///---- listando el detalle xxxx
-        this.obtenerDatosLiquidacionCabDet(this.idLiquidacionCaja_Cab_Global)
-
-      }else{
-          this.filesExcel[0].message = String(res.data);
-          this.filesExcel[0].status = 'error';   
-      }
-      },(err) => {
-        this.spinner.hide();
-        this.filesExcel[0].message = JSON.stringify(err);
-        this.filesExcel[0].status = 'error';   
-      }
-  );
-
- }
 
 
  obtnerArchivoYacargado(nombreArchivo:string){  
@@ -700,7 +699,6 @@ blankDoc(){
       }
     })
   }
-
    
   downloadFileExport(idDocumento_Archivo:number){    
     Swal.fire({
@@ -718,7 +716,6 @@ blankDoc(){
       }
     })
   }
-
   
   onDocumentChange(event:any) {   
     var filesTemporal = event.target.files; //FileList object       
@@ -974,6 +971,111 @@ blankDoc(){
         alert(JSON.stringify(res.data));
       }
     })
+  }
+
+  descargarContabilidad({id_LiquidacionCaja_Cab}){    
+    Swal.fire({
+      icon: 'info', allowOutsideClick: false, allowEscapeKey: false, text: 'Espere por favor'
+    })
+    Swal.showLoading();
+    this.cajaChicaService.get_descargarContabilidadCajaChica(id_LiquidacionCaja_Cab, this.idUserGlobal).subscribe((res:RespuestaServer)=>{
+      Swal.close();
+      console.log(res);
+      if (res.ok) { 
+        window.open(String(res.data),'_blank');
+      }else{
+        this.alertasService.Swal_alert('error', JSON.stringify(res.data));
+        alert(JSON.stringify(res.data));
+      }
+    })    
+  }
+    
+  changeTipoDocumento(idTipodoc:any){   
+
+    this.nombreImportes = 'Importe No Afecto';
+    this.nombreImpuestos = 'Igv';
+
+    //-----Reciboso honorarios
+    if (idTipodoc == 13) {
+      this.nombreImportes = 'Importe Total';
+      this.nombreImpuestos = 'Imp. Renta';
+      this.formParamsManual.patchValue({"aplicaRetencion": false , "percepciones_Doc":  0 , "otrosG_Doc" : 0 }); 
+    } 
+
+  }
+
+  subirArchivo(){
+
+    if (!this.formParamsFile.value.file) {
+      this.alertasService.Swal_alert('error', 'Por favor seleccione el archivo excel, luego click en el Boton ver.');
+      return;
+    }
+ 
+    if (this.alertasExcel.length == 0) {
+      this.alertasService.Swal_alert('error', 'No hay informacion para procesar, verifique su archivo ..');
+      return;
+    }
+
+    if ( this.flagError == true) {
+      this.alertasService.Swal_alert('error', 'Por favor corrija su archivo, tiene errores ..');
+      return;
+    }
+    
+    this.spinner.show();
+    this.cajaChicaService.guardar_excelCajaChica(this.idLiquidacionCaja_Cab_Global, this.idUserGlobal ).subscribe(
+      (res:RespuestaServer) =>{
+  
+        this.spinner.hide();
+        if (res.ok==true) { 
+ 
+          this.alertasService.Swal_Success('Se grabó correctamente el archivo..');
+          this.blank(); 
+          ///---- listando el detalle xxxx
+          this.obtenerDatosLiquidacionCabDet(this.idLiquidacionCaja_Cab_Global)
+  
+        }else{
+           alert(JSON.stringify(res.data));
+        }
+        },(err) => {
+          this.spinner.hide();
+          alert(JSON.stringify(err));
+        }
+    );
+  
+  }
+
+  get_uploadExcel_ingresoImportacion(){
+    if (!this.formParamsFile.value.file) {
+      this.alertasService.Swal_alert('error', 'Por favor seleccione el archivo excel.');
+      return;
+    }
+    
+    this.spinner.show();
+    this.uploadService.upload_excelCajaChica( this.filesExcel[0].file , this.idLiquidacionCaja_Cab_Global, this.idUserGlobal ).subscribe(
+      (res:RespuestaServer) =>{
+  
+        this.spinner.hide();
+        if (res.ok==true) { 
+
+          this.alertasExcel = res.data;
+          this.filesExcel[0].status = '';   
+
+          for (const item of this.alertasExcel ){
+              if (item.error =='0' || item.error == 0) {
+                this.flagError = true;
+                break;
+              }
+          }                 
+        }else{
+            this.filesExcel[0].message = String(res.data);
+            this.filesExcel[0].status = 'error';   
+        }
+        },(err) => {
+          this.spinner.hide();
+          this.filesExcel[0].message = JSON.stringify(err);
+          this.filesExcel[0].status = 'error';   
+        }
+    );       
   }
 
 

@@ -101,8 +101,16 @@
                         <td>{{item.nroDoc}} </td>
 
                         <td>{{item.fecha}} </td>
-                        <td>{{item.razonSocial}} </td>
-                        <td>{{item.concepto}} </td>
+                        <td>
+                            <div style="width: 250px;">
+                                {{item.razonSocial}}
+                            </div>
+                        </td>
+                        <td>
+                            <div style="width: 300px;">
+                                {{item.concepto}}
+                            </div>
+                        </td>
                         <td>{{item.noAfecto}} </td>
                         <td>{{item.igv}} </td>
 
@@ -222,9 +230,12 @@
                                         <tr *ngFor="let item of  detalleCuentaContables; index as i">
                                             <th scope="row"> {{i + 1}} </th>
                                             <td>{{item.importeDocumento}}</td>
-                                            <td>{{item.CtaGastos}}</td>
+                                            <!-- <td>{{item.CtaGastos}}</td>
                                             <td>{{item.CtaIGV}}</td>
-                                            <td>{{item.CtaxPagar}}</td>
+                                            <td>{{item.CtaxPagar}}</td> -->
+                                            <td>{{item.descripcionCtaGastos}}</td>
+                                            <td>{{item.descripcionCtaIGV}}</td>
+                                            <td>{{item.descripcionCtaxPagar}}</td>
                                             <td>
                                                 <div style="width: 450px;">
                                                     {{item.Glosa}}

@@ -22,6 +22,7 @@
           <Property Name="Pub_Mone_UsuModi" Type="char" MaxLength="6" />
           <Property Name="Pub_Mone_FecModi" Type="datetime" />
           <Property Name="Pub_Mone_Identidad" Type="char" MaxLength="6" />
+          <Property Name="Pub_Mone_Abreviatura" Type="varchar" MaxLength="5" />
         </EntityType>
         <EntityType Name="Pub_Tipo_Documento">
           <Key>
@@ -37,6 +38,7 @@
           <Property Name="Pub_TiDo_Identidad" Type="int" />
           <Property Name="Pub_TiDo_Sunat" Type="varchar" MaxLength="5" />
           <Property Name="id_TipoDocumento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Pub_TiDo_Abreviatura" Type="varchar" MaxLength="5" />
         </EntityType>
         <EntityType Name="Pub_Usuarios">
           <Key>
@@ -210,6 +212,12 @@
           <Property Name="factura_CanceladaPrioridad" Type="int" />
           <Property Name="factura_marcaContable" Type="int" />
           <Property Name="factura_pago" Type="int" />
+          <Property Name="fecha_Vencimiento" Type="datetime" />
+          <Property Name="porcentajeRetencion" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="TotalRetencion" Type="decimal" Precision="28" Scale="6" />
+          <Property Name="porcentajeDetraccion" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="TotalDetraccion" Type="decimal" Precision="28" Scale="6" />
+          <Property Name="pub_FoPa_Codigo" Type="varchar" MaxLength="3" />
         </EntityType>
         <EntityType Name="tbl_Documento_Det">
           <Key>
@@ -506,6 +514,7 @@ advertencia 6002: La tabla o vista 'MFSoft_Base_OCA.dbo.Tbl_Instalacion_SIGETRAM
           <Property Name="CtaGastos" Type="varchar" MaxLength="20" />
           <Property Name="CtaIGV" Type="varchar" MaxLength="20" />
           <Property Name="CtaxPagar" Type="varchar" MaxLength="20" />
+          <Property Name="aplicaRetencion" Type="int" />
         </EntityType>
         <EntityType Name="tbl_Pais">
           <Key>
@@ -1007,11 +1016,11 @@ advertencia 6002: La tabla o vista 'MFSoft_Base_OCA.dbo.TBL_SED_ZONA' no tiene d
           <EntitySet Name="tbl_Documento_Cab" EntityType="MFSoft_Base_OCAModel.tbl_Documento_Cab" />
           <EntitySet Name="tbl_Documento_Det" EntityType="MFSoft_Base_OCAModel.tbl_Documento_Det" />
           <EntitySet Name="tbl_Liquidacion_Caja_Cab" EntityType="MFSoft_Base_OCAModel.tbl_Liquidacion_Caja_Cab" />
-          <EntitySet Name="tbl_Liquidacion_Caja_Det" EntityType="MFSoft_Base_OCAModel.tbl_Liquidacion_Caja_Det" />
           <EntitySet Name="tbl_Proveedor_Evalucion_Det" EntityType="MFSoft_Base_OCAModel.tbl_Proveedor_Evalucion_Det" />
           <EntitySet Name="tbl_Proveedor_Incidencia" EntityType="MFSoft_Base_OCAModel.tbl_Proveedor_Incidencia" />
           <EntitySet Name="Tbl_Proveedor" EntityType="MFSoft_Base_OCAModel.Tbl_Proveedor" />
           <EntitySet Name="Pub_Tipo_Documento" EntityType="MFSoft_Base_OCAModel.Pub_Tipo_Documento" />
+          <EntitySet Name="tbl_Liquidacion_Caja_Det" EntityType="MFSoft_Base_OCAModel.tbl_Liquidacion_Caja_Det" />
         </EntityContainer>
         <EntityType Name="tbl_Aceesos_Evento">
           <Key>
@@ -1468,6 +1477,7 @@ advertencia 6002: La tabla o vista 'MFSoft_Base_OCA.dbo.TBL_SED_ZONA' no tiene d
           <Property Name="Pub_Mone_UsuModi" Type="String" MaxLength="6" FixedLength="true" Unicode="false" />
           <Property Name="Pub_Mone_FecModi" Type="DateTime" Precision="3" />
           <Property Name="Pub_Mone_Identidad" Type="String" MaxLength="6" FixedLength="true" Unicode="false" />
+          <Property Name="Pub_Mone_Abreviatura" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="tbl_Proveedor_Archivos">
           <Key>
@@ -1600,6 +1610,12 @@ advertencia 6002: La tabla o vista 'MFSoft_Base_OCA.dbo.TBL_SED_ZONA' no tiene d
           <Property Name="factura_CanceladaPrioridad" Type="Int32" />
           <Property Name="factura_marcaContable" Type="Int32" />
           <Property Name="factura_pago" Type="Int32" />
+          <Property Name="fecha_Vencimiento" Type="DateTime" Precision="3" />
+          <Property Name="porcentajeRetencion" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TotalRetencion" Type="Decimal" Precision="28" Scale="6" />
+          <Property Name="porcentajeDetraccion" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TotalDetraccion" Type="Decimal" Precision="28" Scale="6" />
+          <Property Name="pub_FoPa_Codigo" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="tbl_Documento_Det">
           <Key>
@@ -1642,45 +1658,6 @@ advertencia 6002: La tabla o vista 'MFSoft_Base_OCA.dbo.TBL_SED_ZONA' no tiene d
           <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
           <Property Name="usuario_edicion" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
           <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
-        </EntityType>
-        <EntityType Name="tbl_Liquidacion_Caja_Det">
-          <Key>
-            <PropertyRef Name="id_LiquidacionCaja_Det" />
-          </Key>
-          <Property Name="id_LiquidacionCaja_Det" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_LiquidacionCaja_Cab" Type="Int32" />
-          <Property Name="id_tipoIngreso" Type="Int32" />
-          <Property Name="Pub_TiDo_Codigo" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="nroSerie_Doc" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="numero_Doc" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="fechaEmision_Doc" Type="DateTime" Precision="3" />
-          <Property Name="Ges_Ordt_Codigo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="CCosto" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="id_Proveedor" Type="Int32" />
-          <Property Name="nro_RUC" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="concepto_Doc" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="Pub_Mone_Codigo" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
-          <Property Name="TipoCambio" Type="Decimal" Precision="18" Scale="3" />
-          <Property Name="subTotal_Doc" Type="Decimal" Precision="28" Scale="6" />
-          <Property Name="porcentajeIGV" Type="Decimal" Precision="18" Scale="3" />
-          <Property Name="IgvTotal_Doc" Type="Decimal" Precision="28" Scale="6" />
-          <Property Name="percepciones_Doc" Type="Decimal" Precision="28" Scale="6" />
-          <Property Name="otrosG_Doc" Type="Decimal" Precision="28" Scale="6" />
-          <Property Name="total_Doc" Type="Decimal" Precision="28" Scale="6" />
-          <Property Name="observaciones" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="modoIngreso_Doc" Type="Int32" />
-          <Property Name="Estado" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
-          <Property Name="usuario_creacion" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
-          <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
-          <Property Name="usuario_edicion" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
-          <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
-          <Property Name="porcentajeDescto" Type="Decimal" Precision="28" Scale="6" />
-          <Property Name="totalDescuento" Type="Decimal" Precision="28" Scale="6" />
-          <Property Name="totalaPagar" Type="Decimal" Precision="28" Scale="6" />
-          <Property Name="Glosa" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="CtaGastos" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="CtaIGV" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="CtaxPagar" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="tbl_Proveedor_Evalucion_Det">
           <Key>
@@ -1780,6 +1757,47 @@ advertencia 6002: La tabla o vista 'MFSoft_Base_OCA.dbo.TBL_SED_ZONA' no tiene d
           <Property Name="Pub_TiDo_Identidad" Type="Int32" />
           <Property Name="Pub_TiDo_Sunat" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="id_TipoDocumento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Pub_TiDo_Abreviatura" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tbl_Liquidacion_Caja_Det">
+          <Key>
+            <PropertyRef Name="id_LiquidacionCaja_Det" />
+          </Key>
+          <Property Name="id_LiquidacionCaja_Det" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_LiquidacionCaja_Cab" Type="Int32" />
+          <Property Name="id_tipoIngreso" Type="Int32" />
+          <Property Name="Pub_TiDo_Codigo" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="nroSerie_Doc" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="numero_Doc" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="fechaEmision_Doc" Type="DateTime" Precision="3" />
+          <Property Name="Ges_Ordt_Codigo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CCosto" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="id_Proveedor" Type="Int32" />
+          <Property Name="nro_RUC" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="concepto_Doc" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Pub_Mone_Codigo" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="TipoCambio" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="subTotal_Doc" Type="Decimal" Precision="28" Scale="6" />
+          <Property Name="porcentajeIGV" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="IgvTotal_Doc" Type="Decimal" Precision="28" Scale="6" />
+          <Property Name="percepciones_Doc" Type="Decimal" Precision="28" Scale="6" />
+          <Property Name="otrosG_Doc" Type="Decimal" Precision="28" Scale="6" />
+          <Property Name="total_Doc" Type="Decimal" Precision="28" Scale="6" />
+          <Property Name="observaciones" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="modoIngreso_Doc" Type="Int32" />
+          <Property Name="Estado" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="usuario_creacion" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
+          <Property Name="usuario_edicion" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_edicion" Type="DateTime" Precision="3" />
+          <Property Name="porcentajeDescto" Type="Decimal" Precision="28" Scale="6" />
+          <Property Name="totalDescuento" Type="Decimal" Precision="28" Scale="6" />
+          <Property Name="totalaPagar" Type="Decimal" Precision="28" Scale="6" />
+          <Property Name="Glosa" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="CtaGastos" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CtaIGV" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CtaxPagar" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="aplicaRetencion" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2215,6 +2233,7 @@ advertencia 6002: La tabla o vista 'MFSoft_Base_OCA.dbo.TBL_SED_ZONA' no tiene d
           <EntitySetMapping Name="Pub_Monedas">
             <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.Pub_Monedas">
               <MappingFragment StoreEntitySet="Pub_Monedas">
+                <ScalarProperty Name="Pub_Mone_Abreviatura" ColumnName="Pub_Mone_Abreviatura" />
                 <ScalarProperty Name="Pub_Mone_Identidad" ColumnName="Pub_Mone_Identidad" />
                 <ScalarProperty Name="Pub_Mone_FecModi" ColumnName="Pub_Mone_FecModi" />
                 <ScalarProperty Name="Pub_Mone_UsuModi" ColumnName="Pub_Mone_UsuModi" />
@@ -2323,6 +2342,12 @@ advertencia 6002: La tabla o vista 'MFSoft_Base_OCA.dbo.TBL_SED_ZONA' no tiene d
           <EntitySetMapping Name="tbl_Documento_Cab">
             <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.tbl_Documento_Cab">
               <MappingFragment StoreEntitySet="tbl_Documento_Cab">
+                <ScalarProperty Name="pub_FoPa_Codigo" ColumnName="pub_FoPa_Codigo" />
+                <ScalarProperty Name="TotalDetraccion" ColumnName="TotalDetraccion" />
+                <ScalarProperty Name="porcentajeDetraccion" ColumnName="porcentajeDetraccion" />
+                <ScalarProperty Name="TotalRetencion" ColumnName="TotalRetencion" />
+                <ScalarProperty Name="porcentajeRetencion" ColumnName="porcentajeRetencion" />
+                <ScalarProperty Name="fecha_Vencimiento" ColumnName="fecha_Vencimiento" />
                 <ScalarProperty Name="factura_pago" ColumnName="factura_pago" />
                 <ScalarProperty Name="factura_marcaContable" ColumnName="factura_marcaContable" />
                 <ScalarProperty Name="factura_CanceladaPrioridad" ColumnName="factura_CanceladaPrioridad" />
@@ -2409,46 +2434,6 @@ advertencia 6002: La tabla o vista 'MFSoft_Base_OCA.dbo.TBL_SED_ZONA' no tiene d
                 <ScalarProperty Name="CCosto" ColumnName="CCosto" />
                 <ScalarProperty Name="Ges_Ordt_Codigo" ColumnName="Ges_Ordt_Codigo" />
                 <ScalarProperty Name="id_LiquidacionCaja_Cab" ColumnName="id_LiquidacionCaja_Cab" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tbl_Liquidacion_Caja_Det">
-            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.tbl_Liquidacion_Caja_Det">
-              <MappingFragment StoreEntitySet="tbl_Liquidacion_Caja_Det">
-                <ScalarProperty Name="CtaxPagar" ColumnName="CtaxPagar" />
-                <ScalarProperty Name="CtaIGV" ColumnName="CtaIGV" />
-                <ScalarProperty Name="CtaGastos" ColumnName="CtaGastos" />
-                <ScalarProperty Name="Glosa" ColumnName="Glosa" />
-                <ScalarProperty Name="totalaPagar" ColumnName="totalaPagar" />
-                <ScalarProperty Name="totalDescuento" ColumnName="totalDescuento" />
-                <ScalarProperty Name="porcentajeDescto" ColumnName="porcentajeDescto" />
-                <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
-                <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
-                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
-                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
-                <ScalarProperty Name="Estado" ColumnName="Estado" />
-                <ScalarProperty Name="modoIngreso_Doc" ColumnName="modoIngreso_Doc" />
-                <ScalarProperty Name="observaciones" ColumnName="observaciones" />
-                <ScalarProperty Name="total_Doc" ColumnName="total_Doc" />
-                <ScalarProperty Name="otrosG_Doc" ColumnName="otrosG_Doc" />
-                <ScalarProperty Name="percepciones_Doc" ColumnName="percepciones_Doc" />
-                <ScalarProperty Name="IgvTotal_Doc" ColumnName="IgvTotal_Doc" />
-                <ScalarProperty Name="porcentajeIGV" ColumnName="porcentajeIGV" />
-                <ScalarProperty Name="subTotal_Doc" ColumnName="subTotal_Doc" />
-                <ScalarProperty Name="TipoCambio" ColumnName="TipoCambio" />
-                <ScalarProperty Name="Pub_Mone_Codigo" ColumnName="Pub_Mone_Codigo" />
-                <ScalarProperty Name="concepto_Doc" ColumnName="concepto_Doc" />
-                <ScalarProperty Name="nro_RUC" ColumnName="nro_RUC" />
-                <ScalarProperty Name="id_Proveedor" ColumnName="id_Proveedor" />
-                <ScalarProperty Name="CCosto" ColumnName="CCosto" />
-                <ScalarProperty Name="Ges_Ordt_Codigo" ColumnName="Ges_Ordt_Codigo" />
-                <ScalarProperty Name="fechaEmision_Doc" ColumnName="fechaEmision_Doc" />
-                <ScalarProperty Name="numero_Doc" ColumnName="numero_Doc" />
-                <ScalarProperty Name="nroSerie_Doc" ColumnName="nroSerie_Doc" />
-                <ScalarProperty Name="Pub_TiDo_Codigo" ColumnName="Pub_TiDo_Codigo" />
-                <ScalarProperty Name="id_tipoIngreso" ColumnName="id_tipoIngreso" />
-                <ScalarProperty Name="id_LiquidacionCaja_Cab" ColumnName="id_LiquidacionCaja_Cab" />
-                <ScalarProperty Name="id_LiquidacionCaja_Det" ColumnName="id_LiquidacionCaja_Det" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2542,6 +2527,7 @@ advertencia 6002: La tabla o vista 'MFSoft_Base_OCA.dbo.TBL_SED_ZONA' no tiene d
           <EntitySetMapping Name="Pub_Tipo_Documento">
             <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.Pub_Tipo_Documento">
               <MappingFragment StoreEntitySet="Pub_Tipo_Documento">
+                <ScalarProperty Name="Pub_TiDo_Abreviatura" ColumnName="Pub_TiDo_Abreviatura" />
                 <ScalarProperty Name="id_TipoDocumento" ColumnName="id_TipoDocumento" />
                 <ScalarProperty Name="Pub_TiDo_Sunat" ColumnName="Pub_TiDo_Sunat" />
                 <ScalarProperty Name="Pub_TiDo_Identidad" ColumnName="Pub_TiDo_Identidad" />
@@ -2552,6 +2538,47 @@ advertencia 6002: La tabla o vista 'MFSoft_Base_OCA.dbo.TBL_SED_ZONA' no tiene d
                 <ScalarProperty Name="Pub_Esta_Codigo" ColumnName="Pub_Esta_Codigo" />
                 <ScalarProperty Name="Pub_TiDo_Descripcion" ColumnName="Pub_TiDo_Descripcion" />
                 <ScalarProperty Name="Pub_TiDo_Codigo" ColumnName="Pub_TiDo_Codigo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Liquidacion_Caja_Det">
+            <EntityTypeMapping TypeName="MFSoft_Base_OCAModel.tbl_Liquidacion_Caja_Det">
+              <MappingFragment StoreEntitySet="tbl_Liquidacion_Caja_Det">
+                <ScalarProperty Name="aplicaRetencion" ColumnName="aplicaRetencion" />
+                <ScalarProperty Name="CtaxPagar" ColumnName="CtaxPagar" />
+                <ScalarProperty Name="CtaIGV" ColumnName="CtaIGV" />
+                <ScalarProperty Name="CtaGastos" ColumnName="CtaGastos" />
+                <ScalarProperty Name="Glosa" ColumnName="Glosa" />
+                <ScalarProperty Name="totalaPagar" ColumnName="totalaPagar" />
+                <ScalarProperty Name="totalDescuento" ColumnName="totalDescuento" />
+                <ScalarProperty Name="porcentajeDescto" ColumnName="porcentajeDescto" />
+                <ScalarProperty Name="fecha_edicion" ColumnName="fecha_edicion" />
+                <ScalarProperty Name="usuario_edicion" ColumnName="usuario_edicion" />
+                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
+                <ScalarProperty Name="usuario_creacion" ColumnName="usuario_creacion" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="modoIngreso_Doc" ColumnName="modoIngreso_Doc" />
+                <ScalarProperty Name="observaciones" ColumnName="observaciones" />
+                <ScalarProperty Name="total_Doc" ColumnName="total_Doc" />
+                <ScalarProperty Name="otrosG_Doc" ColumnName="otrosG_Doc" />
+                <ScalarProperty Name="percepciones_Doc" ColumnName="percepciones_Doc" />
+                <ScalarProperty Name="IgvTotal_Doc" ColumnName="IgvTotal_Doc" />
+                <ScalarProperty Name="porcentajeIGV" ColumnName="porcentajeIGV" />
+                <ScalarProperty Name="subTotal_Doc" ColumnName="subTotal_Doc" />
+                <ScalarProperty Name="TipoCambio" ColumnName="TipoCambio" />
+                <ScalarProperty Name="Pub_Mone_Codigo" ColumnName="Pub_Mone_Codigo" />
+                <ScalarProperty Name="concepto_Doc" ColumnName="concepto_Doc" />
+                <ScalarProperty Name="nro_RUC" ColumnName="nro_RUC" />
+                <ScalarProperty Name="id_Proveedor" ColumnName="id_Proveedor" />
+                <ScalarProperty Name="CCosto" ColumnName="CCosto" />
+                <ScalarProperty Name="Ges_Ordt_Codigo" ColumnName="Ges_Ordt_Codigo" />
+                <ScalarProperty Name="fechaEmision_Doc" ColumnName="fechaEmision_Doc" />
+                <ScalarProperty Name="numero_Doc" ColumnName="numero_Doc" />
+                <ScalarProperty Name="nroSerie_Doc" ColumnName="nroSerie_Doc" />
+                <ScalarProperty Name="Pub_TiDo_Codigo" ColumnName="Pub_TiDo_Codigo" />
+                <ScalarProperty Name="id_tipoIngreso" ColumnName="id_tipoIngreso" />
+                <ScalarProperty Name="id_LiquidacionCaja_Cab" ColumnName="id_LiquidacionCaja_Cab" />
+                <ScalarProperty Name="id_LiquidacionCaja_Det" ColumnName="id_LiquidacionCaja_Det" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

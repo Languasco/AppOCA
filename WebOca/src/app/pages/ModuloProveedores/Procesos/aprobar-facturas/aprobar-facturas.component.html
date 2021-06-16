@@ -44,7 +44,7 @@
                         <div class="col-md-4">
                             <label for=""> Estado</label>
                             <select class="form-control comboBox" formControlName="idEstado">
-                                <option value="0"> [ -- TODOS -- ]</option>
+                                <option value="0"> [ -- SELECCIONE -- ]</option>
                                 <option [value]="item.Pub_Esta_Codigo" *ngFor="let item of estados">{{item.Pub_Esta_Nombre}}</option> 
                             </select>
                         </div>
@@ -137,7 +137,6 @@
                                 {{item.proveedor}}
                             </div>
                         </td>
-
                         <td class="text-right">{{item.subTotal | number:'1.2-2' }} </td>
                         <td class="text-right">{{item.igv | number:'1.2-2' }} </td>
                         <td class="text-right">{{item.total | number:'1.2-2' }} </td>
@@ -145,8 +144,6 @@
                         <td class="text-right">{{item.porDetraccion | number:'1.2-2'}}</td>
                         <td class="text-right">{{item.totDetraccion | number:'1.2-2'}}</td>
                         <td class="text-right">{{item.totalPagar | number:'1.2-2'}}</td>
-
-
                         <td>
                             <div style="width: 120px;">
                                 {{item.nroOC}}
@@ -548,7 +545,7 @@
 
                                                         <div class="row">
                                                             <div class="col-md-12 text-center mt-2">
-                                                                <button class="btn btn-sm btn-success" (click)="almacenarCuentasContables()">  <i class="fas fa-save"> Grabar</i> </button>
+                                                                <button class="btn btn-sm btn-success" *ngIf="detalleCuentaContables.length <= 0 || formParamsContabilidad.value.id_Glosa > 0 " (click)="almacenarCuentasContables()">  <i class="fas fa-save"> Grabar</i> </button>
                                                                 <button class="btn btn-sm btn-warning ml-2" (click)="blank_DetalleCuentasContables()">  <i class="fa fa-plus-circle"> Nuevo</i> </button>
 
                                                             </div>
@@ -572,9 +569,12 @@
                                                                     <tr *ngFor="let item of  detalleCuentaContables; index as i">
                                                                         <th scope="row"> {{i + 1}} </th>
                                                                         <td>{{item.importeDocumento}}</td>
-                                                                        <td>{{item.CtaGastos}}</td>
+                                                                        <!-- <td>{{item.CtaGastos}}</td>
                                                                         <td>{{item.CtaIGV}}</td>
-                                                                        <td>{{item.CtaxPagar}}</td>
+                                                                        <td>{{item.CtaxPagar}}</td> -->
+                                                                        <td>{{item.descripcionCtaGastos}}</td>
+                                                                        <td>{{item.descripcionCtaIGV}}</td>
+                                                                        <td>{{item.descripcionCtaxPagar}}</td>
                                                                         <td>
                                                                             <div style="width: 450px;">
                                                                                 {{item.Glosa}}

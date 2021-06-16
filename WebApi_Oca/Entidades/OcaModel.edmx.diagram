@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="bf4fd7b239bd4a8ba708ac219e791177" Name="Diagram1">
+      <Diagram DiagramId="bf4fd7b239bd4a8ba708ac219e791177" Name="Diagram1" ZoomLevel="74">
         <EntityTypeShape EntityType="MFSoft_Base_OCAModel.Pub_Usuarios" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MFSoft_Base_OCAModel.tbl_Aceesos_Evento" Width="1.5" PointX="3.375" PointY="0.75" />
         <EntityTypeShape EntityType="MFSoft_Base_OCAModel.tbl_Definicion_Opciones" Width="1.5" PointX="3.375" PointY="4.75" />
@@ -45,11 +45,11 @@
         <EntityTypeShape EntityType="MFSoft_Base_OCAModel.tbl_Documento_Cab" Width="1.5" PointX="19.375" PointY="7.75" />
         <EntityTypeShape EntityType="MFSoft_Base_OCAModel.tbl_Documento_Det" Width="1.5" PointX="19.375" PointY="16.75" />
         <EntityTypeShape EntityType="MFSoft_Base_OCAModel.tbl_Liquidacion_Caja_Cab" Width="1.5" PointX="20.375" PointY="0.75" />
-        <EntityTypeShape EntityType="MFSoft_Base_OCAModel.tbl_Liquidacion_Caja_Det" Width="1.5" PointX="3.375" PointY="20.75" />
         <EntityTypeShape EntityType="MFSoft_Base_OCAModel.tbl_Proveedor_Evalucion_Det" Width="2.625" PointX="15.375" PointY="18.75" />
         <EntityTypeShape EntityType="MFSoft_Base_OCAModel.tbl_Proveedor_Incidencia" Width="1.5" PointX="21.375" PointY="5.75" />
         <EntityTypeShape EntityType="MFSoft_Base_OCAModel.Tbl_Proveedor" Width="1.5" PointX="0.75" PointY="19.75" />
         <EntityTypeShape EntityType="MFSoft_Base_OCAModel.Pub_Tipo_Documento" Width="1.5" PointX="5.375" PointY="21.75" />
+        <EntityTypeShape EntityType="MFSoft_Base_OCAModel.tbl_Liquidacion_Caja_Det" Width="1.5" PointX="7.375" PointY="21.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

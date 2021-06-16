@@ -221,17 +221,15 @@ namespace Negocio.Uploads
                             cmd.ExecuteNonQuery();
                         }
 
-                        using (SqlCommand cmd = new SqlCommand("DSIGE_PROY_W_CAJA_CHICA_GRABAR_EXCEL", con))
-                        {
-                            cmd.CommandTimeout = 0;
-                            cmd.CommandType = CommandType.StoredProcedure;
-                            cmd.Parameters.Add("@idLiquidacionCaja_Cab", SqlDbType.Int).Value = idLiquidacionCaja_Cab;
-                            cmd.Parameters.Add("@id_usuario", SqlDbType.VarChar).Value = idUsuario;
+                        //using (SqlCommand cmd = new SqlCommand("DSIGE_PROY_W_CAJA_CHICA_GRABAR_EXCEL", con))
+                        //{
+                        //    cmd.CommandTimeout = 0;
+                        //    cmd.CommandType = CommandType.StoredProcedure;
+                        //    cmd.Parameters.Add("@idLiquidacionCaja_Cab", SqlDbType.Int).Value = idLiquidacionCaja_Cab;
+                        //    cmd.Parameters.Add("@id_usuario", SqlDbType.VarChar).Value = idUsuario;
 
-                            cmd.ExecuteNonQuery();                          
-                        }
-
-
+                        //    cmd.ExecuteNonQuery();
+                        //}
                     }
                     resultado = "OK";
                 }
@@ -360,6 +358,34 @@ namespace Negocio.Uploads
                 throw;
             }
             return resultado;
+        }
+
+
+        public DataTable get_datosCargados_excelCajaChica(string id_usuario)
+        {
+            DataTable dt_detalle = new DataTable();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("DSIGE_PROY_W_CAJA_CHICA_LISTADO_EXCEL_ERRORES", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@id_usuario", SqlDbType.VarChar).Value = id_usuario;
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            da.Fill(dt_detalle);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return dt_detalle;
         }
 
 

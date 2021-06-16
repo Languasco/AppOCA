@@ -135,7 +135,6 @@ export class AprobarPagosComponent implements OnInit {
         this.cuentaContablePagar = _cuentaContablePagar;  
         this.docVencidos = _docVencidos;
         this.cuentaContableDetraccion = _cuentaContableDetraccion;
- 
      })
 }
 
@@ -384,20 +383,20 @@ export class AprobarPagosComponent implements OnInit {
     if (this.validacionCheckMarcado()==false){
       return;
     } 
+    const codigosIdFact = this.funcionGlobalServices.obtenerCheck_IdPrincipal(this.documentosCab,'idDocumentoCab');  
+
     if (this.formParamsFiltro.value.Estado == 2) {
 
       this.alertasService.Swal_Question('Sistemas', 'Esta seguro, de realizar la accion ?')
       .then((result)=>{
         if(result.value){
   
-          const codigosIdFact = this.funcionGlobalServices.obtenerCheck_IdPrincipal(this.documentosCab,'idDocumentoCab');  
-  
           this.spinner.show();
           this.aprobarPagosService.set_actualizando_flagPagos( codigosIdFact,  this.idUserGlobal, this.formParamsFiltro.value.Estado   )
               .subscribe((res:RespuestaServer)=>{  
                   this.spinner.hide();
                   if (res.ok==true) {        
-                    this.descargarDetalle_macro();
+                    this.descargarDetalle_macro(codigosIdFact);
                     this.mostrarInformacion();  
                     this.alertasService.Swal_Success('Proceso realizado correctamente..');   
                   }else{
@@ -410,16 +409,20 @@ export class AprobarPagosComponent implements OnInit {
       }) 
     }
     if (this.formParamsFiltro.value.Estado == 3) {  ////-- -solo Excel
-      this.descargarDetalle_macro();
+      this.descargarDetalle_macro(codigosIdFact);
     }
   }
 
-  descargarDetalle_macro(){    
+  descargarDetalle_macro(codigosIdFact:any){    
+
+    const fechaCorte = this.funcionGlobalServices.formatoFecha(this.formParamsFiltro.value.fechaCorte);
+
       Swal.fire({
       icon: 'info', allowOutsideClick: false, allowEscapeKey: false, text: 'Espere por favor'
     })
     Swal.showLoading();
-    this.aprobarPagosService.get_descargarDetalleMacro(  this.formParamsFiltro.value, this.idUserGlobal).subscribe((res:RespuestaServer)=>{
+    // this.aprobarPagosService.get_descargarDetalleMacro(  this.formParamsFiltro.value, this.idUserGlobal).subscribe((res:RespuestaServer)=>{
+      this.aprobarPagosService.get_descargarDetalleMacro(  this.formParamsFiltro.value, this.idUserGlobal, fechaCorte, codigosIdFact).subscribe((res:RespuestaServer)=>{
       Swal.close();
       console.log(res);
       if (res.ok) { 
@@ -432,11 +435,22 @@ export class AprobarPagosComponent implements OnInit {
   }
   
   descargarDetalle_grilla(){     
+
+
+    
+    if (this.formParamsFiltro.value.fechaCorte == '' || this.formParamsFiltro.value.fechaCorte == 0 || this.formParamsFiltro.value.fechaCorte == null) {
+      this.alertasService.Swal_alert('error','Por favor seleccione o ingrese la Fecha de Corte');
+      return 
+    }
+
+    
+    const fechaCorte = this.funcionGlobalServices.formatoFecha(this.formParamsFiltro.value.fechaCorte);
+
     Swal.fire({
     icon: 'info', allowOutsideClick: false, allowEscapeKey: false, text: 'Espere por favor'
   })
   Swal.showLoading();
-  this.aprobarPagosService.get_descargarDetalle_aprobarPagos(  this.formParamsFiltro.value, this.idUserGlobal).subscribe((res:RespuestaServer)=>{
+  this.aprobarPagosService.get_descargarDetalle_aprobarPagos(  this.formParamsFiltro.value, this.idUserGlobal, fechaCorte).subscribe((res:RespuestaServer)=>{
     Swal.close();
     console.log(res);
     if (res.ok) { 
@@ -468,6 +482,9 @@ export class AprobarPagosComponent implements OnInit {
     this.formParamsContabilidad.patchValue({ "id_Glosa" : Number(id_Glosa),  "id_Documento" : Number(this.idFacturaCab_Global), "importeDocumento" : importeDocumento ,"Glosa" : Glosa ,"CtaGastos" : CtaGastos, "CtaIGV" : CtaIGV , "CtaxPagar" : CtaxPagar , "CtaDetraccion" : CtaDetraccion });   
 
     this.flagModo_EdicionDet= true;
+
+    console.log(  this.formParamsContabilidad.value );
+
   }
 
   cerrarModal_agregarCuentaContable(){

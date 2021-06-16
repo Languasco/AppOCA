@@ -141,6 +141,12 @@ export class AprobarFacturasComponent implements OnInit {
 }
 
  mostrarInformacion(){ 
+
+  if (this.formParamsFiltro.value.idEstado == '0' || this.formParamsFiltro.value.idEstado == 0 ) {
+    this.alertasService.Swal_alert('error','Por favor seleccione el Estado..');
+    return 
+  } 
+  
     this.spinner.show();
     this.checkeadoAll = false;
     this.registroFacturasService.get_aprobacionFacturasCab( this.formParamsFiltro.value, this.idUserGlobal   )
@@ -271,12 +277,11 @@ export class AprobarFacturasComponent implements OnInit {
     return 
   } 
 
-
-  if (this.flagCuentaContable ==false) {
-    this.alertasService.Swal_alert('error','Para Aprobar una Factura se debe primero registrar las Cuentas Contables.');
-    return 
-  }
-
+  // if (this.detalleCuentaContables.length == 0) {
+  //   this.alertasService.Swal_alert('error','Para Aprobar una Factura se debe primero registrar las Cuentas Contables.');
+  //   return 
+  // }
+ 
   let mensaje = '';
   if (opcionProceso == 1 ) {
     mensaje = 'Esta seguro de Aprobar ?';
@@ -357,7 +362,12 @@ export class AprobarFacturasComponent implements OnInit {
   })
  }
 
- almacenarCuentasContables(){    
+ almacenarCuentasContables(){     
+
+  // if (this.formParamsContabilidad.value.id_Glosa == 0 ) {
+  //   this.alertasService.Swal_alert('error','No se cargo el ID del documento actualice su pagina por favor');
+  //   return 
+  // }
 
   if (this.idFacturaCab_Global == 0) {
     this.alertasService.Swal_alert('error','No se cargo el ID del documento actualice su pagina por favor');

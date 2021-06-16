@@ -116,8 +116,9 @@ namespace WebApi_Oca.Controllers.Proveedores
                     string estado = parametros[5].ToString();
                     string usuario = parametros[6].ToString();
                     string docVencido = parametros[7].ToString();
+                    string fechaCorte = parametros[8].ToString();
 
-                    resul = obj_negocio.Generar_reporte_aprobacionPagos(docIdentidad, tipoDocumento, centroCosto, moneda, facturaCancelada, estado, usuario, docVencido); ;
+                    resul = obj_negocio.Generar_reporte_aprobacionPagos(docIdentidad, tipoDocumento, centroCosto, moneda, facturaCancelada, estado, usuario, docVencido, fechaCorte);
                 }
                 else
                 {
@@ -196,6 +197,44 @@ namespace WebApi_Oca.Controllers.Proveedores
             }
             return resultado;
         }
+
+
+        [HttpPost]
+        [Route("api/AprobarPagos/post_descargarDetalleMacro")]
+        public object post_descargarDetalleMacro(List<string> listDocumentos, string filtro)
+        {
+            Resultado res = new Resultado();
+            object resultado = null;
+            try
+            {
+                string[] parametros = filtro.Split('|');
+                string idDocumentos = String.Join(",", listDocumentos);
+
+                string docIdentidad = parametros[0].ToString();
+                string tipoDocumento = parametros[1].ToString();
+                string centroCosto = parametros[2].ToString();
+                string moneda = parametros[3].ToString();
+                string facturaCancelada = parametros[4].ToString();
+                string estado = parametros[5].ToString();
+                string usuario = parametros[6].ToString();
+                string docVencido = parametros[7].ToString();
+                string fechaCorte = parametros[8].ToString();
+
+                Proveedores_BL obj_negocio = new Proveedores_BL();
+                resultado = obj_negocio.GenerarReporte_detalleMacros_II(idDocumentos, docIdentidad, tipoDocumento, centroCosto, moneda, facturaCancelada, estado, usuario, docVencido, fechaCorte);
+
+            }
+            catch (Exception ex)
+            {
+                res.ok = false;
+                res.data = ex.Message;
+                res.totalpage = 0;
+
+                resultado = res;
+            }
+            return resultado;
+        }
+
 
 
     }
