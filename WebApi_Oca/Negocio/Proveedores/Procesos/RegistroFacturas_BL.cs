@@ -1354,7 +1354,7 @@ namespace Negocio.Proveedores
             return res;
         }
 
-        public object set_saveCuentaContable(string valorCuentaContable,string tipoCuentaContable,string idUser )
+        public object set_saveCuentaContable(string valorCuentaContable,string tipoCuentaContable,string idUser, string descripcionCuentaContable)
         {
             Resultado res = new Resultado();
 
@@ -1370,6 +1370,7 @@ namespace Negocio.Proveedores
                         cmd.Parameters.Add("@tipoCuentaContable", SqlDbType.VarChar).Value = tipoCuentaContable;
                         cmd.Parameters.Add("@valorCuentaContable", SqlDbType.VarChar).Value = valorCuentaContable;
                         cmd.Parameters.Add("@idUsuario", SqlDbType.VarChar).Value = idUser;
+                        cmd.Parameters.Add("@descripcionCuentaContable", SqlDbType.VarChar).Value = descripcionCuentaContable;
 
                         cmd.ExecuteNonQuery();
 
@@ -1414,6 +1415,72 @@ namespace Negocio.Proveedores
             }
             return dt_detalle;
         }
+
+        public object set_DevolverFacturacion(int idFacturaCab, string motivoDevolucion, string idUser )
+        {
+            Resultado res = new Resultado();
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("DSIGE_PROY_W_APROBAR_FACTURAS_DEVOLVER", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@idFacturaCab", SqlDbType.Int).Value = idFacturaCab;
+                        cmd.Parameters.Add("@motivoDevolucion", SqlDbType.VarChar).Value = motivoDevolucion;
+                        cmd.Parameters.Add("@idUser", SqlDbType.VarChar).Value = idUser; 
+
+                        cmd.ExecuteNonQuery();
+
+                        res.ok = true;
+                        res.data = "OK";
+                        res.totalpage = 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                res.ok = false;
+                res.data = ex.Message;
+            }
+            return res;
+        }
+        
+        public object set_eliminarRegistroCuentaContable(int idGlosa, string idUser)
+        {
+            Resultado res = new Resultado();
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.bdConexion.cadenaBDcx()))
+                {
+                    cn.Open();
+                    using (SqlCommand cmd = new SqlCommand("DSIGE_PROY_W_APROBAR_FACTURAS_ELIMINAR_CC", cn))
+                    {
+                        cmd.CommandTimeout = 0;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@idGlosa", SqlDbType.Int).Value = idGlosa;
+                         cmd.Parameters.Add("@idUser", SqlDbType.VarChar).Value = idUser;
+
+                        cmd.ExecuteNonQuery();
+
+                        res.ok = true;
+                        res.data = "OK";
+                        res.totalpage = 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                res.ok = false;
+                res.data = ex.Message;
+            }
+            return res;
+        }
+
 
 
     }

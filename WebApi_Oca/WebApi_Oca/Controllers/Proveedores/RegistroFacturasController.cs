@@ -445,8 +445,9 @@ namespace WebApi_Oca.Controllers.Proveedores
                     string valorCuentaContable = parametros[0].ToString();
                     string tipoCuentaContable = parametros[1].ToString();
                     string idUser = parametros[2].ToString();
+                    string descripcionCuentaContable = parametros[3].ToString();
 
-                    resul = obj_negocio.set_saveCuentaContable(valorCuentaContable, tipoCuentaContable, idUser);
+                    resul = obj_negocio.set_saveCuentaContable(valorCuentaContable, tipoCuentaContable, idUser, descripcionCuentaContable);
                 }
                 else if (opcion == 39)
                 {
@@ -455,6 +456,27 @@ namespace WebApi_Oca.Controllers.Proveedores
 
                     res.ok = true;
                     res.data = obj_negocio.get_proveedoresUsuario(idUsuario);
+                    res.totalpage = 0;
+
+                    resul = res;
+                }
+                else if (opcion == 40)
+                {
+                    string[] parametros = filtro.Split('|');
+                    int idFacturaCab = Convert.ToInt32(parametros[0].ToString());
+                    string motivoDevolucion =  parametros[1].ToString();
+                    string idUser = parametros[2].ToString();
+ 
+                    resul = obj_negocio.set_DevolverFacturacion(idFacturaCab, motivoDevolucion, idUser);
+                }
+                else if (opcion == 41)
+                {
+                    string[] parametros = filtro.Split('|');
+                    int idGlosa = Convert.ToInt32(parametros[0].ToString());
+                    string idUser = parametros[1].ToString();
+
+                    res.ok = true;
+                    res.data = obj_negocio.set_eliminarRegistroCuentaContable(idGlosa, idUser);
                     res.totalpage = 0;
 
                     resul = res;

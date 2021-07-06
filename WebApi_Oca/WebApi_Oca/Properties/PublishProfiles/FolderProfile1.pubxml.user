@@ -1,13 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <!--
-Este archivo se usa en el proceso de publicación y empaquetado del proyecto web. Para personalizar el comportamiento de este proceso,
-edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 para obtener más información. 
+https://go.microsoft.com/fwlink/?LinkID=208121. 
 -->
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <TimeStampOfAssociatedLegacyPublishXmlFile />
     <_PublishTargetUrl>C:\inetpub\wwwroot\WebApi_Oca</_PublishTargetUrl>
-    <History>True|2021-06-21T21:29:44.4568484Z;</History>
+    <History>True|2021-06-28T18:34:09.9396967Z;True|2021-06-28T13:14:43.4310318-05:00;True|2021-06-28T12:14:09.4450260-05:00;True|2021-06-28T11:13:50.6438651-05:00;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="Archivos/CajaChica/Descargas/xxx.txt">
@@ -200,10 +198,10 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>03/15/2020 23:13:05</publishTime>
     </File>
     <File Include="bin/Negocio.dll">
-      <publishTime>06/21/2021 17:27:59</publishTime>
+      <publishTime>06/28/2021 12:14:07</publishTime>
     </File>
     <File Include="bin/Negocio.pdb">
-      <publishTime>06/21/2021 17:27:59</publishTime>
+      <publishTime>06/28/2021 12:14:07</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>03/15/2020 23:13:05</publishTime>
@@ -391,29 +389,11 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
     <File Include="bin/System.Web.WebPages.Razor.dll">
       <publishTime>03/15/2020 23:13:05</publishTime>
     </File>
-    <File Include="bin/WebApi_GestionProyectos.dll">
-      <publishTime>08/12/2020 09:51:02</publishTime>
-    </File>
-    <File Include="bin/WebApi_GestionProyectos.pdb">
-      <publishTime>08/12/2020 09:51:02</publishTime>
-    </File>
-    <File Include="bin/WebApi_GoRelax.dll">
-      <publishTime>01/01/0001 00:00:00</publishTime>
-    </File>
-    <File Include="bin/WebApi_GoRelax.pdb">
-      <publishTime>01/01/0001 00:00:00</publishTime>
-    </File>
     <File Include="bin/WebApi_Oca.dll">
-      <publishTime>06/21/2021 17:28:00</publishTime>
+      <publishTime>06/28/2021 12:14:08</publishTime>
     </File>
     <File Include="bin/WebApi_Oca.pdb">
-      <publishTime>06/21/2021 17:28:00</publishTime>
-    </File>
-    <File Include="bin/WebApi_Trinidad.dll">
-      <publishTime>05/26/2020 19:44:32</publishTime>
-    </File>
-    <File Include="bin/WebApi_Trinidad.pdb">
-      <publishTime>05/26/2020 19:44:32</publishTime>
+      <publishTime>06/28/2021 12:14:08</publishTime>
     </File>
     <File Include="bin/WebGrease.dll">
       <publishTime>03/15/2020 23:13:05</publishTime>
@@ -469,21 +449,6 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
     <File Include="Global.asax">
       <publishTime>10/02/2020 11:57:52</publishTime>
     </File>
-    <File Include="Imagen/000000_05052020_2017145030.jpg">
-      <publishTime>03/16/2020 11:56:24</publishTime>
-    </File>
-    <File Include="Imagen/000000_05052020_2018027650.jpg">
-      <publishTime>03/16/2020 11:56:51</publishTime>
-    </File>
-    <File Include="Imagen/000000_05052020_2018337870.jpg">
-      <publishTime>03/16/2020 11:56:36</publishTime>
-    </File>
-    <File Include="Imagen/000000_05052020_2018487820.jpg">
-      <publishTime>03/16/2020 11:57:09</publishTime>
-    </File>
-    <File Include="Multimedia/readme.txt">
-      <publishTime>03/15/2020 23:13:04</publishTime>
-    </File>
     <File Include="Scripts/bootstrap.js">
       <publishTime>03/15/2020 23:13:04</publishTime>
     </File>
@@ -530,7 +495,7 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>03/15/2020 23:13:04</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>06/21/2021 16:29:44</publishTime>
+      <publishTime>06/28/2021 11:13:50</publishTime>
     </File>
   </ItemGroup>
 </Project>

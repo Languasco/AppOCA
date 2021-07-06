@@ -212,9 +212,9 @@
                                 <td class="text-right">
                                     <span class="badge badge-primary puntero" style="padding: 5px;" (click)="abrirModal_cuentaContables(item)">  Agregar - Editar </span>
                                 </td>
-                                <td class="text-right">{{item.CtaGastos }}</td>
-                                <td class="text-right">{{item.CtaIGV }}</td>
-                                <td class="text-right">{{item.CtaxPagar }}</td>
+                                <td class="text-right">{{item.descripcionCtaGastos }}</td>
+                                <td class="text-right">{{item.descripcionCtaIGV }}</td>
+                                <td class="text-right">{{item.descripcionCtaxPagar }}</td>
 
                             </tr>
                         </tbody>
@@ -397,3 +397,54 @@
     </div>
 
 </div>
+
+
+
+<div class="modal fade " id="modal_devolucion" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel  " aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered " role="document">
+        <div class="modal-content" style="border: solid red;">
+            <div class="p-3 card ">
+                <div class="d-flex justify-content-between flotante">
+                    <div class=" bd-highlight">
+                        <i class="fas fa-arrow-circle-left  fa-2x puntero" title="Retornar" (click)="cerrarModal_devolucion()">  </i>
+                    </div>
+                    <div class=" bd-highlight">
+                        <h5 class="headerTitleModal"> DEVOLUCIONES </h5>
+                    </div>
+                    <div class=" bd-highlight">
+                        <i class="far fa-times-circle fa-2x puntero" title="Retornar" (click)="cerrarModal_devolucion()">  </i>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+
+                <fieldset class="shadow">
+                    <legend style="width: 95%;"> Ingresar Motivo </legend>
+                    <div class="panel panel-default ">
+                        <div class="panel-body">
+
+ 
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control  " [(ngModel)]="motivoDevolucion">
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-md-12 text-center mt-2">
+                                    <button class="btn btn-sm btn-success" (click)="SaveDevolver()">  <i class="fas fa-save"> Grabar</i> </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+

@@ -75,6 +75,7 @@ export class AprobarCajaChicaComponent implements OnInit {
   cuentaContablePagar:any[]= [];
 
   files : InputFileI[] = [];
+  motivoDevolucion ='';
  
   constructor(private router:Router, private spinner: NgxSpinnerService, private alertasService : AlertasService, private localeService: BsLocaleService, private loginService: LoginService, private funcionGlobalServices : FuncionesglobalesService,private registerService : RegisterService, private registroFacturasService : RegistroFacturasService, private proveedorService:ProveedorService , private cajaChicaService : CajaChicaService, private uploadService : UploadService ) { 
     this.idUserGlobal = this.loginService.get_idUsuario();
@@ -196,6 +197,8 @@ aprobarDevolver(opcionProceso: number){
   }
   if (opcionProceso == 2 ) {
     mensaje = 'Esta seguro de Devolver ?';
+    this.abrirModal_devolucion();
+    return
   }
 
   this.alertasService.Swal_Question('Sistemas', mensaje)
@@ -416,6 +419,52 @@ aprobarDevolver(opcionProceso: number){
    );  
    
  }
+
+ abrirModal_devolucion(){
+   setTimeout(()=>{ // 
+    this.motivoDevolucion = '';
+    $('#modal_devolucion').modal('show'); 
+  },0); 
+ }
+
+ cerrarModal_devolucion(){
+  setTimeout(()=>{ // 
+    this.motivoDevolucion = '';
+    $('#modal_devolucion').modal('hide');  
+  },0); 
+ }
+
+ SaveDevolver(){
+  if (this.idLiquidacionCab_Global == 0) {
+    this.alertasService.Swal_alert('error','No se cargo el ID del documento actualice su pagina por favor');
+    return 
+  } 
+  this.alertasService.Swal_Question('Sistemas', 'Esta seguro de Devolver ?')
+  .then((result)=>{
+    if(result.value){
+
+      Swal.fire({  icon: 'info', allowOutsideClick: false, allowEscapeKey: false, text: 'Espere por favor'  })
+      Swal.showLoading();
+      this.registroFacturasService.get_DevolverFactura( this.idLiquidacionCab_Global , this.motivoDevolucion , this.idUserGlobal ).subscribe((res:RespuestaServer)=>{
+        Swal.close();        
+        if (res.ok ==true) {               
+          //-----listando la informacion  
+          this.cerrarModal_devolucion();
+          this.mostrarInformacion();  
+          this.alertasService.Swal_Success('Proceso realizado correctamente..');   
+          this.cerrarModal();
+
+        }else{
+          this.alertasService.Swal_alert('error', JSON.stringify(res.data));
+          alert(JSON.stringify(res.data));
+        }
+      })
+       
+    }
+  }) 
+
+ }
+
 
 
  

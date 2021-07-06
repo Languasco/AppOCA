@@ -243,6 +243,7 @@
                                             </td>
                                             <td class="text-center">
                                                 <span class="badge badge-primary puntero" style="padding: 5px;" (click)="modificarRegistroCuentaContable(item)">  Editar </span>
+                                                <span class="badge badge-danger puntero ml-1" style="padding: 5px;" (click)="eliminarRegistroCuentaContable(item)">  Quitar </span>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -281,8 +282,11 @@
 
                             <form [formGroup]="formParamsAgregar">
                                 <div class="row">
-                                    <div class="col-md-8 mt-1">
-                                        <input type="text" class="form-control  " (keypress)="keyPress2($event)" formControlName='valorCuentaContable'>
+                                    <div class="col-md-4 mt-1"> 
+                                        <input type="text" class="form-control"   formControlName='valorCuentaContable' placeholder="código" >
+                                    </div>
+                                    <div class="col-md-8 mt-1"> 
+                                        <input type="text" class="form-control"   formControlName='descripcionCuentaContable' placeholder="descripción">
                                     </div>
                                 </div>
                                 <br>

@@ -327,7 +327,11 @@ inicializarFormularioDocAdicionales_Det(){
             this.alertasService.Swal_Success('Se actualizo correctamente la Liquidacion..');
            }
 
-           this.mostrarInformacion();
+           if (this.formParamsFiltro.value.idEstado == '0' || this.formParamsFiltro.value.idEstado == 0 ) {
+            return 
+          }else{
+            this.mostrarInformacion();
+          }
    
        //---- Fin de  almacenando el archivo inicial de la factura ----
   
@@ -749,7 +753,12 @@ blankDoc(){
     
               this.alertasService.Swal_Success('Enviar a Aprobar realizado correctamente..');
               this.cerrarModal_registro();
-              this.mostrarInformacion();
+ 
+              if (this.formParamsFiltro.value.idEstado == '0' || this.formParamsFiltro.value.idEstado == 0 ) {
+                return 
+              }else{
+                this.mostrarInformacion();
+              }
      
             }else{
               this.alertasService.Swal_alert('error', JSON.stringify(res.data));

@@ -87,6 +87,7 @@ export class AprobarContabilidadComponent implements OnInit {
  inicializarFormularioAgregar(){ 
   this.formParamsAgregar= new FormGroup({
     valorCuentaContable : new FormControl(''), 
+    descripcionCuentaContable : new FormControl(''), 
    }) 
  }
 
@@ -460,6 +461,12 @@ cerrarModal_agregarCuentaContable(){
     this.alertasService.Swal_alert('error','Por favor ingrese el valor de la cuenta ..');
     return 
   }
+  if (this.formParamsAgregar.value.descripcionCuentaContable == '' || this.formParamsAgregar.value.descripcionCuentaContable == null || this.formParamsAgregar.value.descripcionCuentaContable == undefined ) {
+    this.alertasService.Swal_alert('error','Por favor ingrese la descripcion de la Cuenta Corriente ..');
+    return 
+  }
+
+
 
   if (this.verificarCuentaContable_registrada( this.formParamsAgregar.value.valorCuentaContable, this.tipoCuentaContable ) ==true) {
     this.alertasService.Swal_alert('error', 'La cuenta contable  ya se cargo, verifique ..');
@@ -471,7 +478,7 @@ cerrarModal_agregarCuentaContable(){
     icon: 'info', allowOutsideClick: false, allowEscapeKey: false, text: 'Espere por favor'
   })
   Swal.showLoading();
-  this.registroFacturasService.set_save_cuentaContable(this.formParamsAgregar.value.valorCuentaContable, this.tipoCuentaContable, this.idUserGlobal).subscribe((res:RespuestaServer)=>{
+  this.registroFacturasService.set_save_cuentaContable(this.formParamsAgregar.value.valorCuentaContable, this.tipoCuentaContable, this.idUserGlobal, this.formParamsAgregar.value.descripcionCuentaContable).subscribe((res:RespuestaServer)=>{
     Swal.close();
  
     this.inicializarFormularioAgregar();
@@ -510,6 +517,23 @@ cerrarModal_agregarCuentaContable(){
 }
 
    
+  eliminarRegistroCuentaContable(item:any){  
+    Swal.fire({
+      icon: 'info', allowOutsideClick: false,allowEscapeKey: false, text: 'Eliminando, Espere por favor'
+    })
+    Swal.showLoading();
+    this.registroFacturasService.set_eliminarRegistroCuentaContable(item.id_Glosa , this.idUserGlobal).subscribe((res:RespuestaServer)=>{
+      Swal.close();
+      if (res.ok) { 
+          var index = this.detalleCuentaContables.indexOf( item );
+          this.detalleCuentaContables.splice( index, 1 );
+          this.blank_DetalleCuentasContables();
+      }else{
+        this.alertasService.Swal_alert('error', JSON.stringify(res.data));
+        alert(JSON.stringify(res.data));
+      }
+    })
+  }
 
  
 

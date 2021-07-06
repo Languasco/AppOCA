@@ -373,12 +373,27 @@ export class RegistroFacturasService {
     return this.http.get( this.URL + 'RegistroFacturas' , {params: parametros});
   }
 
-  set_save_cuentaContable( valorCuentaContable : string, tipoCuentaContable :string,  idUser : string  ){
+  set_save_cuentaContable( valorCuentaContable : string, tipoCuentaContable :string,  idUser : string, descripcionCuentaContable : string ){
     let parametros = new HttpParams();
     parametros = parametros.append('opcion', '38');
-    parametros = parametros.append('filtro',  String(valorCuentaContable)  + '|' + String(tipoCuentaContable) + '|' +  String(idUser) );
+    parametros = parametros.append('filtro',  String(valorCuentaContable)  + '|' + String(tipoCuentaContable) + '|' +  String(idUser) + '|' +  String(descripcionCuentaContable) ); 
+    return this.http.get( this.URL + 'RegistroFacturas' , {params: parametros});
+  }
 
- 
+  get_DevolverFactura( idFacturaCab : number , motivoDevolucion: string, usuario :string  ){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '40');
+    parametros = parametros.append('filtro',  idFacturaCab   + '|' +  motivoDevolucion + '|' +  usuario );
+  
+    return this.http.get( this.URL + 'RegistroFacturas' , {params: parametros});
+  }
+
+  
+  set_eliminarRegistroCuentaContable( idGlosa : number , usuario :string  ){
+    let parametros = new HttpParams();
+    parametros = parametros.append('opcion', '41');
+    parametros = parametros.append('filtro',  idGlosa   + '|' +  usuario   );
+  
     return this.http.get( this.URL + 'RegistroFacturas' , {params: parametros});
   }
 
